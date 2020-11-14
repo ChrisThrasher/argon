@@ -24,7 +24,14 @@ auto Options::At(const int pos) const -> std::string { return args.at(pos); }
 void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
     for (const auto& arg : args)
+    {
         for (const auto& flag : flags)
+        {
             if (arg == flag)
+            {
                 std::cout << text << '\n';
+                std::exit(0);
+            }
+        }
+    }
 }
