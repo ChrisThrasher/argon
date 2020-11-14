@@ -4,15 +4,13 @@
 #include <string>
 #include <vector>
 
-using ExitItem = std::pair<std::vector<std::string>, std::string>;
-
 class Options
 {
     const std::vector<std::string> args{};
 
 public:
     Options(const int, const char* const[]);
-    void RegisterExitItem(const ExitItem&);
+    void RegisterExitItem(const std::vector<std::string>&, const std::string&) const;
 };
 
 Options::Options(const int argc, const char* const argv[])
@@ -20,10 +18,10 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::RegisterExitItem(const ExitItem& exit_item)
+void Options::RegisterExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
     for (const auto& arg : args)
-        for (const auto& flag : exit_item.first)
+        for (const auto& flag : flags)
             if (arg == flag)
-                std::cout << exit_item.second << '\n';
+                std::cout << text << '\n';
 }
