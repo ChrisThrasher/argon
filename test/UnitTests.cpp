@@ -20,7 +20,7 @@ TEST(Help, Long)
     EXPECT_EXIT(options.Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
-TEST(Options, ExitItem)
+TEST(ExitItem, Checkout)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"options", "--flag", "-v"};
@@ -30,7 +30,7 @@ TEST(Options, ExitItem)
     options.ExitItem({"-v"}, "this won't be detected");
 }
 
-TEST(Options, At)
+TEST(At, Checkout)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"program_name", "first_arg", "second_arg"};
