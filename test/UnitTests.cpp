@@ -18,6 +18,22 @@ TEST(Help, Long)
     EXPECT_EXIT(Options(argc, argv).Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
+TEST(Version, Short)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"options", "-v"};
+
+    EXPECT_EXIT(Options(argc, argv).Version("v0.0.0"), testing::ExitedWithCode(0), "");
+}
+
+TEST(Version, Long)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"options", "--version"};
+
+    EXPECT_EXIT(Options(argc, argv).Version("v0.0.0"), testing::ExitedWithCode(0), "");
+}
+
 TEST(ExitItem, Checkout)
 {
     constexpr int argc = 3;

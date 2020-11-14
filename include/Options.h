@@ -11,6 +11,7 @@ class Options
 public:
     Options(const int, const char* const[]);
     void Help(const std::string&) const;
+    void Version(const std::string&) const;
     void ExitItem(const std::vector<std::string>&, const std::string&) const;
     auto At(const int, const std::string&) const -> std::string;
 };
@@ -29,6 +30,8 @@ auto Options::At(const int pos, const std::string& name) const -> std::string
 }
 
 void Options::Help(const std::string& help_text) const { ExitItem({"-h", "--help"}, help_text); }
+
+void Options::Version(const std::string& version_text) const { ExitItem({"-v", "--version"}, version_text); }
 
 void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
