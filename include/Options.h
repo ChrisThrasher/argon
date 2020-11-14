@@ -10,7 +10,7 @@ class Options
 
 public:
     Options(const int, const char* const[]);
-    void RegisterExitItem(const std::vector<std::string>&, const std::string&) const;
+    void ExitItem(const std::vector<std::string>&, const std::string&) const;
 };
 
 Options::Options(const int argc, const char* const argv[])
@@ -18,7 +18,7 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::RegisterExitItem(const std::vector<std::string>& flags, const std::string& text) const
+void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
     for (const auto& arg : args)
         for (const auto& flag : flags)
