@@ -34,16 +34,6 @@ TEST(Version, Long)
     EXPECT_EXIT(Options(argc, argv).Version("v0.0.0"), testing::ExitedWithCode(0), "");
 }
 
-TEST(ExitItem, Checkout)
-{
-    constexpr int argc = 3;
-    constexpr const char* argv[argc] = {"options", "--flag", "-v"};
-    const Options options(argc, argv);
-
-    EXPECT_EXIT(options.ExitItem({"--flag"}, ""), testing::ExitedWithCode(0), "");
-    options.ExitItem({"-v"}, "this won't be detected");
-}
-
 TEST(At, Checkout)
 {
     constexpr int argc = 3;
