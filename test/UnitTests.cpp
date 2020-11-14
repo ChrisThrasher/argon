@@ -6,25 +6,23 @@ TEST(Help, Short)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-h"};
-    Options options(argc, argv);
 
-    EXPECT_EXIT(options.Help("my help text"), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(Options(argc, argv).Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
 TEST(Help, Long)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--help"};
-    Options options(argc, argv);
 
-    EXPECT_EXIT(options.Help("my help text"), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(Options(argc, argv).Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
 TEST(ExitItem, Checkout)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"options", "--flag", "-v"};
-    Options options(3, argv);
+    Options options(argc, argv);
 
     EXPECT_EXIT(options.ExitItem({"--flag"}, ""), testing::ExitedWithCode(0), "");
     options.ExitItem({"-v"}, "this won't be detected");
