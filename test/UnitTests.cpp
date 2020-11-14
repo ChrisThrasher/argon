@@ -4,12 +4,13 @@
 
 TEST(Options, ExitItem)
 {
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "--help"};
+    constexpr int argc = 3;
+    constexpr const char* argv[argc] = {"options", "--help", "-v"};
     Options options(argc, argv);
 
     const auto exit_success = [](const int exit_code) { return exit_code == 0; };
     EXPECT_EXIT(options.ExitItem({"--help"}, ""), exit_success, "");
+    options.ExitItem({"-v"}, "this won't be detected");
 }
 
 TEST(Options, At)
