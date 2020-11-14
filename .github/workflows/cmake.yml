@@ -1,0 +1,25 @@
+name: CMake
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build
+      shell: bash
+      run: |
+        mkdir build
+        cd build
+        cmake -DENABLE_TESTS=ON ..
+        make
+
+    - name: Test
+      working-directory: build
+      shell: bash
+      run: ./test/unit_tests
