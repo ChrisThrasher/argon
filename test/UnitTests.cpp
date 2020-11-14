@@ -2,11 +2,21 @@
 
 #include <gtest/gtest.h>
 
+TEST(Options, Help)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"options", "--help"};
+    Options options(argc, argv);
+
+    const auto exit_success = [](const int exit_code) { return exit_code == 0; };
+    EXPECT_EXIT(options.Help("my help text"), exit_success, "");
+}
+
 TEST(Options, ExitItem)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"options", "--flag", "-v"};
-    Options options(argc, argv);
+    Options options(3, argv);
 
     const auto exit_success = [](const int exit_code) { return exit_code == 0; };
     EXPECT_EXIT(options.ExitItem({"--flag"}, ""), exit_success, "");
