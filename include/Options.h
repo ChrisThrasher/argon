@@ -18,16 +18,10 @@ public:
 void Options::Parse(const int argc, const char* const argv[]) const
 {
     for (int i = 1; i < argc; ++i)
-    {
         for (const auto& exit_item : m_exit_items)
-        {
             for (const auto& flag : exit_item.first)
-            {
                 if (argv[i] == flag)
                     std::cout << exit_item.second << '\n';
-            }
-        }
-    }
 }
 
 void Options::RegisterExitItem(const ExitItem& exit_item)
