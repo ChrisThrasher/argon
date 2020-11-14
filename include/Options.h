@@ -1,35 +1,36 @@
 #pragma once
 
+#include <iostream>
 #include <string>
+#include <vector>
+
+using ExitItem = std::pair<std::vector<std::string>, std::string>;
 
 class Options
 {
-    bool m_help_provided{false};
-    bool m_version_provided{false};
-
-    std::string m_help_text{};
-    std::string m_version_text{};
+    std::vector<ExitItem> m_exit_items{};
 
 public:
     void Parse(const int, const char* const[]) const;
-    void RegisterHelp(const std::string&);
-    void RegisterVersion(const std::string&);  
+    void RegisterExitItem(const ExitItem&);
 };
 
 void Options::Parse(const int argc, const char* const argv[]) const
 {
-    (void)argc;
-    (void)argv;
+    for (int i = 1; i < argc; ++i)
+    {
+        for (const auto& exit_item : m_exit_items)
+        {
+            for (const auto& flag : exit_item.first)
+            {
+                if (argv[i] == flag)
+                    std::cout << exit_item.second << '\n';
+            }
+        }
+    }
 }
 
-void Options::RegisterHelp(const std::string& help_text)
+void Options::RegisterExitItem(const ExitItem& exit_item)
 {
-    m_help_provided = true;
-    m_help_text = help_text;
-}
-
-void Options::RegisterVersion(const std::string& version_text)
-{
-    m_version_provided = true;
-    m_version_text = version_text;
+    m_exit_items.push_back(exit_item);
 }

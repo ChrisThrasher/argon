@@ -3,7 +3,7 @@
 int main(int argc, char* argv[])
 {
     Options options;
-    options.RegisterHelp("heeeeeeelp");
-    options.RegisterVersion("v6.9");
+    options.RegisterExitItem({{"-h", "--help"}, "this is my help text"});
+    options.RegisterExitItem({{"-v", "--version"}, "v0.0.0"});
     options.Parse(argc, argv);
 }
