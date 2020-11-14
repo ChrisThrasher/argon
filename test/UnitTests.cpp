@@ -5,11 +5,11 @@
 TEST(Options, ExitItem)
 {
     constexpr int argc = 3;
-    constexpr const char* argv[argc] = {"options", "--help", "-v"};
+    constexpr const char* argv[argc] = {"options", "--flag", "-v"};
     Options options(argc, argv);
 
     const auto exit_success = [](const int exit_code) { return exit_code == 0; };
-    EXPECT_EXIT(options.ExitItem({"--help"}, ""), exit_success, "");
+    EXPECT_EXIT(options.ExitItem({"--flag"}, ""), exit_success, "");
     options.ExitItem({"-v"}, "this won't be detected");
 }
 
