@@ -8,8 +8,7 @@ TEST(Help, Short)
     constexpr const char* argv[argc] = {"options", "-h"};
     Options options(argc, argv);
 
-    const auto exit_success = [](const int exit_code) { return exit_code == 0; };
-    EXPECT_EXIT(options.Help("my help text"), exit_success, "");
+    EXPECT_EXIT(options.Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
 TEST(Help, Long)
@@ -18,8 +17,7 @@ TEST(Help, Long)
     constexpr const char* argv[argc] = {"options", "--help"};
     Options options(argc, argv);
 
-    const auto exit_success = [](const int exit_code) { return exit_code == 0; };
-    EXPECT_EXIT(options.Help("my help text"), exit_success, "");
+    EXPECT_EXIT(options.Help("my help text"), testing::ExitedWithCode(0), "");
 }
 
 TEST(Options, ExitItem)
@@ -28,8 +26,7 @@ TEST(Options, ExitItem)
     constexpr const char* argv[argc] = {"options", "--flag", "-v"};
     Options options(3, argv);
 
-    const auto exit_success = [](const int exit_code) { return exit_code == 0; };
-    EXPECT_EXIT(options.ExitItem({"--flag"}, ""), exit_success, "");
+    EXPECT_EXIT(options.ExitItem({"--flag"}, ""), testing::ExitedWithCode(0), "");
     options.ExitItem({"-v"}, "this won't be detected");
 }
 
