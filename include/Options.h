@@ -19,7 +19,7 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-auto Options::At(const int pos) const -> std::string { return args.at(pos); }
+auto Options::At(const int pos) const -> std::string { return args.at(static_cast<size_t>(pos)); }
 
 void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
