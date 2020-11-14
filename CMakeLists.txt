@@ -25,5 +25,10 @@ target_compile_options(unit_tests PRIVATE
     -Werror
     -Wall
     -Wextra
+    -Wpedantic
+    -Wshadow
+    -Wconversion
+    -Wsign-conversion
+    -Wold-style-cast
 )
 add_test(NAME unit_tests COMMAND unit_tests)
