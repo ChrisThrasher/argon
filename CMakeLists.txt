@@ -6,4 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_BUILD_TYPE Release)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(test EXCLUDE_FROM_ALL)
+option(ENABLE_TESTS "Enable tests" OFF)
+if (${ENABLE_TESTS})
+    add_subdirectory(test EXCLUDE_FROM_ALL)
+endif()
