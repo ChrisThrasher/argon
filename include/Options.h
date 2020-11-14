@@ -29,15 +29,15 @@ auto Options::At(const int pos, const std::string& name) const -> std::string
 
 void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
 {
-    for (const auto& arg : args)
+    if (args.size() == 1)
+        return;
+
+    for (const auto& flag : flags)
     {
-        for (const auto& flag : flags)
+        if (args[1] == flag)
         {
-            if (arg == flag)
-            {
-                std::cout << text << '\n';
-                std::exit(0);
-            }
+            std::cout << text << '\n';
+            std::exit(0);
         }
     }
 }
