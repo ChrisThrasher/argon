@@ -21,14 +21,6 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-auto Options::At(const int pos, const std::string& name) const -> std::string
-{
-    const auto i = static_cast<size_t>(pos);
-    if (i < args.size())
-        return args[i];
-    throw std::out_of_range("Failed to find " + name + " at index " + std::to_string(i));
-}
-
 void Options::Help(const std::string& help_text) const { ExitItem({"-h", "--help"}, help_text); }
 
 void Options::Version(const std::string& version_text) const { ExitItem({"-v", "--version"}, version_text); }
@@ -46,4 +38,12 @@ void Options::ExitItem(const std::vector<std::string>& flags, const std::string&
             std::exit(0);
         }
     }
+}
+
+auto Options::At(const int pos, const std::string& name) const -> std::string
+{
+    const auto i = static_cast<size_t>(pos);
+    if (i < args.size())
+        return args[i];
+    throw std::out_of_range("Failed to find " + name + " at index " + std::to_string(i));
 }
