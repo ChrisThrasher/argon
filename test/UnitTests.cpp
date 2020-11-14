@@ -2,6 +2,16 @@
 
 #include <gtest/gtest.h>
 
+TEST(Options, ExitItem)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"options", "--help"};
+    Options options(argc, argv);
+
+    const auto exit_success = [](const int exit_code) { return exit_code == 0; };
+    EXPECT_EXIT(options.ExitItem({"--help"}, ""), exit_success, "");
+}
+
 TEST(Options, At)
 {
     constexpr int argc = 3;
