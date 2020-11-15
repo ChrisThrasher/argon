@@ -46,6 +46,27 @@ TEST(At, Checkout)
     EXPECT_THROW(options.At(3, ""), std::out_of_range);
 }
 
+TEST(Args, NoArguments)
+{
+    constexpr int argc = 1;
+    constexpr const char* argv[argc] = {"my_program_name"};
+    EXPECT_EQ(std::vector<std::string>({}), Options(argc, argv).Args());
+}
+
+TEST(Args, OneArgument)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"my_program_name", "some_input"};
+    EXPECT_EQ(std::vector<std::string>({"some_input"}), Options(argc, argv).Args());
+}
+
+TEST(Args, MultipleArgument)
+{
+    constexpr int argc = 4;
+    constexpr const char* argv[argc] = {"my_program_name", "some_input", "abc", "123"};
+    EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), Options(argc, argv).Args());
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

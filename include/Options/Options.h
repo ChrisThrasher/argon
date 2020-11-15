@@ -14,6 +14,7 @@ public:
     void Help(const std::string&) const;
     void Version(const std::string&) const;
     auto At(const int, const std::string&) const -> std::string;
+    auto Args() const -> std::vector<std::string>;
 };
 
 Options::Options(const int argc, const char* const argv[])
@@ -31,6 +32,11 @@ auto Options::At(const int pos, const std::string& name) const -> std::string
     if (i < args.size())
         return args[i];
     throw std::out_of_range("Failed to find " + name + " at index " + std::to_string(i));
+}
+
+auto Options::Args() const -> std::vector<std::string>
+{
+    return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
 void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
