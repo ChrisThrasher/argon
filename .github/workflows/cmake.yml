@@ -22,4 +22,4 @@ jobs:
     - name: Test
       working-directory: build
       shell: bash
-      run: ./test/unit_tests
+      run: make test
