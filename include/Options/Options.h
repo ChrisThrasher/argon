@@ -73,7 +73,7 @@ void Options::ExitItem(const TerminalOption& option) const
     {
         if (args[1] == flag)
         {
-            std::cout << option.description << '\n';
+            std::cout << option.output << '\n';
             std::exit(0);
         }
     }
