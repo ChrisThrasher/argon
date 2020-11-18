@@ -35,9 +35,15 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::Help(const std::string& help_text) { term_opts.push_back({{"-h", "--help"}, "", help_text}); }
+void Options::Help(const std::string& help_text)
+{
+    term_opts.push_back({{"-h", "--help"}, "Show this help text", help_text});
+}
 
-void Options::Version(const std::string& version_text) { term_opts.push_back({{"-v", "--version"}, "", version_text}); }
+void Options::Version(const std::string& version_text)
+{
+    term_opts.push_back({{"-v", "--version"}, "Print program version", version_text});
+}
 
 void Options::Parse() const
 {
