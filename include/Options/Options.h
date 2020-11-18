@@ -15,12 +15,15 @@ class Options
 {
     const std::vector<std::string> args{};
 
+    std::vector<TerminalOption> term_opts{};
+
     void ExitItem(const TerminalOption&) const;
 
 public:
     Options(const int, const char* const[]);
-    void Help(const std::string&) const;
-    void Version(const std::string&) const;
+    void Help(const std::string&);
+    void Version(const std::string&);
+    void Parse() const;
     auto At(const int, const std::string&) const -> std::string;
     auto Args() const -> std::vector<std::string>;
 };
@@ -30,9 +33,15 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::Help(const std::string& help_text) const { ExitItem({{"-h", "--help"}, "", help_text}); }
+void Options::Help(const std::string& help_text) { term_opts.push_back({{"-h", "--help"}, "", help_text}); }
 
-void Options::Version(const std::string& version_text) const { ExitItem({{"-v", "--version"}, "", version_text}); }
+void Options::Version(const std::string& version_text) { term_opts.push_back({{"-v", "--version"}, "", version_text}); }
+
+void Options::Parse() const
+{
+    for (const auto& term_opt : term_opts)
+        ExitItem(term_opt);
+}
 
 auto Options::At(const int pos, const std::string& name) const -> std::string
 {
