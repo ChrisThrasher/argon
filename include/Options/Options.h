@@ -77,12 +77,9 @@ bool Options::ExitItem(const TerminalOption& option) const
         return false;
 
     for (const auto& flag : option.flags)
-    {
         if (args[1] == flag)
-        {
             return true;
-        }
-    }
+
     return false;
 }
 
