@@ -4,10 +4,18 @@
 #include <string>
 #include <vector>
 
+struct TerminalOption
+{
+    std::vector<std::string> flags;
+    std::string description;
+    std::string output;
+};
+
 class Options
 {
     const std::vector<std::string> args{};
-    void ExitItem(const std::vector<std::string>&, const std::string&) const;
+
+    void ExitItem(const TerminalOption&) const;
 
 public:
     Options(const int, const char* const[]);
@@ -22,9 +30,9 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::Help(const std::string& help_text) const { ExitItem({"-h", "--help"}, help_text); }
+void Options::Help(const std::string& help_text) const { ExitItem({{"-h", "--help"}, "", help_text}); }
 
-void Options::Version(const std::string& version_text) const { ExitItem({"-v", "--version"}, version_text); }
+void Options::Version(const std::string& version_text) const { ExitItem({{"-v", "--version"}, "", version_text}); }
 
 auto Options::At(const int pos, const std::string& name) const -> std::string
 {
@@ -39,16 +47,16 @@ auto Options::Args() const -> std::vector<std::string>
     return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
-void Options::ExitItem(const std::vector<std::string>& flags, const std::string& text) const
+void Options::ExitItem(const TerminalOption& option) const
 {
     if (args.size() == 1)
         return;
 
-    for (const auto& flag : flags)
+    for (const auto& flag : option.flags)
     {
         if (args[1] == flag)
         {
-            std::cout << text << '\n';
+            std::cout << option.description << '\n';
             std::exit(0);
         }
     }
