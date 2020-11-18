@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,7 @@ class Options
     std::vector<TerminalOption> term_opts{};
 
     void ExitItem(const TerminalOption&) const;
+    auto MakeOptionList() const -> std::string;
 
 public:
     Options(const int, const char* const[]);
@@ -69,4 +71,21 @@ void Options::ExitItem(const TerminalOption& option) const
             std::exit(0);
         }
     }
+}
+
+auto Options::MakeOptionList() const -> std::string
+{
+    if (term_opts.empty())
+        return "";
+
+    std::stringstream description;
+    description << "\nOptions";
+    for (const auto& term_opt : term_opts)
+    {
+        description << "\n  ";
+        for (const auto& flag : term_opt.flags)
+            description << flag << ' ';
+        description << term_opt.description;
+    }
+    return description.str();
 }
