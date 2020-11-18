@@ -22,3 +22,18 @@ target_compile_options(unit_tests PRIVATE
     -Wold-style-cast
 )
 add_test(NAME unit_tests COMMAND unit_tests)
+
+add_executable(example Example.cpp)
+target_link_libraries(example PRIVATE options)
+
+add_test(NAME flag-h COMMAND example -h)
+set_property(TEST flag-h PROPERTY PASS_REGULAR_EXPRESSION "Usage.*")
+
+add_test(NAME flag--help COMMAND example --help)
+set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION "Usage.*")
+
+add_test(NAME flag-v COMMAND example -v)
+set_property(TEST flag-v PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
+
+add_test(NAME flag--version COMMAND example --version)
+set_property(TEST flag--version PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
