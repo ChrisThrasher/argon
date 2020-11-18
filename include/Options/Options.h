@@ -16,9 +16,10 @@ class Options
 {
     const std::vector<std::string> args{};
 
-    std::vector<TerminalOption> term_opts{};
+    TerminalOption help;
+    TerminalOption version;
 
-    void ExitItem(const TerminalOption&) const;
+    bool ExitItem(const TerminalOption&) const;
     auto MakeOptionList() const -> std::string;
 
 public:
@@ -35,20 +36,25 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::Help(const std::string& help_text)
-{
-    term_opts.push_back({{"-h", "--help"}, "Show this help text", help_text});
-}
+void Options::Help(const std::string& help_text) { help = {{"-h", "--help"}, "Show this help text", help_text}; }
 
 void Options::Version(const std::string& version_text)
 {
-    term_opts.push_back({{"-v", "--version"}, "Print program version", version_text});
+    version = {{"-v", "--version"}, "Print program version", version_text};
 }
 
 void Options::Parse() const
 {
-    for (const auto& term_opt : term_opts)
-        ExitItem(term_opt);
+    if (ExitItem(version))
+    {
+        std::cout << version.output << '\n';
+        std::exit(0);
+    }
+    if (ExitItem(help))
+    {
+        std::cout << help.output << MakeOptionList() << '\n';
+        std::exit(0);
+    }
 }
 
 auto Options::At(const int pos, const std::string& name) const -> std::string
@@ -64,34 +70,41 @@ auto Options::Args() const -> std::vector<std::string>
     return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
-void Options::ExitItem(const TerminalOption& option) const
+bool Options::ExitItem(const TerminalOption& option) const
 {
     if (args.size() == 1)
-        return;
+        return false;
 
     for (const auto& flag : option.flags)
     {
         if (args[1] == flag)
         {
-            std::cout << option.output << '\n';
-            std::exit(0);
+            return true;
         }
     }
+    return false;
 }
 
 auto Options::MakeOptionList() const -> std::string
 {
-    if (term_opts.empty())
+    if (help.flags.empty() and version.flags.empty())
         return "";
 
     std::stringstream description;
     description << "\nOptions";
-    for (const auto& term_opt : term_opts)
+    if (not help.flags.empty())
     {
         description << "\n  ";
-        for (const auto& flag : term_opt.flags)
+        for (const auto& flag : help.flags)
             description << flag << ' ';
-        description << term_opt.description;
+        description << help.description;
+    }
+    if (not version.flags.empty())
+    {
+        description << "\n  ";
+        for (const auto& flag : version.flags)
+            description << flag << ' ';
+        description << version.description;
     }
     return description.str();
 }
