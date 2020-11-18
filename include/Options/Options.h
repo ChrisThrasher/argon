@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -91,20 +92,20 @@ auto Options::MakeOptionList() const -> std::string
         return "";
 
     std::stringstream description;
-    description << "\nOptions";
+    description << std::setfill(' ') << "\nOptions";
     if (not help.flags.empty())
     {
         description << "\n  ";
         for (const auto& flag : help.flags)
             description << flag << ' ';
-        description << help.description;
+        description << std::setw(20) << help.description;
     }
     if (not version.flags.empty())
     {
         description << "\n  ";
         for (const auto& flag : version.flags)
             description << flag << ' ';
-        description << version.description;
+        description << std::setw(20) << version.description;
     }
     return description.str();
 }
