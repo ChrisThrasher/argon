@@ -91,21 +91,23 @@ auto Options::MakeOptionList() const -> std::string
     if (help.flags.empty() and version.flags.empty())
         return "";
 
+    constexpr auto flag_width = 24;
     std::stringstream description;
-    description << std::setfill(' ') << "\nOptions";
+    description << std::setfill(' ') << "\n\nOptions";
     if (not help.flags.empty())
     {
-        description << "\n  ";
+        description << "\n ";
         for (const auto& flag : help.flags)
-            description << flag << ' ';
-        description << std::setw(20) << help.description;
+            description << ' ' << flag;
+        description << std::setw(flag_width + 1) << help.description;
     }
     if (not version.flags.empty())
     {
-        description << "\n  ";
+        description << "\n ";
         for (const auto& flag : version.flags)
-            description << flag << ' ';
-        description << std::setw(20) << version.description;
+            description << ' ' << flag;
+        description << std::setw(flag_width) << version.description;
     }
+
     return description.str();
 }
