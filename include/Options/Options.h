@@ -22,6 +22,7 @@ class Options
 
     bool ExitItem(const TerminalOption&) const;
     auto MakeOptionList() const -> std::string;
+    auto FormatFlags(const std::vector<std::string>&) const -> std::string;
 
 public:
     Options(const int, const char* const[]);
@@ -88,25 +89,28 @@ auto Options::MakeOptionList() const -> std::string
     if (help.flags.empty())
         return "";
 
-    constexpr auto flag_width = 24;
+    constexpr auto flag_width = 16;
     std::stringstream description;
     description << std::setfill(' ') << "\n\nOptions";
     if (not help.flags.empty())
     {
-        description << "\n  ";
-        for (size_t i = 0; i + 1 < help.flags.size(); ++i)
-            description << help.flags[i] << ", ";
-        description << help.flags.back();
-        description << std::setw(flag_width + 1) << help.description;
+        description << "\n  " << std::left << std::setw(flag_width) << FormatFlags(help.flags);
+        description << help.description;
     }
     if (not version.flags.empty())
     {
-        description << "\n  ";
-        for (size_t i = 0; i + 1 < version.flags.size(); ++i)
-            description << version.flags[i] << ", ";
-        description << version.flags.back();
-        description << std::setw(flag_width) << version.description;
+        description << "\n  " << std::left << std::setw(flag_width) << FormatFlags(version.flags);
+        description << version.description;
     }
 
     return description.str();
+}
+
+auto Options::FormatFlags(const std::vector<std::string>& flags) const -> std::string
+{
+    std::stringstream out;
+    for (size_t i = 0; i + 1 < flags.size(); ++i)
+        out << flags[i] << ", ";
+    out << flags.back();
+    return out.str();
 }
