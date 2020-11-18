@@ -88,7 +88,7 @@ bool Options::ExitItem(const TerminalOption& option) const
 
 auto Options::MakeOptionList() const -> std::string
 {
-    if (help.flags.empty() and version.flags.empty())
+    if (help.flags.empty())
         return "";
 
     constexpr auto flag_width = 24;
