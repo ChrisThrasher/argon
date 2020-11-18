@@ -96,16 +96,18 @@ auto Options::MakeOptionList() const -> std::string
     description << std::setfill(' ') << "\n\nOptions";
     if (not help.flags.empty())
     {
-        description << "\n ";
-        for (const auto& flag : help.flags)
-            description << ' ' << flag;
+        description << "\n  ";
+        for (size_t i = 0; i + 1 < help.flags.size(); ++i)
+            description << help.flags[i] << ", ";
+        description << help.flags.back();
         description << std::setw(flag_width + 1) << help.description;
     }
     if (not version.flags.empty())
     {
-        description << "\n ";
-        for (const auto& flag : version.flags)
-            description << ' ' << flag;
+        description << "\n  ";
+        for (size_t i = 0; i + 1 < version.flags.size(); ++i)
+            description << version.flags[i] << ", ";
+        description << version.flags.back();
         description << std::setw(flag_width) << version.description;
     }
 

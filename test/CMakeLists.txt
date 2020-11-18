@@ -26,19 +26,17 @@ add_test(NAME unit_tests COMMAND unit_tests)
 add_executable(example Example.cpp)
 target_link_libraries(example PRIVATE options)
 
-
-
 add_test(NAME flag-h COMMAND example -h)
 set_property(TEST flag-h PROPERTY PASS_REGULAR_EXPRESSION
     ".*Options
-  -h --help      Show this help text
-  -v --version   Print program version")
+  -h, --help      Show this help text
+  -v, --version   Print program version")
 
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
     ".*Options
-  -h --help      Show this help text
-  -v --version   Print program version")
+  -h, --help      Show this help text
+  -v, --version   Print program version")
 
 add_test(NAME flag-v COMMAND example -v)
 set_property(TEST flag-v PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
