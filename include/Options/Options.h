@@ -10,9 +10,9 @@ class Options
     void Find(const ExitOption&) const;
     auto MakeOptionList() const -> std::string;
 
-    const std::vector<std::string> args{};
+    const std::vector<std::string> m_args{};
 
-    std::vector<ExitOption> exit_opts{};
+    std::vector<ExitOption> m_exit_opts{};
 
 public:
     Options(const int, const char* const[]);
@@ -23,40 +23,40 @@ public:
 };
 
 Options::Options(const int argc, const char* const argv[])
-    : args(std::vector<std::string>(argv, argv + argc))
+    : m_args(std::vector<std::string>(argv, argv + argc))
 {
 }
 
 void Options::Help(const std::string& help)
 {
-    exit_opts.push_back(
+    m_exit_opts.push_back(
         {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
 }
 
 void Options::Version(const std::string& version)
 {
-    exit_opts.push_back({{"-v", "--version"}, "Print program version", [version]() { return version; }});
+    m_exit_opts.push_back({{"-v", "--version"}, "Print program version", [version]() { return version; }});
 }
 
 void Options::Parse() const
 {
-    for (const auto& exit_opt : exit_opts)
+    for (const auto& exit_opt : m_exit_opts)
         Find(exit_opt);
 }
 
 auto Options::Args() const -> std::vector<std::string>
 {
-    return std::vector<std::string>(args.begin() + 1, args.end());
+    return std::vector<std::string>(m_args.begin() + 1, m_args.end());
 }
 
 void Options::Find(const ExitOption& option) const
 {
-    if (args.size() == 1)
+    if (m_args.size() == 1)
         return;
 
     for (const auto& flag : option.flags)
     {
-        if (args[1] == flag)
+        if (m_args[1] == flag)
         {
             std::cout << option.output() << '\n';
             std::exit(0);
@@ -67,7 +67,7 @@ void Options::Find(const ExitOption& option) const
 auto Options::MakeOptionList() const -> std::string
 {
     std::string option_list = "\n\nOptions";
-    for (const auto& exit_opt : exit_opts)
+    for (const auto& exit_opt : m_exit_opts)
         option_list += FormatOption(exit_opt);
 
     return option_list;
