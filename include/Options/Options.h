@@ -10,9 +10,10 @@ class Options
     const std::vector<std::string> args{};
 
     TerminalOption help;
+
     TerminalOption version;
 
-    bool ExitItem(const TerminalOption&) const;
+    bool Find(const TerminalOption&) const;
     auto MakeOptionList() const -> std::string;
 
 public:
@@ -38,12 +39,12 @@ void Options::Version(const std::string& version_text)
 
 void Options::Parse() const
 {
-    if (ExitItem(version))
+    if (Find(version))
     {
         std::cout << version.output << '\n';
         std::exit(0);
     }
-    if (ExitItem(help))
+    if (Find(help))
     {
         std::cout << help.output << MakeOptionList() << '\n';
         std::exit(0);
@@ -63,7 +64,7 @@ auto Options::Args() const -> std::vector<std::string>
     return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
-bool Options::ExitItem(const TerminalOption& option) const
+bool Options::Find(const TerminalOption& option) const
 {
     if (args.size() == 1)
         return false;
