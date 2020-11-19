@@ -18,9 +18,6 @@ auto FormatOption(const ExitOption& option) -> std::string
 {
     std::stringstream out;
     out << std::setfill(' ');
-    if (not option.flags.empty())
-    {
-        out << "\n  " << std::left << std::setw(16) << FormatFlags(option.flags) << option.description;
-    }
+    out << "\n  " << std::left << std::setw(16) << FormatFlags(option.flags) << option.description;
     return out.str();
 }
