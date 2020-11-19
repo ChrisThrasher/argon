@@ -7,13 +7,13 @@
 
 class Options
 {
+    bool Find(const ExitOption&) const;
+    auto MakeOptionList() const -> std::string;
+
     const std::vector<std::string> args{};
 
     ExitOption help;
     ExitOption version;
-
-    bool Find(const ExitOption&) const;
-    auto MakeOptionList() const -> std::string;
 
 public:
     Options(const int, const char* const[]);
