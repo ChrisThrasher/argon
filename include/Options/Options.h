@@ -1,17 +1,12 @@
 #pragma once
 
+#include <Options/Types.h>
+
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
-
-struct TerminalOption
-{
-    std::vector<std::string> flags;
-    std::string description;
-    std::string output;
-};
 
 class Options
 {
