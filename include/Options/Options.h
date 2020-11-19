@@ -58,7 +58,7 @@ void Options::Find(const ExitOption& option) const
     {
         if (args[1] == flag)
         {
-            std::cout << option.output();
+            std::cout << option.output() << '\n';
             std::exit(0);
         }
     }
