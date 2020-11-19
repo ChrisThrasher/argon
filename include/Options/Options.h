@@ -9,11 +9,10 @@ class Options
 {
     const std::vector<std::string> args{};
 
-    TerminalOption help;
+    ExitOption help;
+    ExitOption version;
 
-    TerminalOption version;
-
-    bool Find(const TerminalOption&) const;
+    bool Find(const ExitOption&) const;
     auto MakeOptionList() const -> std::string;
 
 public:
@@ -64,7 +63,7 @@ auto Options::Args() const -> std::vector<std::string>
     return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
-bool Options::Find(const TerminalOption& option) const
+bool Options::Find(const ExitOption& option) const
 {
     if (args.size() == 1)
         return false;

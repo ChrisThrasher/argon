@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-struct TerminalOption
+struct ExitOption
 {
     std::vector<std::string> flags;
     std::string description;

@@ -14,7 +14,7 @@ auto FormatFlags(const std::vector<std::string>& flags) -> std::string
     return out.str();
 }
 
-auto FormatOption(const TerminalOption& option) -> std::string
+auto FormatOption(const ExitOption& option) -> std::string
 {
     std::stringstream out;
     out << std::setfill(' ');
