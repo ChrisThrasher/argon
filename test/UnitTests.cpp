@@ -42,18 +42,6 @@ TEST(Version, Long)
     EXPECT_EXIT(options.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(At, Checkout)
-{
-    constexpr int argc = 3;
-    constexpr const char* argv[argc] = {"program_name", "first_arg", "second_arg"};
-    const Options options(argc, argv);
-
-    EXPECT_EQ("program_name", options.At(0, ""));
-    EXPECT_EQ("first_arg", options.At(1, ""));
-    EXPECT_EQ("second_arg", options.At(2, ""));
-    EXPECT_THROW(options.At(3, ""), std::out_of_range);
-}
-
 TEST(Args, NoArguments)
 {
     constexpr int argc = 1;

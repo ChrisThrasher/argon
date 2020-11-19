@@ -20,7 +20,6 @@ public:
     void Help(const std::string&);
     void Version(const std::string&);
     void Parse() const;
-    auto At(const int, const std::string&) const -> std::string;
     auto Args() const -> std::vector<std::string>;
 };
 
@@ -48,14 +47,6 @@ void Options::Parse() const
         std::cout << help.output << MakeOptionList() << '\n';
         std::exit(0);
     }
-}
-
-auto Options::At(const int pos, const std::string& name) const -> std::string
-{
-    const auto i = static_cast<size_t>(pos);
-    if (i < args.size())
-        return args[i];
-    throw std::out_of_range("Failed to find " + name + " at index " + std::to_string(i));
 }
 
 auto Options::Args() const -> std::vector<std::string>
