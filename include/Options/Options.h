@@ -7,12 +7,11 @@
 
 class Options
 {
-    bool Find(const ExitOption&) const;
+    void Find(const ExitOption&) const;
     auto MakeOptionList() const -> std::string;
 
     const std::vector<std::string> args{};
 
-    ExitOption help;
     std::vector<ExitOption> exit_opts{};
 
 public:
@@ -28,25 +27,21 @@ Options::Options(const int argc, const char* const argv[])
 {
 }
 
-void Options::Help(const std::string& help_text) { help = {{"-h", "--help"}, "Show this help text", help_text}; }
-
-void Options::Version(const std::string& version_text)
+void Options::Help(const std::string& help)
 {
-    exit_opts.push_back({{"-v", "--version"}, "Print program version", version_text});
+    exit_opts.push_back(
+        {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
+}
+
+void Options::Version(const std::string& version)
+{
+    exit_opts.push_back({{"-v", "--version"}, "Print program version", [version]() { return version; }});
 }
 
 void Options::Parse() const
 {
-    if (Find(help))
-    {
-        std::cout << help.output << MakeOptionList() << '\n';
-        std::exit(0);
-    }
     for (const auto& exit_opt : exit_opts)
-    {
-        std::cout << exit_opt.output << '\n';
-        std::exit(0);
-    }
+        Find(exit_opt);
 }
 
 auto Options::Args() const -> std::vector<std::string>
@@ -54,21 +49,24 @@ auto Options::Args() const -> std::vector<std::string>
     return std::vector<std::string>(args.begin() + 1, args.end());
 }
 
-bool Options::Find(const ExitOption& option) const
+void Options::Find(const ExitOption& option) const
 {
     if (args.size() == 1)
-        return false;
+        return;
 
     for (const auto& flag : option.flags)
+    {
         if (args[1] == flag)
-            return true;
-
-    return false;
+        {
+            std::cout << option.output();
+            std::exit(0);
+        }
+    }
 }
 
 auto Options::MakeOptionList() const -> std::string
 {
-    std::string option_list = "\n\nOptions" + FormatOption(help);
+    std::string option_list = "\n\nOptions";
     for (const auto& exit_opt : exit_opts)
         option_list += FormatOption(exit_opt);
 

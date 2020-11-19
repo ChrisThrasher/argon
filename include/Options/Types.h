@@ -7,5 +7,5 @@ struct ExitOption
 {
     std::vector<std::string> flags;
     std::string description;
-    std::string output;
+    std::function<std::string()> output;
 };
