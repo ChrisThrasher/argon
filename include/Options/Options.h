@@ -13,7 +13,7 @@ class Options
     const std::vector<std::string> args{};
 
     ExitOption help;
-    ExitOption version;
+    std::vector<ExitOption> exit_opts{};
 
 public:
     Options(const int, const char* const[]);
@@ -32,19 +32,19 @@ void Options::Help(const std::string& help_text) { help = {{"-h", "--help"}, "Sh
 
 void Options::Version(const std::string& version_text)
 {
-    version = {{"-v", "--version"}, "Print program version", version_text};
+    exit_opts.push_back({{"-v", "--version"}, "Print program version", version_text});
 }
 
 void Options::Parse() const
 {
-    if (Find(version))
-    {
-        std::cout << version.output << '\n';
-        std::exit(0);
-    }
     if (Find(help))
     {
         std::cout << help.output << MakeOptionList() << '\n';
+        std::exit(0);
+    }
+    for (const auto& exit_opt : exit_opts)
+    {
+        std::cout << exit_opt.output << '\n';
         std::exit(0);
     }
 }
@@ -68,8 +68,9 @@ bool Options::Find(const ExitOption& option) const
 
 auto Options::MakeOptionList() const -> std::string
 {
-    if (help.flags.empty())
-        return "";
+    std::string option_list = "\n\nOptions" + FormatOption(help);
+    for (const auto& exit_opt : exit_opts)
+        option_list += FormatOption(exit_opt);
 
-    return "\n\nOptions" + FormatOption(help) + FormatOption(version);
+    return option_list;
 }
