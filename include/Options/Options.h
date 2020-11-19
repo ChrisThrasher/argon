@@ -80,10 +80,5 @@ auto Options::MakeOptionList() const -> std::string
     if (help.flags.empty())
         return "";
 
-    std::stringstream description;
-    description << "\n\nOptions";
-    description << FormatOption(help);
-    description << FormatOption(version);
-
-    return description.str();
+    return "\n\nOptions" + FormatOption(help) + FormatOption(version);
 }
