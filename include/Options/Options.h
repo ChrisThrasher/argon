@@ -1,12 +1,9 @@
 #pragma once
 
+#include <Options/Format.h>
 #include <Options/Types.h>
 
-#include <iomanip>
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
 
 class Options
 {
@@ -17,8 +14,6 @@ class Options
 
     bool ExitItem(const TerminalOption&) const;
     auto MakeOptionList() const -> std::string;
-    auto FormatFlags(const std::vector<std::string>&) const -> std::string;
-    auto FormatOption(const TerminalOption&) const -> std::string;
 
 public:
     Options(const int, const char* const[]);
@@ -91,24 +86,4 @@ auto Options::MakeOptionList() const -> std::string
     description << FormatOption(version);
 
     return description.str();
-}
-
-auto Options::FormatFlags(const std::vector<std::string>& flags) const -> std::string
-{
-    std::stringstream out;
-    for (size_t i = 0; i + 1 < flags.size(); ++i)
-        out << flags[i] << ", ";
-    out << flags.back();
-    return out.str();
-}
-
-auto Options::FormatOption(const TerminalOption& option) const -> std::string
-{
-    std::stringstream out;
-    out << std::setfill(' ');
-    if (not option.flags.empty())
-    {
-        out << "\n  " << std::left << std::setw(16) << FormatFlags(option.flags) << option.description;
-    }
-    return out.str();
 }
