@@ -19,6 +19,7 @@ class Options
 
 public:
     Options(const int, const char* const[]);
+    Options(const int, const char* const[], const std::string&);
     void Help(const std::string&);
     void Version(const std::string&);
     void Parse() const;
@@ -28,6 +29,12 @@ public:
 Options::Options(const int argc, const char* const argv[])
     : m_args(std::vector<std::string>(argv, argv + argc))
 {
+}
+
+Options::Options(const int argc, const char* const argv[], const std::string& help)
+    : Options(argc, argv)
+{
+    Help(help);
 }
 
 void Options::Help(const std::string& help)
