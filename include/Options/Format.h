@@ -5,6 +5,9 @@
 #include <iomanip>
 #include <sstream>
 
+namespace opts
+{
+
 auto FormatFlags(const std::vector<std::string>& flags) -> std::string
 {
     std::stringstream out;
@@ -21,3 +24,5 @@ auto FormatOption(const ExitOption& option) -> std::string
     out << "\n  " << std::left << std::setw(16) << FormatFlags(option.flags) << option.description;
     return out.str();
 }
+
+} // namespace opts

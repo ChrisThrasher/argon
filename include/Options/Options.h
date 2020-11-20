@@ -5,6 +5,9 @@
 
 #include <iostream>
 
+namespace opts
+{
+
 class Options
 {
     void Find(const ExitOption&) const;
@@ -72,3 +75,5 @@ auto Options::MakeOptionList() const -> std::string
 
     return option_list;
 }
+
+} // namespace opts
