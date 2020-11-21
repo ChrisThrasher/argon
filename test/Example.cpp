@@ -5,9 +5,10 @@ constexpr auto help = R"(Usage
 
 int main(int argc, char* argv[])
 {
+    bool debug = false;
+
     opts::Parser parser(argc, argv, help);
     parser.AddExitOption("version", 'v', "Print program version", "v0.0.0");
-    bool debug = false;
     parser.AddBoolOption("debug", 'd', "Debug output", debug);
     parser.Parse();
 
