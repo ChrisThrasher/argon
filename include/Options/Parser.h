@@ -20,7 +20,6 @@ class Parser
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
-    void Help(const std::string&);
     void Version(const std::string&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
@@ -33,11 +32,6 @@ Parser::Parser(const int argc, const char* const argv[])
 
 Parser::Parser(const int argc, const char* const argv[], const std::string& help)
     : Parser(argc, argv)
-{
-    Help(help);
-}
-
-void Parser::Help(const std::string& help)
 {
     m_exit_opts.push_back(
         {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});

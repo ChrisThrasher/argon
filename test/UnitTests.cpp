@@ -7,8 +7,7 @@ TEST(Help, Short)
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-h"};
 
-    opts::Parser parser(argc, argv);
-    parser.Help("my help text");
+    opts::Parser parser(argc, argv, "my help text");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
@@ -17,8 +16,7 @@ TEST(Help, Long)
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--help"};
 
-    opts::Parser parser(argc, argv);
-    parser.Help("my help text");
+    opts::Parser parser(argc, argv, "my help text");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
