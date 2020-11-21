@@ -9,9 +9,9 @@ namespace opts
 
 struct ExitOption
 {
-    std::vector<std::string> flags;
-    std::string description;
-    std::function<std::string()> output;
+    const std::vector<std::string> flags;
+    const std::string description;
+    const std::function<std::string()> output;
 };
 
 } // namespace opts
