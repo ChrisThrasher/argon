@@ -26,7 +26,7 @@ TEST(AddExitOption, Short)
     constexpr const char* argv[argc] = {"options", "-v"};
 
     opts::Parser parser(argc, argv);
-    parser.AddExitOption({"v", "version"}, "Print program version", "v0.0.0");
+    parser.AddExitOption("version", 'v', "Print program version", "v0.0.0");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
@@ -36,7 +36,7 @@ TEST(AddExitOption, Long)
     constexpr const char* argv[argc] = {"options", "--version"};
 
     opts::Parser parser(argc, argv);
-    parser.AddExitOption({"v", "version"}, "Print program version", "v0.0.0");
+    parser.AddExitOption("version", 'v', "Print program version", "v0.0.0");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
