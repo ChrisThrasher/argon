@@ -10,13 +10,38 @@
 namespace opts
 {
 
-class ExitOption
+class Option
 {
+protected:
     auto Flags() const -> std::vector<std::string> { return {std::string("-") + m_alias, "--" + m_flag}; }
 
     const std::string m_flag;
     const char m_alias;
     const std::string m_description;
+
+    Option(const std::string& flag, const char alias, const std::string& description)
+        : m_flag(flag)
+        , m_alias(alias)
+        , m_description(description)
+    {
+    }
+
+public:
+    auto Format() const -> std::string
+    {
+        const auto flags = std::string("-") + m_alias + ", --" + m_flag;
+
+        std::stringstream out;
+        out << std::setfill(' ');
+        out << "\n  " << std::left << std::setw(16) << flags << m_description;
+        return out.str();
+    }
+
+    virtual void Find(const std::vector<std::string>& args) const = 0;
+};
+
+class ExitOption final : public Option
+{
     const std::function<std::string()> m_output;
 
 public:
@@ -24,14 +49,12 @@ public:
                const char alias,
                const std::string& description,
                const std::function<std::string()>& output)
-        : m_flag(flag)
-        , m_alias(alias)
-        , m_description(description)
+        : Option(flag, alias, description)
         , m_output(output)
     {
     }
 
-    void Find(const std::vector<std::string>& args) const
+    virtual void Find(const std::vector<std::string>& args) const
     {
         if (args.size() == 1)
             return;
@@ -45,15 +68,35 @@ public:
             }
         }
     }
+};
 
-    auto Format() const -> std::string
+class BoolOption final : public Option
+{
+    const std::function<void()> m_output;
+
+public:
+    BoolOption(const std::string& flag,
+               const char alias,
+               const std::string& description,
+               const std::function<void()>& output)
+        : Option(flag, alias, description)
+        , m_output(output)
     {
-        const auto flags = std::string("-") + m_alias + ", --" + m_flag;
+    }
 
-        std::stringstream out;
-        out << std::setfill(' ');
-        out << "\n  " << std::left << std::setw(16) << flags << m_description;
-        return out.str();
+    virtual void Find(const std::vector<std::string>& args) const
+    {
+        if (args.size() == 1)
+            return;
+
+        for (const auto& flag : Flags())
+        {
+            for (const auto& arg : args)
+            {
+                if (flag == arg)
+                    m_output();
+            }
+        }
     }
 };
 
