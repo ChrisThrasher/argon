@@ -9,17 +9,17 @@ namespace opts
 
 class ExitOption
 {
-    const std::vector<std::string> flags;
-    const std::string description;
-    const std::function<std::string()> output;
+    const std::vector<std::string> m_flags;
+    const std::string m_description;
+    const std::function<std::string()> m_output;
 
 public:
-    ExitOption(const std::vector<std::string>& a_flags,
-               const std::string& a_description,
-               const std::function<std::string()>& a_output)
-        : flags([a_flags]() {
+    ExitOption(const std::vector<std::string>& flags,
+               const std::string& description,
+               const std::function<std::string()>& output)
+        : m_flags([flags]() {
             std::vector<std::string> tmp;
-            for (const auto& flag : a_flags)
+            for (const auto& flag : flags)
             {
                 if (flag.size() == 1)
                     tmp.push_back('-' + flag);
@@ -28,14 +28,14 @@ public:
             }
             return tmp;
         }())
-        , description(a_description)
-        , output(a_output)
+        , m_description(description)
+        , m_output(output)
     {
     }
 
-    auto Flags() const -> std::vector<std::string> { return flags; }
-    auto Description() const -> std::string { return description; }
-    auto Output() const -> std::string { return output(); }
+    auto Flags() const -> std::vector<std::string> { return m_flags; }
+    auto Description() const -> std::string { return m_description; }
+    auto Output() const -> std::string { return m_output(); }
 };
 
 } // namespace opts
