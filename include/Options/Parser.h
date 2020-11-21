@@ -8,7 +8,7 @@
 namespace opts
 {
 
-class Options
+class Parser
 {
     void Find(const ExitOption&) const;
     auto MakeOptionList() const -> std::string;
@@ -18,48 +18,48 @@ class Options
     std::vector<ExitOption> m_exit_opts{};
 
 public:
-    Options(const int, const char* const[]);
-    Options(const int, const char* const[], const std::string&);
+    Parser(const int, const char* const[]);
+    Parser(const int, const char* const[], const std::string&);
     void Help(const std::string&);
     void Version(const std::string&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
 };
 
-Options::Options(const int argc, const char* const argv[])
+Parser::Parser(const int argc, const char* const argv[])
     : m_args(std::vector<std::string>(argv, argv + argc))
 {
 }
 
-Options::Options(const int argc, const char* const argv[], const std::string& help)
-    : Options(argc, argv)
+Parser::Parser(const int argc, const char* const argv[], const std::string& help)
+    : Parser(argc, argv)
 {
     Help(help);
 }
 
-void Options::Help(const std::string& help)
+void Parser::Help(const std::string& help)
 {
     m_exit_opts.push_back(
         {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
 }
 
-void Options::Version(const std::string& version)
+void Parser::Version(const std::string& version)
 {
     m_exit_opts.push_back({{"-v", "--version"}, "Print program version", [version]() { return version; }});
 }
 
-void Options::Parse() const
+void Parser::Parse() const
 {
     for (const auto& exit_opt : m_exit_opts)
         Find(exit_opt);
 }
 
-auto Options::Args() const -> std::vector<std::string>
+auto Parser::Args() const -> std::vector<std::string>
 {
     return std::vector<std::string>(m_args.begin() + 1, m_args.end());
 }
 
-void Options::Find(const ExitOption& option) const
+void Parser::Find(const ExitOption& option) const
 {
     if (m_args.size() == 1)
         return;
@@ -74,7 +74,7 @@ void Options::Find(const ExitOption& option) const
     }
 }
 
-auto Options::MakeOptionList() const -> std::string
+auto Parser::MakeOptionList() const -> std::string
 {
     std::string option_list = "\n\nOptions";
     for (const auto& exit_opt : m_exit_opts)
