@@ -12,6 +12,8 @@ namespace opts
 
 class ExitOption
 {
+    auto Flags() const -> std::vector<std::string> { return {std::string("-") + m_alias, "--" + m_flag}; }
+
     const std::string m_flag;
     const char m_alias;
     const std::string m_description;
@@ -53,8 +55,6 @@ public:
         out << "\n  " << std::left << std::setw(16) << flags << m_description;
         return out.str();
     }
-
-    auto Flags() const -> std::vector<std::string> { return {std::string("-") + m_alias, "--" + m_flag}; }
 };
 
 } // namespace opts
