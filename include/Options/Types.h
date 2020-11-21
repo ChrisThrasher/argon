@@ -7,12 +7,13 @@
 namespace opts
 {
 
-struct ExitOption
+class ExitOption
 {
     const std::vector<std::string> flags;
     const std::string description;
     const std::function<std::string()> output;
 
+public:
     ExitOption(const std::vector<std::string>& a_flags,
                const std::string& a_description,
                const std::function<std::string()>& a_output)
@@ -31,6 +32,10 @@ struct ExitOption
         , output(a_output)
     {
     }
+
+    auto Flags() const -> std::vector<std::string> { return flags; }
+    auto Description() const -> std::string { return description; }
+    auto Output() const -> std::string { return output(); }
 };
 
 } // namespace opts

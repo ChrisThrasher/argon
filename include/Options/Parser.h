@@ -60,11 +60,11 @@ void Parser::Find(const opts::ExitOption& option) const
     if (m_args.size() == 1)
         return;
 
-    for (const auto& flag : option.flags)
+    for (const auto& flag : option.Flags())
     {
         if (m_args[1] == flag)
         {
-            std::cout << option.output() << '\n';
+            std::cout << option.Output() << '\n';
             std::exit(0);
         }
     }
