@@ -34,7 +34,7 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
     : Parser(argc, argv)
 {
     m_exit_opts.push_back(
-        {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
+        {{"h", "help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
 }
 
 void Parser::AddExitOption(const std::vector<std::string>& flags,
