@@ -1,6 +1,9 @@
 #pragma once
 
 #include <functional>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -15,7 +18,7 @@ class ExitOption
     const std::function<std::string()> m_output;
 
 public:
-    ExitOption(const std::string flag,
+    ExitOption(const std::string& flag,
                const char alias,
                const std::string& description,
                const std::function<std::string()>& output)
@@ -26,9 +29,32 @@ public:
     {
     }
 
+    void Find(const std::vector<std::string>& args) const
+    {
+        if (args.size() == 1)
+            return;
+
+        for (const auto& flag : Flags())
+        {
+            if (args[1] == flag)
+            {
+                std::cout << m_output() << '\n';
+                std::exit(0);
+            }
+        }
+    }
+
+    auto Format() const -> std::string
+    {
+        const auto flags = std::string("-") + m_alias + ", --" + m_flag;
+
+        std::stringstream out;
+        out << std::setfill(' ');
+        out << "\n  " << std::left << std::setw(16) << flags << m_description;
+        return out.str();
+    }
+
     auto Flags() const -> std::vector<std::string> { return {std::string("-") + m_alias, "--" + m_flag}; }
-    auto Description() const -> std::string { return m_description; }
-    auto Output() const -> std::string { return m_output(); }
 };
 
 } // namespace opts
