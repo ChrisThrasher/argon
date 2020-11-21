@@ -20,23 +20,23 @@ TEST(Help, Long)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Version, Short)
+TEST(ExitOption, Short)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-v"};
 
     opts::Parser parser(argc, argv);
-    parser.Version("v0.0.0");
+    parser.ExitOption({"-v", "--version"}, "Print program version", "v0.0.0");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Version, Long)
+TEST(ExitOption, Long)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--version"};
 
     opts::Parser parser(argc, argv);
-    parser.Version("v0.0.0");
+    parser.ExitOption({"-v", "--version"}, "Print program version", "v0.0.0");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 

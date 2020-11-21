@@ -6,6 +6,6 @@ constexpr auto help = R"(Usage
 int main(int argc, char* argv[])
 {
     opts::Parser parser(argc, argv, help);
-    parser.Version("v0.0.0");
+    parser.ExitOption({"-v", "--version"}, "Print program version", "v0.0.0");
     parser.Parse();
 }

@@ -10,7 +10,7 @@ namespace opts
 
 class Parser
 {
-    void Find(const ExitOption&) const;
+    void Find(const opts::ExitOption&) const;
     auto MakeOptionList() const -> std::string;
 
     const std::vector<std::string> m_args{};
@@ -20,7 +20,7 @@ class Parser
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
-    void Version(const std::string&);
+    void ExitOption(const std::vector<std::string>&, const std::string&, const std::string&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
 };
@@ -37,9 +37,11 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
         {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
 }
 
-void Parser::Version(const std::string& version)
+void Parser::ExitOption(const std::vector<std::string>& flags,
+                        const std::string& description,
+                        const std::string& output)
 {
-    m_exit_opts.push_back({{"-v", "--version"}, "Print program version", [version]() { return version; }});
+    m_exit_opts.push_back({flags, description, [output]() { return output; }});
 }
 
 void Parser::Parse() const
@@ -53,7 +55,7 @@ auto Parser::Args() const -> std::vector<std::string>
     return std::vector<std::string>(m_args.begin() + 1, m_args.end());
 }
 
-void Parser::Find(const ExitOption& option) const
+void Parser::Find(const opts::ExitOption& option) const
 {
     if (m_args.size() == 1)
         return;
