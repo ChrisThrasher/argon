@@ -15,12 +15,12 @@ class Parser
 
     const std::vector<std::string> m_args{};
 
-    std::vector<ExitOption> m_exit_opts{};
+    std::vector<opts::ExitOption> m_exit_opts{};
 
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
-    void ExitOption(const std::vector<std::string>&, const std::string&, const std::string&);
+    void AddExitOption(const std::vector<std::string>&, const std::string&, const std::string&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
 };
@@ -37,9 +37,9 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
         {{"-h", "--help"}, "Show this help text", [help, this]() { return help + this->MakeOptionList(); }});
 }
 
-void Parser::ExitOption(const std::vector<std::string>& flags,
-                        const std::string& description,
-                        const std::string& output)
+void Parser::AddExitOption(const std::vector<std::string>& flags,
+                           const std::string& description,
+                           const std::string& output)
 {
     m_exit_opts.push_back({flags, description, [output]() { return output; }});
 }
