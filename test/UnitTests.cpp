@@ -26,7 +26,7 @@ TEST(AddExitOption, Alias)
     constexpr const char* argv[argc] = {"options", "-v"};
 
     opts::Parser parser(argc, argv);
-    parser.Add(opts::ExitOption("version", 'v', "Print program version", "v0.0.0"));
+    parser.Add(opts::ExitOption("v", "Print program version", "v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
@@ -36,7 +36,7 @@ TEST(AddExitOption, Flag)
     constexpr const char* argv[argc] = {"options", "--version"};
 
     opts::Parser parser(argc, argv);
-    parser.Add(opts::ExitOption("version", 'v', "Print program version", "v0.0.0"));
+    parser.Add(opts::ExitOption("version", "Print program version", "v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
@@ -47,7 +47,7 @@ TEST(AddBoolOption, Alias)
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add(opts::BoolOption("debug", 'd', "Debug output", debug));
+    parser.Add(opts::BoolOption("d", "Debug output", debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }
@@ -59,7 +59,7 @@ TEST(AddBoolOption, Flag)
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add(opts::BoolOption("debug", 'd', "Debug output", debug));
+    parser.Add(opts::BoolOption("debug", "Debug output", debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }

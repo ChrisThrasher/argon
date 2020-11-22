@@ -37,7 +37,7 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
     : Parser(argc, argv)
 {
     m_options.push_back(std::make_shared<opts::ExitOption>(
-        "help", 'h', "Show this help text", [help, this]() { return help + this->MakeOptionList(); }));
+        "help,h", "Show this help text", [help, this]() { return help + this->MakeOptionList(); }));
 }
 
 void Parser::Parse() const

@@ -3,6 +3,7 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -13,23 +14,45 @@ namespace opts
 class Option
 {
 protected:
-    auto Flags() const -> std::vector<std::string> { return {std::string("-") + m_alias, "--" + m_flag}; }
+    auto Flags() const -> std::vector<std::string>
+    {
+        std::vector<std::string> flags;
+        for (const auto& alias : m_aliases)
+            flags.push_back(std::string("-") + alias);
+        for (const auto& flag : m_flags)
+            flags.push_back("--" + flag);
+        return flags;
+    }
 
-    const std::string m_flag;
-    const char m_alias;
+    std::set<std::string> m_flags;
+    std::set<char> m_aliases;
     const std::string m_description;
 
-    Option(const std::string& flag, const char alias, const std::string& description)
-        : m_flag(flag)
-        , m_alias(alias)
-        , m_description(description)
+    Option(const std::string& flags, const std::string& description)
+        : m_description(description)
     {
+        std::stringstream ss(flags);
+        while (ss.good())
+        {
+            std::string str;
+            std::getline(ss, str, ',');
+            if (str.size() == 1)
+                m_aliases.emplace(str[0]);
+            else
+                m_flags.emplace(str);
+        }
     }
 
 public:
     auto Format() const -> std::string
     {
-        const auto flags = std::string("-") + m_alias + ", --" + m_flag;
+        std::string flags;
+        std::string delim = "";
+        for (const auto& flag : Flags())
+        {
+            flags += delim + flag;
+            delim = ", ";
+        }
 
         std::stringstream out;
         out << std::setfill(' ');
@@ -45,17 +68,14 @@ class ExitOption final : public Option
     const std::function<std::string()> m_output;
 
 public:
-    ExitOption(const std::string& flag, const char alias, const std::string& description, const std::string& output)
-        : Option(flag, alias, description)
+    ExitOption(const std::string& flags, const std::string& description, const std::string& output)
+        : Option(flags, description)
         , m_output([output]() { return output; })
     {
     }
 
-    ExitOption(const std::string& flag,
-               const char alias,
-               const std::string& description,
-               const std::function<std::string()>& output)
-        : Option(flag, alias, description)
+    ExitOption(const std::string& flags, const std::string& description, const std::function<std::string()>& output)
+        : Option(flags, description)
         , m_output(output)
     {
     }
@@ -78,8 +98,8 @@ class BoolOption final : public Option
     bool& m_value;
 
 public:
-    BoolOption(const std::string& flag, const char alias, const std::string& description, bool& value)
-        : Option(flag, alias, description)
+    BoolOption(const std::string& flag, const std::string& description, bool& value)
+        : Option(flag, description)
         , m_value(value)
     {
     }
