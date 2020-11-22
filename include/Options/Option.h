@@ -45,6 +45,12 @@ class ExitOption final : public Option
     const std::function<std::string()> m_output;
 
 public:
+    ExitOption(const std::string& flag, const char alias, const std::string& description, const std::string& output)
+        : Option(flag, alias, description)
+        , m_output([output]() { return output; })
+    {
+    }
+
     ExitOption(const std::string& flag,
                const char alias,
                const std::string& description,
