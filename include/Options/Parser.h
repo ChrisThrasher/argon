@@ -18,7 +18,7 @@ class Parser
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
-    void AddExitOption(const std::string&, const char, const std::string&, const std::string&);
+    void Add(const opts::ExitOption& option);
     void AddBoolOption(const std::string&, const char, const std::string&, bool&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
@@ -36,13 +36,7 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
         "help", 'h', "Show this help text", [help, this]() { return help + this->MakeOptionList(); }));
 }
 
-void Parser::AddExitOption(const std::string& flag,
-                           const char alias,
-                           const std::string& description,
-                           const std::string& output)
-{
-    m_options.push_back(std::make_shared<opts::ExitOption>(flag, alias, description, output));
-}
+void Parser::Add(const opts::ExitOption& option) { m_options.push_back(std::make_shared<opts::ExitOption>(option)); }
 
 void Parser::AddBoolOption(const std::string& flag, const char alias, const std::string& description, bool& value)
 {

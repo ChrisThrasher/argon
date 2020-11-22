@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
     bool debug = false;
 
     opts::Parser parser(argc, argv, help);
-    parser.AddExitOption("version", 'v', "Print program version", "v0.0.0");
+    parser.Add(opts::ExitOption("version", 'v', "Print program version", "v0.0.0"));
     parser.AddBoolOption("debug", 'd', "Debug output", debug);
     parser.Parse();
 
