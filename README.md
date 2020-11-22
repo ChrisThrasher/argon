@@ -24,11 +24,9 @@ int main(int argc, char* argv[])
 }
 ```
 
-Create an instances of `opts::Parser`. Use any combination of AddExitOption and AddBoolOption to detect various types of flags.
+Create an instance of `opts::Parser`. Use any combination of `AddExitOption` and `AddBoolOption` to detect various types of flags.
 
-To supply a help text that automatically appends all options, use the 3-argument constructor and seen above.
-
-Here's what the formatting help output looks like:
+To supply a help text that automatically appends all options, use the 3-argument constructor and seen above. Here's what the formatting help output looks like:
 
 ```
 $ example --help
