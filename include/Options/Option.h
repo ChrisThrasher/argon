@@ -56,12 +56,12 @@ public:
 
     virtual void Find(const std::vector<std::string>& args) const
     {
-        if (args.size() == 1)
+        if (args.empty())
             return;
 
         for (const auto& flag : Flags())
         {
-            if (args[1] == flag)
+            if (args[0] == flag)
             {
                 std::cout << m_output() << '\n';
                 std::exit(0);

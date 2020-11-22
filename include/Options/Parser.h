@@ -25,7 +25,7 @@ public:
 };
 
 Parser::Parser(const int argc, const char* const argv[])
-    : m_args(std::vector<std::string>(argv, argv + argc))
+    : m_args(std::vector<std::string>(argv + 1, argv + argc))
 {
 }
 
@@ -55,10 +55,7 @@ void Parser::Parse() const
         option->Find(m_args);
 }
 
-auto Parser::Args() const -> std::vector<std::string>
-{
-    return std::vector<std::string>(m_args.begin() + 1, m_args.end());
-}
+auto Parser::Args() const -> std::vector<std::string> { return m_args; }
 
 auto Parser::MakeOptionList() const -> std::string
 {
