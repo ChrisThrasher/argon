@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(Help, Short)
+TEST(Help, Alias)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-h"};
@@ -11,7 +11,7 @@ TEST(Help, Short)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Help, Long)
+TEST(Help, Flag)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--help"};
@@ -20,7 +20,7 @@ TEST(Help, Long)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(AddExitOption, Short)
+TEST(AddExitOption, Alias)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-v"};
@@ -30,7 +30,7 @@ TEST(AddExitOption, Short)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(AddExitOption, Long)
+TEST(AddExitOption, Flag)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--version"};
@@ -38,6 +38,30 @@ TEST(AddExitOption, Long)
     opts::Parser parser(argc, argv);
     parser.Add(opts::ExitOption("version", 'v', "Print program version", "v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
+}
+
+TEST(AddBoolOption, Alias)
+{
+    constexpr int argc = 3;
+    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d"};
+
+    bool debug = false;
+    opts::Parser parser(argc, argv);
+    parser.Add(opts::BoolOption("debug", 'd', "Debug output", debug));
+    parser.Parse();
+    EXPECT_TRUE(debug);
+}
+
+TEST(AddBoolOption, Flag)
+{
+    constexpr int argc = 3;
+    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "--debug"};
+
+    bool debug = false;
+    opts::Parser parser(argc, argv);
+    parser.Add(opts::BoolOption("debug", 'd', "Debug output", debug));
+    parser.Parse();
+    EXPECT_TRUE(debug);
 }
 
 TEST(Args, NoArguments)
