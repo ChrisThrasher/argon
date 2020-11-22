@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
 Create an instance of `opts::Parser`. Use any combination of `AddExitOption` and `AddBoolOption` to detect various types of flags. Flags themselves are defined as a comma-delimited string where each item is another flag or alias. You can add as many flags and aliases as you'd like.
 
-To supply a help text that automatically appends all options, use the 3-argument constructor and seen above. Here's what the formatting help output looks like:
+To supply a help text that automatically appends all options, use the 3-argument constructor as seen above. Here's what that looks like.
 
 ```
 $ example --help
