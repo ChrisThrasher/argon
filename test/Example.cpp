@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 
     opts::Parser parser(argc, argv, help);
     parser.Add(opts::ExitOption("version", 'v', "Print program version", "v0.0.0"));
-    parser.AddBoolOption("debug", 'd', "Debug output", debug);
+    parser.Add(opts::BoolOption("debug", 'd', "Debug output", debug));
     parser.Parse();
 
     if (debug)
