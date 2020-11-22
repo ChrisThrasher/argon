@@ -13,6 +13,10 @@ namespace opts
 
 class Option
 {
+    std::set<std::string> m_flags;
+    std::set<char> m_aliases;
+    const std::string m_description;
+
 protected:
     auto Flags() const -> std::vector<std::string>
     {
@@ -23,10 +27,6 @@ protected:
             flags.push_back("--" + flag);
         return flags;
     }
-
-    std::set<std::string> m_flags;
-    std::set<char> m_aliases;
-    const std::string m_description;
 
     Option(const std::string& flags, const std::string& description)
         : m_description(description)
