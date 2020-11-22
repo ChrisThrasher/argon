@@ -90,13 +90,9 @@ public:
             return;
 
         for (const auto& flag : Flags())
-        {
             for (const auto& arg : args)
-            {
                 if (flag == arg)
-                    m_output();
-            }
-        }
+                    return m_output();
     }
 };
 
