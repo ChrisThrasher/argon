@@ -72,24 +72,28 @@ public:
 
 class BoolOption final : public Option
 {
-    const std::function<void()> m_output;
+    bool& m_value;
 
 public:
-    BoolOption(const std::string& flag,
-               const char alias,
-               const std::string& description,
-               const std::function<void()>& output)
+    BoolOption(const std::string& flag, const char alias, const std::string& description, bool& value)
         : Option(flag, alias, description)
-        , m_output(output)
+        , m_value(value)
     {
     }
 
     virtual void Find(const std::vector<std::string>& args) const
     {
         for (const auto& flag : Flags())
+        {
             for (const auto& arg : args)
+            {
                 if (flag == arg)
-                    return m_output();
+                {
+                    m_value = true;
+                    return;
+                }
+            }
+        }
     }
 };
 

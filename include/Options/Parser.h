@@ -46,8 +46,7 @@ void Parser::AddExitOption(const std::string& flag,
 
 void Parser::AddBoolOption(const std::string& flag, const char alias, const std::string& description, bool& value)
 {
-    m_options.push_back(
-        std::make_shared<opts::BoolOption>(flag, alias, description, [&value]() mutable { value = true; }));
+    m_options.push_back(std::make_shared<opts::BoolOption>(flag, alias, description, value));
 }
 
 void Parser::Parse() const
