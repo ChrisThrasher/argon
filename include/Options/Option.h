@@ -56,9 +56,6 @@ public:
 
     virtual void Find(const std::vector<std::string>& args) const
     {
-        if (args.empty())
-            return;
-
         for (const auto& flag : Flags())
         {
             if (args[0] == flag)

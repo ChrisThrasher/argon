@@ -51,6 +51,9 @@ void Parser::AddBoolOption(const std::string& flag, const char alias, const std:
 
 void Parser::Parse() const
 {
+    if (m_args.empty())
+        return;
+
     for (const auto& option : m_options)
         option->Find(m_args);
 }
