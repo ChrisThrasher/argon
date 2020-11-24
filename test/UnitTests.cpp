@@ -20,46 +20,46 @@ TEST(Help, Flag)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(AddExitOption, Alias)
+TEST(Add, ExitAlias)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-v"};
 
     opts::Parser parser(argc, argv);
-    parser.Add(opts::ExitOption("v", "Print program version", "v0.0.0"));
+    parser.Add("v", "Print program version", opts::Exit("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(AddExitOption, Flag)
+TEST(Add, ExitFlag)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--version"};
 
     opts::Parser parser(argc, argv);
-    parser.Add(opts::ExitOption("version", "Print program version", "v0.0.0"));
+    parser.Add("version", "Print program version", opts::Exit("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(AddBoolOption, Alias)
+TEST(Add, BoolAlias)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d"};
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add(opts::BoolOption("d", "Debug output", debug));
+    parser.Add("d", "Debug output", opts::Bool(debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }
 
-TEST(AddBoolOption, Flag)
+TEST(Add, BoolFlag)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "--debug"};
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add(opts::BoolOption("debug", "Debug output", debug));
+    parser.Add("debug", "Debug output", opts::Bool(debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }

@@ -16,6 +16,7 @@ class Option
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
     const std::string m_description;
+    const std::function<void()> m_callback;
 
 protected:
     auto Flags() const -> std::vector<std::string>
@@ -28,8 +29,10 @@ protected:
         return flags;
     }
 
-    Option(const std::string& flags, const std::string& description)
+public:
+    Option(const std::string& flags, const std::string& description, const std::function<void()>& callback)
         : m_description(description)
+        , m_callback(callback)
     {
         std::stringstream ss(flags);
         while (ss.good())
@@ -43,7 +46,6 @@ protected:
         }
     }
 
-public:
     auto Format() const -> std::string
     {
         std::string flags;
@@ -60,51 +62,7 @@ public:
         return out.str();
     }
 
-    virtual void Find(const std::vector<std::string>& args) const = 0;
-};
-
-class ExitOption final : public Option
-{
-    const std::function<std::string()> m_output;
-
-public:
-    ExitOption(const std::string& flags, const std::string& description, const std::string& output)
-        : Option(flags, description)
-        , m_output([output]() { return output; })
-    {
-    }
-
-    ExitOption(const std::string& flags, const std::string& description, const std::function<std::string()>& output)
-        : Option(flags, description)
-        , m_output(output)
-    {
-    }
-
-    virtual void Find(const std::vector<std::string>& args) const
-    {
-        for (const auto& flag : Flags())
-        {
-            if (args[0] == flag)
-            {
-                std::cout << m_output() << '\n';
-                std::exit(0);
-            }
-        }
-    }
-};
-
-class BoolOption final : public Option
-{
-    bool& m_value;
-
-public:
-    BoolOption(const std::string& flag, const std::string& description, bool& value)
-        : Option(flag, description)
-        , m_value(value)
-    {
-    }
-
-    virtual void Find(const std::vector<std::string>& args) const
+    void Find(const std::vector<std::string>& args) const
     {
         for (const auto& flag : Flags())
         {
@@ -112,8 +70,7 @@ public:
             {
                 if (flag == arg)
                 {
-                    m_value = true;
-                    return;
+                    return m_callback();
                 }
             }
         }
