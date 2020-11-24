@@ -18,7 +18,6 @@ class Option
     const std::string m_description;
     const std::function<void()> m_callback;
 
-protected:
     auto Flags() const -> std::vector<std::string>
     {
         std::vector<std::string> flags;
@@ -65,15 +64,9 @@ public:
     void Find(const std::vector<std::string>& args) const
     {
         for (const auto& flag : Flags())
-        {
             for (const auto& arg : args)
-            {
                 if (flag == arg)
-                {
                     return m_callback();
-                }
-            }
-        }
     }
 };
 
