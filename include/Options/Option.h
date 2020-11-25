@@ -16,8 +16,8 @@ class Option
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
     const std::string m_description;
-    const std::function<void()> m_callback;
 
+protected:
     auto Flags() const -> std::vector<std::string>
     {
         std::vector<std::string> flags;
@@ -28,10 +28,8 @@ class Option
         return flags;
     }
 
-public:
-    Option(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+    Option(const std::string& flags, const std::string& description)
         : m_description(description)
-        , m_callback(callback)
     {
         std::stringstream ss(flags);
         while (ss.good())
@@ -45,6 +43,7 @@ public:
         }
     }
 
+public:
     auto Format() const -> std::string
     {
         std::string flags;
@@ -61,12 +60,48 @@ public:
         return out.str();
     }
 
-    void Find(const std::vector<std::string>& args) const
+    virtual void Find(const std::vector<std::string>& args) const = 0;
+};
+
+class BasicOption final : public Option
+{
+    const std::function<void()> m_callback;
+
+public:
+    BasicOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+        : Option(flags, description)
+        , m_callback(callback)
+    {
+    }
+
+    virtual void Find(const std::vector<std::string>& args) const
     {
         for (const auto& flag : Flags())
             for (const auto& arg : args)
                 if (flag == arg)
                     return m_callback();
+    }
+};
+
+class ValueOption final : public Option
+{
+    const std::function<void(std::string)> m_callback;
+
+public:
+    ValueOption(const std::string& flags,
+                const std::string& description,
+                const std::function<void(std::string)>& callback)
+        : Option(flags, description)
+        , m_callback(callback)
+    {
+    }
+
+    virtual void Find(const std::vector<std::string>& args) const
+    {
+        for (const auto& flag : Flags())
+            for (size_t i = 0; i + 1 < args.size(); ++i)
+                if (flag == args[i])
+                    return m_callback(args[i + 1]);
     }
 };
 

@@ -2,6 +2,8 @@
 
 #include <Options/Option.h>
 
+#include <memory>
+
 namespace opts
 {
 
@@ -19,18 +21,24 @@ auto Bool(bool& exists) -> std::function<void()>
     return [&exists]() { exists = true; };
 }
 
+auto String(std::string& str) -> std::function<void(std::string)>
+{
+    return [&str](std::string value) { str = value; };
+}
+
 class Parser
 {
     auto MakeOptionList() const -> std::string;
 
     const std::vector<std::string> m_args{};
 
-    std::vector<opts::Option> m_options{};
+    std::vector<std::shared_ptr<opts::Option>> m_options{};
 
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
+    void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
     void Parse() const;
     auto Args() const -> std::vector<std::string>;
 };
@@ -43,7 +51,7 @@ Parser::Parser(const int argc, const char* const argv[])
 Parser::Parser(const int argc, const char* const argv[], const std::string& help)
     : Parser(argc, argv)
 {
-    m_options.push_back(opts::Option("help,h", "Show this help text", [help, this]() {
+    m_options.push_back(std::make_shared<opts::BasicOption>("help,h", "Show this help text", [help, this]() {
         std::cout << help << this->MakeOptionList();
         std::exit(0);
     }));
@@ -51,7 +59,14 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
 
 void Parser::Add(const std::string& flags, const std::string& description, const std::function<void()>& callback)
 {
-    m_options.push_back(opts::Option(flags, description, callback));
+    m_options.push_back(std::make_shared<opts::BasicOption>(flags, description, callback));
+}
+
+void Parser::Add(const std::string& flags,
+                 const std::string& description,
+                 const std::function<void(std::string)>& callback)
+{
+    m_options.push_back(std::make_shared<opts::ValueOption>(flags, description, callback));
 }
 
 void Parser::Parse() const
@@ -60,7 +75,7 @@ void Parser::Parse() const
         return;
 
     for (const auto& option : m_options)
-        option.Find(m_args);
+        option->Find(m_args);
 }
 
 auto Parser::Args() const -> std::vector<std::string> { return m_args; }
@@ -69,7 +84,7 @@ auto Parser::MakeOptionList() const -> std::string
 {
     std::string option_list = "\n\nOptions";
     for (const auto& option : m_options)
-        option_list += option.Format();
+        option_list += option->Format();
 
     return option_list + '\n';
 }

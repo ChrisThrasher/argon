@@ -57,3 +57,9 @@ add_test(NAME flag--verbose--debug COMMAND example --verbose --debug)
 set_property(TEST flag--verbose--debug PROPERTY PASS_REGULAR_EXPRESSION
     "Found debug flag
 Found verbose flag")
+
+add_test(NAME flag-i COMMAND example -i /dev/ttyUSB0)
+set_property(TEST flag-i PROPERTY PASS_REGULAR_EXPRESSION "/dev/ttyUSB0")
+
+add_test(NAME flag--input COMMAND example --input /dev/ttyUSB0)
+set_property(TEST flag--input PROPERTY PASS_REGULAR_EXPRESSION "/dev/ttyUSB0")
