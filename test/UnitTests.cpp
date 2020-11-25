@@ -64,6 +64,32 @@ TEST(Add, BoolFlag)
     EXPECT_TRUE(debug);
 }
 
+TEST(Add, StringAlias)
+{
+    constexpr int argc = 5;
+    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "some more junk to ignore", "-f", "/dev/ttyUSB0"};
+
+    std::string str;
+    opts::Parser parser(argc, argv);
+    parser.Add("f", "Filename", opts::String(str));
+    EXPECT_TRUE(str.empty());
+    parser.Parse();
+    EXPECT_EQ("/dev/ttyUSB0", str);
+}
+
+TEST(Add, StringFlag)
+{
+    constexpr int argc = 5;
+    constexpr const char* argv[argc] = {"example", "-d", "--verbose", "--filename", "/dev/ttyUSB0"};
+
+    std::string str;
+    opts::Parser parser(argc, argv);
+    parser.Add("filename", "Filename", opts::String(str));
+    EXPECT_TRUE(str.empty());
+    parser.Parse();
+    EXPECT_EQ("/dev/ttyUSB0", str);
+}
+
 TEST(Args, NoArguments)
 {
     constexpr int argc = 1;
