@@ -1,6 +1,6 @@
 # options
 
-This library offers a command line parser which can detect various types of flags.
+This library offers a command line option parser which can detect various types of flags.
 
 # Usage
 
