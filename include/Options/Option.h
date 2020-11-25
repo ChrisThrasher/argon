@@ -46,17 +46,18 @@ protected:
 public:
     auto Format() const -> std::string
     {
-        std::string flags;
+        std::stringstream flags;
         std::string delim = "";
         for (const auto& flag : Flags())
         {
-            flags += delim + flag;
+            flags << delim << flag;
             delim = ", ";
         }
+        flags << ' ';
 
         std::stringstream out;
         out << std::setfill(' ');
-        out << "\n  " << std::left << std::setw(16) << flags << m_description;
+        out << "\n  " << std::left << std::setw(16) << flags.str() << m_description;
         return out.str();
     }
 
