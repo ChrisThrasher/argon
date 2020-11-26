@@ -45,6 +45,9 @@ Usage
 
 Options
   -h, --help      Show this help text
-  -v, --version   Print program version
+  --version       Print program version
   -d, --debug     Debug output
+  -v, --verbose   Verbose output
+  -c, --count     Number of instances
+  -i, --input     Input filename
 ```
