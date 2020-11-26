@@ -31,6 +31,16 @@ auto Get(int& i) -> std::function<void(std::string)>
     return [&i](std::string value) { i = std::stoi(value); };
 }
 
+auto Get(float& f) -> std::function<void(std::string)>
+{
+    return [&f](std::string value) { f = std::stof(value); };
+}
+
+auto Get(double& d) -> std::function<void(std::string)>
+{
+    return [&d](std::string value) { d = std::stod(value); };
+}
+
 class Parser
 {
     auto MakeOptionList() const -> std::string;

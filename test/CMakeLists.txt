@@ -64,8 +64,14 @@ set_property(TEST flag-i PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB
 add_test(NAME flag--input COMMAND example --input /dev/ttyUSB0)
 set_property(TEST flag--input PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB0")
 
-add_test(NAME flag-c COMMAND example -c 100 /dev/ttyUSB0)
+add_test(NAME flag-c COMMAND example -c 100)
 set_property(TEST flag-c PROPERTY PASS_REGULAR_EXPRESSION "Count: 100")
 
 add_test(NAME flag--count COMMAND example --count 42)
 set_property(TEST flag--count PROPERTY PASS_REGULAR_EXPRESSION "Count: 42")
+
+add_test(NAME flag--temp COMMAND example --temp 42.01)
+set_property(TEST flag--temp PROPERTY PASS_REGULAR_EXPRESSION "Temp: 42.01")
+
+add_test(NAME flag--speed COMMAND example --speed 10.1234)
+set_property(TEST flag--speed PROPERTY PASS_REGULAR_EXPRESSION "Speed: 10.1234")
