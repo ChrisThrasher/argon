@@ -7,7 +7,7 @@
 namespace opts
 {
 
-auto Exit(const std::string& output) -> std::function<void()>
+auto Print(const std::string& output) -> std::function<void()>
 {
     return [output]() {
         std::cout << output << std::endl;
@@ -15,15 +15,20 @@ auto Exit(const std::string& output) -> std::function<void()>
     };
 }
 
-auto Bool(bool& exists) -> std::function<void()>
+auto Find(bool& exists) -> std::function<void()>
 {
     exists = false;
     return [&exists]() { exists = true; };
 }
 
-auto String(std::string& str) -> std::function<void(std::string)>
+auto Get(std::string& str) -> std::function<void(std::string)>
 {
     return [&str](std::string value) { str = value; };
+}
+
+auto Get(int& i) -> std::function<void(std::string)>
+{
+    return [&i](std::string value) { i = std::stoi(value); };
 }
 
 class Parser

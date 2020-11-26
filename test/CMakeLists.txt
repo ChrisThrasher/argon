@@ -59,7 +59,13 @@ set_property(TEST flag--verbose--debug PROPERTY PASS_REGULAR_EXPRESSION
 Found verbose flag")
 
 add_test(NAME flag-i COMMAND example -i /dev/ttyUSB0)
-set_property(TEST flag-i PROPERTY PASS_REGULAR_EXPRESSION "/dev/ttyUSB0")
+set_property(TEST flag-i PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB0")
 
 add_test(NAME flag--input COMMAND example --input /dev/ttyUSB0)
-set_property(TEST flag--input PROPERTY PASS_REGULAR_EXPRESSION "/dev/ttyUSB0")
+set_property(TEST flag--input PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB0")
+
+add_test(NAME flag-c COMMAND example -c 100 /dev/ttyUSB0)
+set_property(TEST flag-c PROPERTY PASS_REGULAR_EXPRESSION "Count: 100")
+
+add_test(NAME flag--count COMMAND example --count 42)
+set_property(TEST flag--count PROPERTY PASS_REGULAR_EXPRESSION "Count: 42")

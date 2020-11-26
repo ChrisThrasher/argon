@@ -20,71 +20,71 @@ TEST(Help, Flag)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Add, ExitAlias)
+TEST(Add, PrintAlias)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-v"};
 
     opts::Parser parser(argc, argv);
-    parser.Add("v", "Print program version", opts::Exit("v0.0.0"));
+    parser.Add("v", "Print program version", opts::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Add, ExitFlag)
+TEST(Add, PrintFlag)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "--version"};
 
     opts::Parser parser(argc, argv);
-    parser.Add("version", "Print program version", opts::Exit("v0.0.0"));
+    parser.Add("version", "Print program version", opts::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
 }
 
-TEST(Add, BoolAlias)
+TEST(Add, FindAlias)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d"};
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add("d", "Debug output", opts::Bool(debug));
+    parser.Add("d", "Debug output", opts::Find(debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }
 
-TEST(Add, BoolFlag)
+TEST(Add, FindFlag)
 {
     constexpr int argc = 3;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "--debug"};
 
     bool debug = false;
     opts::Parser parser(argc, argv);
-    parser.Add("debug", "Debug output", opts::Bool(debug));
+    parser.Add("debug", "Debug output", opts::Find(debug));
     parser.Parse();
     EXPECT_TRUE(debug);
 }
 
-TEST(Add, StringAlias)
+TEST(Add, GetStringAlias)
 {
     constexpr int argc = 5;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "some more junk to ignore", "-f", "/dev/ttyUSB0"};
 
     std::string str;
     opts::Parser parser(argc, argv);
-    parser.Add("f", "Filename", opts::String(str));
+    parser.Add("f", "Filename", opts::Get(str));
     EXPECT_TRUE(str.empty());
     parser.Parse();
     EXPECT_EQ("/dev/ttyUSB0", str);
 }
 
-TEST(Add, StringFlag)
+TEST(Add, GetStringFlag)
 {
     constexpr int argc = 5;
     constexpr const char* argv[argc] = {"example", "-d", "--verbose", "--filename", "/dev/ttyUSB0"};
 
     std::string str;
     opts::Parser parser(argc, argv);
-    parser.Add("filename", "Filename", opts::String(str));
+    parser.Add("filename", "Filename", opts::Get(str));
     EXPECT_TRUE(str.empty());
     parser.Parse();
     EXPECT_EQ("/dev/ttyUSB0", str);
