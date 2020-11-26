@@ -1,3 +1,10 @@
+# options
+
+This library offers a command line option parser which can detect various types of flags.
+
+# Usage
+
+```cpp
 #include <Options/Parser.h>
 
 constexpr auto help = R"(Usage
@@ -31,3 +38,22 @@ int main(int argc, char* argv[])
     std::cout << "Speed: " << speed << '\n';
     std::cout << "Filename: " << filename << '\n';
 }
+```
+
+Create an instance of `opts::Parser`. Use `Add` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The last is a callback. `opts::Print` is helper function providing a callback that prints the provided string before exiting the program. `opts::Find` will set a boolean value `true` if that flag is found. `opts::Get` will retrieve either a string, integer, float, or double provided immediately after this flag is found.
+
+To supply a help text that automatically appends all options, use the 3-argument constructor as seen above. Here's what that looks like.
+
+```
+$ example --help
+Usage
+  example [options]
+
+Options
+  -h, --help      Show this help text
+  --version       Print program version
+  -d, --debug     Debug output
+  -v, --verbose   Verbose output
+  -c, --count     Number of instances
+  -i, --input     Input filename
+```

@@ -30,16 +30,48 @@ add_test(NAME flag-h COMMAND example -h)
 set_property(TEST flag-h PROPERTY PASS_REGULAR_EXPRESSION
     ".*Options
   -h, --help      Show this help text
-  -v, --version   Print program version")
+  --version       Print program version
+  -d, --debug     Debug output
+  -v, --verbose   Verbose output")
 
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
     ".*Options
   -h, --help      Show this help text
-  -v, --version   Print program version")
-
-add_test(NAME flag-v COMMAND example -v)
-set_property(TEST flag-v PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
+  --version       Print program version
+  -d, --debug     Debug output
+  -v, --verbose   Verbose output")
 
 add_test(NAME flag--version COMMAND example --version)
 set_property(TEST flag--version PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
+
+add_test(NAME flag--debug COMMAND example --debug)
+set_property(TEST flag--debug PROPERTY PASS_REGULAR_EXPRESSION "Found debug flag")
+
+add_test(NAME flag-vd COMMAND example -v -d)
+set_property(TEST flag-vd PROPERTY PASS_REGULAR_EXPRESSION
+    "Found debug flag
+Found verbose flag")
+
+add_test(NAME flag--verbose--debug COMMAND example --verbose --debug)
+set_property(TEST flag--verbose--debug PROPERTY PASS_REGULAR_EXPRESSION
+    "Found debug flag
+Found verbose flag")
+
+add_test(NAME flag-i COMMAND example -i /dev/ttyUSB0)
+set_property(TEST flag-i PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB0")
+
+add_test(NAME flag--input COMMAND example --input /dev/ttyUSB0)
+set_property(TEST flag--input PROPERTY PASS_REGULAR_EXPRESSION "Filename: /dev/ttyUSB0")
+
+add_test(NAME flag-c COMMAND example -c 100)
+set_property(TEST flag-c PROPERTY PASS_REGULAR_EXPRESSION "Count: 100")
+
+add_test(NAME flag--count COMMAND example --count 42)
+set_property(TEST flag--count PROPERTY PASS_REGULAR_EXPRESSION "Count: 42")
+
+add_test(NAME flag--temp COMMAND example --temp 42.01)
+set_property(TEST flag--temp PROPERTY PASS_REGULAR_EXPRESSION "Temp: 42.01")
+
+add_test(NAME flag--speed COMMAND example --speed 10.1234)
+set_property(TEST flag--speed PROPERTY PASS_REGULAR_EXPRESSION "Speed: 10.1234")
