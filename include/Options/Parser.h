@@ -97,11 +97,13 @@ auto Parser::Args() const -> std::vector<std::string> { return m_args; }
 
 auto Parser::MakeOptionList() const -> std::string
 {
-    std::string option_list = "\n\nOptions";
+    std::stringstream option_list;
+    option_list << "\n\nOptions";
     for (const auto& option : m_options)
-        option_list += option->Format();
+        option_list << option->Format();
+    option_list << '\n';
 
-    return option_list + '\n';
+    return option_list.str();
 }
 
 } // namespace opts
