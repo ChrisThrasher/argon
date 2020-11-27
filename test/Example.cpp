@@ -21,13 +21,4 @@ int main(int argc, char* argv[])
     parser.Add("speed", "Initial speed", opts::Get(speed));
     parser.Add("i,input", "Input filename", opts::Get(filename));
     parser.Parse();
-
-    if (debug)
-        std::cout << "Found debug flag\n";
-    if (verbose)
-        std::cout << "Found verbose flag\n";
-    std::cout << "Count: " << count << '\n';
-    std::cout << "Temp: " << temp << '\n';
-    std::cout << "Speed: " << speed << '\n';
-    std::cout << "Filename: " << filename << '\n';
 }
