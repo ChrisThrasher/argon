@@ -40,54 +40,47 @@ TEST(Add, PrintFlag)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
-TEST(Add, FindAlias)
+TEST(Add, FindOption)
 {
-    constexpr int argc = 3;
-    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d"};
+    constexpr int argc = 4;
+    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d", "--verbose"};
 
     bool debug = false;
+    bool verbose = false;
+    bool not_found = false;
+
     opts::Parser parser(argc, argv);
     parser.Add("d", "Debug output", opts::Find(debug));
+    parser.Add("verbose,V", "Verbose output", opts::Find(verbose));
+    parser.Add("not_found", "Flag not found", opts::Find(not_found));
     parser.Parse();
+
     EXPECT_TRUE(debug);
+    EXPECT_TRUE(verbose);
+    EXPECT_FALSE(not_found);
 }
 
-TEST(Add, FindFlag)
+TEST(Add, Get)
 {
-    constexpr int argc = 3;
-    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "--debug"};
+    constexpr int argc = 10;
+    constexpr const char* argv[argc] = {"example", "-f", "/dev/ttyUSB0", "--unmatched-flag", "-c", "100", "--temp", "98.6", "--speed", "133.7"};
 
-    bool debug = false;
+    std::string filename;
+    auto count = 0;
+    auto temp = 0.0f;
+    auto speed = 0.0;
+
     opts::Parser parser(argc, argv);
-    parser.Add("debug", "Debug output", opts::Find(debug));
+    parser.Add("f", "Filename", opts::Get(filename));
+    parser.Add("count,c", "Count", opts::Get(count));
+    parser.Add("temp", "Temperature", opts::Get(temp));
+    parser.Add("speed", "Speed", opts::Get(speed));
     parser.Parse();
-    EXPECT_TRUE(debug);
-}
 
-TEST(Add, GetStringAlias)
-{
-    constexpr int argc = 5;
-    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "some more junk to ignore", "-f", "/dev/ttyUSB0"};
-
-    std::string str;
-    opts::Parser parser(argc, argv);
-    parser.Add("f", "Filename", opts::Get(str));
-    EXPECT_TRUE(str.empty());
-    parser.Parse();
-    EXPECT_EQ("/dev/ttyUSB0", str);
-}
-
-TEST(Add, GetStringFlag)
-{
-    constexpr int argc = 5;
-    constexpr const char* argv[argc] = {"example", "-d", "--verbose", "--filename", "/dev/ttyUSB0"};
-
-    std::string str;
-    opts::Parser parser(argc, argv);
-    parser.Add("filename", "Filename", opts::Get(str));
-    EXPECT_TRUE(str.empty());
-    parser.Parse();
-    EXPECT_EQ("/dev/ttyUSB0", str);
+    EXPECT_EQ("/dev/ttyUSB0", filename);
+    EXPECT_EQ(100, count);
+    EXPECT_EQ(98.6f, temp);
+    EXPECT_EQ(133.7, speed);
 }
 
 TEST(Args, NoArguments)
