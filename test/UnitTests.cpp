@@ -8,7 +8,7 @@ TEST(Help, Alias)
     constexpr const char* argv[argc] = {"options", "-h"};
 
     opts::Parser parser(argc, argv, "my help text");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
 TEST(Help, Flag)
@@ -17,7 +17,7 @@ TEST(Help, Flag)
     constexpr const char* argv[argc] = {"options", "--help"};
 
     opts::Parser parser(argc, argv, "my help text");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
 TEST(Add, PrintAlias)
@@ -27,7 +27,7 @@ TEST(Add, PrintAlias)
 
     opts::Parser parser(argc, argv);
     parser.Add("v", "Print program version", opts::Print("v0.0.0"));
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
 TEST(Add, PrintFlag)
@@ -37,7 +37,7 @@ TEST(Add, PrintFlag)
 
     opts::Parser parser(argc, argv);
     parser.Add("version", "Print program version", opts::Print("v0.0.0"));
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "");
+    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
 TEST(Add, FindAlias)

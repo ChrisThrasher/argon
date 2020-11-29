@@ -10,7 +10,7 @@ namespace opts
 auto Print(const std::string& output) -> std::function<void()>
 {
     return [output]() {
-        std::cout << output << std::endl;
+        std::cerr << output << std::endl;
         std::exit(0);
     };
 }
@@ -67,7 +67,7 @@ Parser::Parser(const int argc, const char* const argv[], const std::string& help
     : Parser(argc, argv)
 {
     m_options.push_back(std::make_shared<opts::BasicOption>("help,h", "Show this help text", [help, this]() {
-        std::cout << help << this->MakeOptionList();
+        std::cerr << help << this->MakeOptionList();
         std::exit(0);
     }));
 }
