@@ -61,7 +61,6 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    Parser(const int, const char* const[], const std::string&);
     void Add(const std::string&, const std::string&, const Usage&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
     void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
@@ -72,12 +71,6 @@ public:
 Parser::Parser(const int argc, const char* const argv[])
     : m_args(std::vector<std::string>(argv + 1, argv + argc))
 {
-}
-
-Parser::Parser(const int argc, const char* const argv[], const std::string& help)
-    : Parser(argc, argv)
-{
-    Add("h,help", "Show this help text", opts::Usage(help));
 }
 
 void Parser::Add(const std::string& flags, const std::string& description, const Usage& usage)

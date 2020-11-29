@@ -2,21 +2,13 @@
 
 #include <gtest/gtest.h>
 
-TEST(Help, Alias)
+TEST(Add, Usage)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-h"};
 
-    opts::Parser parser(argc, argv, "my help text");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
-}
-
-TEST(Help, Flag)
-{
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "--help"};
-
-    opts::Parser parser(argc, argv, "my help text");
+    opts::Parser parser(argc, argv);
+    parser.Add("h,help", "Show this help text", opts::Usage("my help text"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
