@@ -7,6 +7,16 @@
 namespace opts
 {
 
+struct Usage
+{
+    const std::string help;
+
+    Usage(const std::string& a_help)
+        : help(a_help)
+    {
+    }
+};
+
 auto Print(const std::string& output) -> std::function<void()>
 {
     return [output]() {
@@ -52,6 +62,7 @@ class Parser
 public:
     Parser(const int, const char* const[]);
     Parser(const int, const char* const[], const std::string&);
+    void Add(const std::string&, const std::string&, const Usage&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
     void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
     void Parse() const;
@@ -66,8 +77,13 @@ Parser::Parser(const int argc, const char* const argv[])
 Parser::Parser(const int argc, const char* const argv[], const std::string& help)
     : Parser(argc, argv)
 {
-    m_options.push_back(std::make_shared<opts::BasicOption>("help,h", "Show this help text", [help, this]() {
-        std::cerr << help << this->MakeOptionList();
+    Add("h,help", "Show this help text", opts::Usage(help));
+}
+
+void Parser::Add(const std::string& flags, const std::string& description, const Usage& usage)
+{
+    m_options.push_back(std::make_shared<opts::BasicOption>(flags, description, [usage, this]() {
+        std::cerr << usage.help << this->MakeOptionList();
         std::exit(0);
     }));
 }
