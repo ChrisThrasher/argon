@@ -100,9 +100,18 @@ public:
     virtual void Find(const std::vector<std::string>& args) const
     {
         for (const auto& flag : Flags())
-            for (size_t i = 0; i + 1 < args.size(); ++i)
+        {
+            for (size_t i = 0; i < args.size(); ++i)
+            {
                 if (flag == args[i])
-                    return m_callback(args[i + 1]);
+                {
+                    if (i + 1 < args.size())
+                        return m_callback(args[i + 1]);
+                    else
+                        throw std::runtime_error("Error: Option '" + flag + "' requires a value");
+                }
+            }
+        }
     }
 };
 

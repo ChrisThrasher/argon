@@ -83,6 +83,18 @@ TEST(Add, Get)
     EXPECT_EQ(133.7, speed);
 }
 
+TEST(Add, GetThrows)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"program", "--filename"};
+
+    std::string filename;
+
+    opts::Parser parser(argc, argv);
+    parser.Add("filename", "Filename", opts::Get(filename));
+    EXPECT_THROW(parser.Parse(), std::runtime_error);
+}
+
 TEST(Args, NoArguments)
 {
     constexpr int argc = 1;
