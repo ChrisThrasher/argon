@@ -75,10 +75,10 @@ Parser::Parser(const int argc, const char* const argv[])
 
 void Parser::Add(const std::string& flags, const std::string& description, const Usage& usage)
 {
-    m_options.push_back(std::make_shared<opts::BasicOption>(flags, description, [usage, this]() {
+    Add(flags, description, [usage, this]() {
         std::cerr << usage.help << this->MakeOptionList();
         std::exit(0);
-    }));
+    });
 }
 
 void Parser::Add(const std::string& flags, const std::string& description, const std::function<void()>& callback)
