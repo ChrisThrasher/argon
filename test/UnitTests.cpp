@@ -59,19 +59,16 @@ TEST(Add, Get)
 
     std::string filename;
     auto count = 0;
-    auto temp = 0.0f;
     auto speed = 0.0;
 
     opts::Parser parser(argc, argv);
     parser.Add("f", "Filename", opts::Get(filename));
     parser.Add("count,c", "Count", opts::Get(count));
-    parser.Add("temp", "Temperature", opts::Get(temp));
     parser.Add("speed", "Speed", opts::Get(speed));
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
-    EXPECT_EQ(98.6f, temp);
     EXPECT_EQ(133.7, speed);
 }
 
