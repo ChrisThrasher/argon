@@ -42,7 +42,7 @@ class Parser
 {
     auto MakeOptionList() const -> std::string;
 
-    const std::vector<std::string> m_args{};
+    std::vector<std::string> m_args{};
 
     std::vector<std::shared_ptr<opts::Option>> m_options{};
 
@@ -51,7 +51,7 @@ public:
     void Add(const std::string&, const std::string&, const std::string&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
     void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
-    void Parse() const;
+    void Parse();
     auto Args() const -> std::vector<std::string>;
 };
 
@@ -80,7 +80,7 @@ void Parser::Add(const std::string& flags,
     m_options.push_back(std::make_shared<opts::ValueOption>(flags, description, callback));
 }
 
-void Parser::Parse() const
+void Parser::Parse()
 {
     if (m_args.empty())
         return;
