@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace opts
+namespace argon
 {
 
 class Option
@@ -113,4 +113,4 @@ public:
     }
 };
 
-} // namespace opts
+} // namespace argon
