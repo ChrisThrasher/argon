@@ -1,7 +1,9 @@
 #pragma once
 
 #include <argon/Option.h>
+#include <argon/Position.h>
 
+#include <map>
 #include <memory>
 
 namespace argon
@@ -9,17 +11,19 @@ namespace argon
 
 class Parser
 {
-    auto MakeOptionList() const -> std::string;
+    auto MakeArgumentList() const -> std::string;
 
     std::vector<std::string> m_args{};
 
     std::vector<std::shared_ptr<argon::Option>> m_options{};
+    std::vector<argon::Position> m_positions{};
 
 public:
     Parser(const int, const char* const[]);
     void Add(const std::string&, const std::string&, const std::string&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
     void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
+    void Add(const std::string&, const std::string&);
     void Parse();
     auto Args() const -> std::vector<std::string>;
 };
@@ -32,7 +36,7 @@ Parser::Parser(const int argc, const char* const argv[])
 void Parser::Add(const std::string& flags, const std::string& description, const std::string& usage)
 {
     Add(flags, description, [usage, this]() {
-        std::cerr << usage << this->MakeOptionList();
+        std::cerr << usage << this->MakeArgumentList();
         std::exit(0);
     });
 }
@@ -49,6 +53,11 @@ void Parser::Add(const std::string& flags,
     m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
 }
 
+void Parser::Add(const std::string& name, const std::string& description)
+{
+    m_positions.push_back({name, description});
+}
+
 void Parser::Parse()
 {
     if (m_args.empty())
@@ -60,15 +69,26 @@ void Parser::Parse()
 
 auto Parser::Args() const -> std::vector<std::string> { return m_args; }
 
-auto Parser::MakeOptionList() const -> std::string
+auto Parser::MakeArgumentList() const -> std::string
 {
-    std::stringstream option_list;
-    option_list << "\n\nOptions";
-    for (const auto& option : m_options)
-        option_list << option->Format();
-    option_list << '\n';
+    std::stringstream arg_list;
 
-    return option_list.str();
+    if (not m_positions.empty())
+    {
+        arg_list << "\n\nPositions";
+        for (const auto& position : m_positions)
+        {
+            arg_list << std::setfill(' ');
+            arg_list << "\n  " << std::left << std::setw(16) << position.name << position.description;
+        }
+    }
+
+    arg_list << "\n\nOptions";
+    for (const auto& option : m_options)
+        arg_list << option->Format();
+    arg_list << '\n';
+
+    return arg_list.str();
 }
 
 auto Usage(const std::string& output) -> std::string { return output; }

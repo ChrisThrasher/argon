@@ -28,17 +28,12 @@ add_test(NAME unit_tests COMMAND unit_tests)
 add_executable(example Example.cpp)
 target_link_libraries(example PRIVATE argon)
 
-add_test(NAME flag-h COMMAND example -h)
-set_property(TEST flag-h PROPERTY PASS_REGULAR_EXPRESSION
-    ".*Options
-  -h, --help      Show this help text
-  --version       Print program version
-  -d, --debug     Debug output
-  -v, --verbose   Verbose output")
-
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
-    ".*Options
+    ".*Positions
+  filename        Input file
+
+Options
   -h, --help      Show this help text
   --version       Print program version
   -d, --debug     Debug output

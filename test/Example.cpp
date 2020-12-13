@@ -1,7 +1,7 @@
 #include <argon/Parser.h>
 
 constexpr auto help = R"(Usage
-  example [options])";
+  example <filename> [options])";
 
 int main(int argc, char* argv[])
 {
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     bool verbose = false;
     int count = 0;
     double speed = 0.0;
-    std::string filename = "";
+    std::string output = "";
 
     argon::Parser parser(argc, argv);
     parser.Add("h,help", "Show this help text", argon::Usage(help));
@@ -18,6 +18,9 @@ int main(int argc, char* argv[])
     parser.Add("v,verbose", "Verbose output", argon::Find(verbose));
     parser.Add("c,count", "Number of instances", argon::Get(count));
     parser.Add("speed", "Initial speed", argon::Get(speed));
-    parser.Add("i,input", "Input filename", argon::Get(filename));
+    parser.Add("o,output", "Output filename", argon::Get(output));
+    parser.Add("filename", "Input file");
     parser.Parse();
+
+    const auto filename = parser.Args().at(0);
 }
