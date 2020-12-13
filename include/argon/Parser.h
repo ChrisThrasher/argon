@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Options/Option.h>
+#include <argon/Option.h>
 
 #include <memory>
 
-namespace opts
+namespace argon
 {
 
 class Parser
@@ -13,7 +13,7 @@ class Parser
 
     std::vector<std::string> m_args{};
 
-    std::vector<std::shared_ptr<opts::Option>> m_options{};
+    std::vector<std::shared_ptr<argon::Option>> m_options{};
 
 public:
     Parser(const int, const char* const[]);
@@ -39,14 +39,14 @@ void Parser::Add(const std::string& flags, const std::string& description, const
 
 void Parser::Add(const std::string& flags, const std::string& description, const std::function<void()>& callback)
 {
-    m_options.push_back(std::make_shared<opts::BasicOption>(flags, description, callback));
+    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
 }
 
 void Parser::Add(const std::string& flags,
                  const std::string& description,
                  const std::function<void(std::string)>& callback)
 {
-    m_options.push_back(std::make_shared<opts::ValueOption>(flags, description, callback));
+    m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
 }
 
 void Parser::Parse()
@@ -102,4 +102,4 @@ auto Get(double& d) -> std::function<void(std::string)>
     return [&d](std::string value) { d = std::stod(value); };
 }
 
-} // namespace opts
+} // namespace argon

@@ -1,34 +1,34 @@
-#include <Options/Parser.h>
+#include <argon/Parser.h>
 
 #include <gtest/gtest.h>
 
 TEST(Add, Usage)
 {
     constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "-h"};
+    constexpr const char* argv[argc] = {"example", "-h"};
 
-    opts::Parser parser(argc, argv);
-    parser.Add("h,help", "Show this help text", opts::Usage("my help text"));
+    argon::Parser parser(argc, argv);
+    parser.Add("h,help", "Show this help text", argon::Usage("my help text"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
 TEST(Add, PrintAlias)
 {
     constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "-v"};
+    constexpr const char* argv[argc] = {"example", "-v"};
 
-    opts::Parser parser(argc, argv);
-    parser.Add("v", "Print program version", opts::Print("v0.0.0"));
+    argon::Parser parser(argc, argv);
+    parser.Add("v", "Print program version", argon::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
 TEST(Add, PrintFlag)
 {
     constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "--version"};
+    constexpr const char* argv[argc] = {"example", "--version"};
 
-    opts::Parser parser(argc, argv);
-    parser.Add("version", "Print program version", opts::Print("v0.0.0"));
+    argon::Parser parser(argc, argv);
+    parser.Add("version", "Print program version", argon::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
@@ -41,10 +41,10 @@ TEST(Add, FindOption)
     bool verbose = false;
     bool not_found = false;
 
-    opts::Parser parser(argc, argv);
-    parser.Add("d", "Debug output", opts::Find(debug));
-    parser.Add("verbose,V", "Verbose output", opts::Find(verbose));
-    parser.Add("not_found", "Flag not found", opts::Find(not_found));
+    argon::Parser parser(argc, argv);
+    parser.Add("d", "Debug output", argon::Find(debug));
+    parser.Add("verbose,V", "Verbose output", argon::Find(verbose));
+    parser.Add("not_found", "Flag not found", argon::Find(not_found));
     parser.Parse();
 
     EXPECT_TRUE(debug);
@@ -61,10 +61,10 @@ TEST(Add, Get)
     auto count = 0;
     auto speed = 0.0;
 
-    opts::Parser parser(argc, argv);
-    parser.Add("f", "Filename", opts::Get(filename));
-    parser.Add("count,c", "Count", opts::Get(count));
-    parser.Add("speed", "Speed", opts::Get(speed));
+    argon::Parser parser(argc, argv);
+    parser.Add("f", "Filename", argon::Get(filename));
+    parser.Add("count,c", "Count", argon::Get(count));
+    parser.Add("speed", "Speed", argon::Get(speed));
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);
@@ -77,21 +77,21 @@ TEST(Args, NoArguments)
 {
     constexpr int argc = 1;
     constexpr const char* argv[argc] = {"my_program_name"};
-    EXPECT_EQ(std::vector<std::string>({}), opts::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({}), argon::Parser(argc, argv).Args());
 }
 
 TEST(Args, OneArgument)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"my_program_name", "some_input"};
-    EXPECT_EQ(std::vector<std::string>({"some_input"}), opts::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({"some_input"}), argon::Parser(argc, argv).Args());
 }
 
 TEST(Args, MultipleArgument)
 {
     constexpr int argc = 4;
     constexpr const char* argv[argc] = {"my_program_name", "some_input", "abc", "123"};
-    EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), opts::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), argon::Parser(argc, argv).Args());
 }
 
 int main(int argc, char* argv[])

@@ -26,7 +26,7 @@ target_compile_options(unit_tests PRIVATE
 add_test(NAME unit_tests COMMAND unit_tests)
 
 add_executable(example Example.cpp)
-target_link_libraries(example PRIVATE options)
+target_link_libraries(example PRIVATE argon)
 
 add_test(NAME flag-h COMMAND example -h)
 set_property(TEST flag-h PROPERTY PASS_REGULAR_EXPRESSION

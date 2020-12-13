@@ -1,11 +1,11 @@
-# options
+# argon
 
-This library offers a command line option parser which can detect various types of flags.
+Argon is a command line argument parser which supports optional and positional arguments.
 
 # Usage
 
 ```cpp
-#include <Options/Parser.h>
+#include <argon/Parser.h>
 
 constexpr auto help = R"(Usage
   example [options])";
@@ -18,19 +18,19 @@ int main(int argc, char* argv[])
     double speed = 0.0;
     std::string filename = "";
 
-    opts::Parser parser(argc, argv);
-    parser.Add("h,help", "Show this help text", opts::Usage(help));
-    parser.Add("version", "Print program version", opts::Print("v0.0.0"));
-    parser.Add("d,debug", "Debug output", opts::Find(debug));
-    parser.Add("v,verbose", "Verbose output", opts::Find(verbose));
-    parser.Add("c,count", "Number of instances", opts::Get(count));
-    parser.Add("speed", "Initial speed", opts::Get(speed));
-    parser.Add("i,input", "Input filename", opts::Get(filename));
+    argon::Parser parser(argc, argv);
+    parser.Add("h,help", "Show this help text", argon::Usage(help));
+    parser.Add("version", "Print program version", argon::Print("v0.0.0"));
+    parser.Add("d,debug", "Debug output", argon::Find(debug));
+    parser.Add("v,verbose", "Verbose output", argon::Find(verbose));
+    parser.Add("c,count", "Number of instances", argon::Get(count));
+    parser.Add("speed", "Initial speed", argon::Get(speed));
+    parser.Add("i,input", "Input filename", argon::Get(filename));
     parser.Parse();
 }
 ```
 
-Create an instance of `opts::Parser`. Use `Add` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The last is a callback. `opts::Usage` is used for help text. It prints a list of all options after the provided usage information. `opts::Print` is helper function providing a callback that prints the provided string before exiting the program. `opts::Find` will set a boolean value `true` if that flag is found. `opts::Get` will retrieve either a string, integer, float, or double provided immediately after this flag is found.
+Create an instance of `argon::Parser`. Use `Add` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The last is a callback. `argon::Usage` is used for help text. It prints a list of all options after the provided usage information. `argon::Print` is helper function providing a callback that prints the provided string before exiting the program. `argon::Find` will set a boolean value `true` if that flag is found. `argon::Get` will retrieve either a string, integer, float, or double provided immediately after this flag is found.
 
 Here's what the formatted usage information looks like:
 
