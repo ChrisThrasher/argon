@@ -55,7 +55,7 @@ void Parser::Add(const std::string& flags,
 
 void Parser::Add(const std::string& name, const std::string& description)
 {
-    m_positions.push_back({name, description});
+    m_positions.push_back(argon::Position(name, description));
 }
 
 void Parser::Parse()
@@ -77,10 +77,7 @@ auto Parser::MakeArgumentList() const -> std::string
     {
         arg_list << "\n\nPositions";
         for (const auto& position : m_positions)
-        {
-            arg_list << std::setfill(' ');
-            arg_list << "\n  " << std::left << std::setw(16) << position.name << position.description;
-        }
+            arg_list << position.Format();
     }
 
     arg_list << "\n\nOptions";
