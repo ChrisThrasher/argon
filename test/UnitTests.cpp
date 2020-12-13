@@ -70,6 +70,7 @@ TEST(Add, Get)
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
     EXPECT_EQ(133.7, speed);
+    EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.Args());
 }
 
 TEST(Args, NoArguments)
