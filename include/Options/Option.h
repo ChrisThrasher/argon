@@ -77,8 +77,8 @@ public:
 
     virtual void Find(std::vector<std::string>& args) const
     {
-        for (const auto& flag : Flags())
-            for (auto it = args.begin(); it < args.end(); ++it)
+        for (auto it = args.begin(); it < args.end(); ++it)
+            for (const auto& flag : Flags())
                 if (flag == *it)
                 {
                     args.erase(it);
@@ -102,8 +102,8 @@ public:
 
     virtual void Find(std::vector<std::string>& args) const
     {
-        for (const auto& flag : Flags())
-            for (auto it = args.begin(); it + 1 < args.end(); ++it)
+        for (auto it = args.begin(); it + 1 < args.end(); ++it)
+            for (const auto& flag : Flags())
                 if (flag == *it)
                 {
                     m_callback(*(it + 1));
