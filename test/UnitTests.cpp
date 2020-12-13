@@ -2,21 +2,13 @@
 
 #include <gtest/gtest.h>
 
-TEST(Help, Alias)
+TEST(Add, Usage)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"options", "-h"};
 
-    opts::Parser parser(argc, argv, "my help text");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
-}
-
-TEST(Help, Flag)
-{
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"options", "--help"};
-
-    opts::Parser parser(argc, argv, "my help text");
+    opts::Parser parser(argc, argv);
+    parser.Add("h,help", "Show this help text", opts::Usage("my help text"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
@@ -67,20 +59,18 @@ TEST(Add, Get)
 
     std::string filename;
     auto count = 0;
-    auto temp = 0.0f;
     auto speed = 0.0;
 
     opts::Parser parser(argc, argv);
     parser.Add("f", "Filename", opts::Get(filename));
     parser.Add("count,c", "Count", opts::Get(count));
-    parser.Add("temp", "Temperature", opts::Get(temp));
     parser.Add("speed", "Speed", opts::Get(speed));
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
-    EXPECT_EQ(98.6f, temp);
     EXPECT_EQ(133.7, speed);
+    EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.Args());
 }
 
 TEST(Args, NoArguments)

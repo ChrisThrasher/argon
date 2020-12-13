@@ -61,7 +61,7 @@ public:
         return out.str();
     }
 
-    virtual void Find(const std::vector<std::string>& args) const = 0;
+    virtual void Find(std::vector<std::string>& args) const = 0;
 };
 
 class BasicOption final : public Option
@@ -75,12 +75,15 @@ public:
     {
     }
 
-    virtual void Find(const std::vector<std::string>& args) const
+    virtual void Find(std::vector<std::string>& args) const
     {
-        for (const auto& flag : Flags())
-            for (const auto& arg : args)
-                if (flag == arg)
+        for (auto it = args.begin(); it < args.end(); ++it)
+            for (const auto& flag : Flags())
+                if (flag == *it)
+                {
+                    args.erase(it);
                     return m_callback();
+                }
     }
 };
 
@@ -97,12 +100,16 @@ public:
     {
     }
 
-    virtual void Find(const std::vector<std::string>& args) const
+    virtual void Find(std::vector<std::string>& args) const
     {
-        for (const auto& flag : Flags())
-            for (size_t i = 0; i + 1 < args.size(); ++i)
-                if (flag == args[i])
-                    return m_callback(args[i + 1]);
+        for (auto it = args.begin(); it + 1 < args.end(); ++it)
+            for (const auto& flag : Flags())
+                if (flag == *it)
+                {
+                    m_callback(*(it + 1));
+                    args.erase(it, it + 2);
+                    return;
+                }
     }
 };
 
