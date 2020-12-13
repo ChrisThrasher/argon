@@ -7,15 +7,7 @@
 namespace opts
 {
 
-struct Usage
-{
-    const std::string help;
-
-    Usage(const std::string& a_help)
-        : help(a_help)
-    {
-    }
-};
+auto Usage(const std::string& output) -> std::string { return output; }
 
 auto Print(const std::string& output) -> std::function<void()>
 {
@@ -56,7 +48,7 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void Add(const std::string&, const std::string&, const Usage&);
+    void Add(const std::string&, const std::string&, const std::string&);
     void Add(const std::string&, const std::string&, const std::function<void()>&);
     void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
     void Parse() const;
@@ -68,10 +60,10 @@ Parser::Parser(const int argc, const char* const argv[])
 {
 }
 
-void Parser::Add(const std::string& flags, const std::string& description, const Usage& usage)
+void Parser::Add(const std::string& flags, const std::string& description, const std::string& usage)
 {
     Add(flags, description, [usage, this]() {
-        std::cerr << usage.help << this->MakeOptionList();
+        std::cerr << usage << this->MakeOptionList();
         std::exit(0);
     });
 }
