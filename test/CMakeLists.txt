@@ -37,7 +37,9 @@ Options
   -h, --help      Show this help text
   --version       Print program version
   -d, --debug     Debug output
-  -v, --verbose   Verbose output")
+  -c, --count     Number of instances
+  --speed         Initial speed
+  -o, --output    Output filename")
 
 add_test(NAME flag--version COMMAND example --version)
 set_property(TEST flag--version PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
