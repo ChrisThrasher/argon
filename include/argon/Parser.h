@@ -69,7 +69,7 @@ void Parser::Parse()
     if (m_positions.size() > m_args.size())
     {
         std::stringstream what;
-        what << "Expect " << m_positions.size() << " positional arguments. Received " << m_args.size();
+        what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size();
         what << MakeArgumentList();
         throw std::runtime_error(what.str());
     }
