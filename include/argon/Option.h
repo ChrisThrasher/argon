@@ -103,10 +103,12 @@ public:
 
     virtual void Find(std::vector<std::string>& args) const
     {
-        for (auto it = args.begin(); it + 1 < args.end(); ++it)
+        for (auto it = args.begin(); it < args.end(); ++it)
             for (const auto& flag : Flags())
                 if (flag == *it)
                 {
+                    if (it + 1 == args.end())
+                        throw std::runtime_error("Found option \"" + flag + "\" but no value was provided");
                     m_callback(*(it + 1));
                     args.erase(it, it + 2);
                     return;
