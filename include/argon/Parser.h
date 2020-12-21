@@ -20,9 +20,9 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void Add(const std::string&, const std::string&, const std::string&);
-    void Add(const std::string&, const std::string&, const std::function<void()>&);
-    void Add(const std::string&, const std::string&, const std::function<void(std::string)>&);
+    void AddOption(const std::string&, const std::string&, const std::string&);
+    void AddOption(const std::string&, const std::string&, const std::function<void()>&);
+    void AddOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
     void Add(const std::string&, const std::string&);
     void Parse();
     auto Args() const -> std::vector<std::string>;
@@ -33,22 +33,22 @@ Parser::Parser(const int argc, const char* const argv[])
 {
 }
 
-void Parser::Add(const std::string& flags, const std::string& description, const std::string& usage)
+void Parser::AddOption(const std::string& flags, const std::string& description, const std::string& usage)
 {
-    Add(flags, description, [usage, this]() {
+    AddOption(flags, description, [usage, this]() {
         std::cerr << usage << this->MakeArgumentList();
         std::exit(0);
     });
 }
 
-void Parser::Add(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+void Parser::AddOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
 {
     m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
 }
 
-void Parser::Add(const std::string& flags,
-                 const std::string& description,
-                 const std::function<void(std::string)>& callback)
+void Parser::AddOption(const std::string& flags,
+                       const std::string& description,
+                       const std::function<void(std::string)>& callback)
 {
     m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
 }
