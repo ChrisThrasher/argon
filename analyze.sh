@@ -1,3 +1,3 @@
 #!/bin/bash
 
-clang-tidy test/Example.cpp include/Options/*.h -p build/compile_commands.json
+clang-tidy `find include -name *.h` test/Example.cpp -p build/compile_commands.json

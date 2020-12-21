@@ -2,37 +2,37 @@
 
 #include <gtest/gtest.h>
 
-TEST(Add, Usage)
+TEST(AddOption, Usage)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"example", "-h"};
 
     argon::Parser parser(argc, argv);
-    parser.Add("h,help", "Show this help text", argon::Usage("my help text"));
+    parser.AddOption("h,help", "Show this help text", argon::Usage("my help text"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
-TEST(Add, PrintAlias)
+TEST(AddOption, PrintAlias)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"example", "-v"};
 
     argon::Parser parser(argc, argv);
-    parser.Add("v", "Print program version", argon::Print("v0.0.0"));
+    parser.AddOption("v", "Print program version", argon::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
-TEST(Add, PrintFlag)
+TEST(AddOption, PrintFlag)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"example", "--version"};
 
     argon::Parser parser(argc, argv);
-    parser.Add("version", "Print program version", argon::Print("v0.0.0"));
+    parser.AddOption("version", "Print program version", argon::Print("v0.0.0"));
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
-TEST(Add, FindOption)
+TEST(AddOption, FindOption)
 {
     constexpr int argc = 4;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d", "--verbose"};
@@ -42,9 +42,9 @@ TEST(Add, FindOption)
     bool not_found = false;
 
     argon::Parser parser(argc, argv);
-    parser.Add("d", "Debug output", argon::Find(debug));
-    parser.Add("verbose,V", "Verbose output", argon::Find(verbose));
-    parser.Add("not_found", "Flag not found", argon::Find(not_found));
+    parser.AddOption("d", "Debug output", argon::Find(debug));
+    parser.AddOption("verbose,V", "Verbose output", argon::Find(verbose));
+    parser.AddOption("not_found", "Flag not found", argon::Find(not_found));
     parser.Parse();
 
     EXPECT_TRUE(debug);
@@ -52,7 +52,7 @@ TEST(Add, FindOption)
     EXPECT_FALSE(not_found);
 }
 
-TEST(Add, Get)
+TEST(AddOption, Get)
 {
     constexpr int argc = 10;
     constexpr const char* argv[argc] = {"example", "-f", "/dev/ttyUSB0", "--unmatched-flag", "-c", "100", "--temp", "98.6", "--speed", "133.7"};
@@ -62,15 +62,39 @@ TEST(Add, Get)
     auto speed = 0.0;
 
     argon::Parser parser(argc, argv);
-    parser.Add("f", "Filename", argon::Get(filename));
-    parser.Add("count,c", "Count", argon::Get(count));
-    parser.Add("speed", "Speed", argon::Get(speed));
+    parser.AddOption("f", "Filename", argon::Get(filename));
+    parser.AddOption("count,c", "Count", argon::Get(count));
+    parser.AddOption("speed", "Speed", argon::Get(speed));
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
     EXPECT_EQ(133.7, speed);
     EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.Args());
+}
+
+TEST(AddPosition, Checkout)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"example", "config.txt"};
+
+    argon::Parser parser(argc, argv);
+    parser.AddPosition("config_file", "Configuration file");
+    parser.Parse();
+
+    EXPECT_EQ("config.txt", parser.GetPosition(0));
+    EXPECT_THROW(parser.GetPosition(1), std::out_of_range);
+}
+
+TEST(AddPosition, MissingPosition)
+{
+    constexpr int argc = 1;
+    constexpr const char* argv[argc] = {"example"};
+
+    argon::Parser parser(argc, argv);
+    parser.AddPosition("config_file", "Configuration file");
+
+    EXPECT_THROW(parser.Parse(), std::runtime_error);
 }
 
 TEST(Args, NoArguments)

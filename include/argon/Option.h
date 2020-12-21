@@ -1,17 +1,18 @@
 #pragma once
 
+#include <argon/Argument.h>
+
 #include <functional>
 #include <iomanip>
 #include <iostream>
 #include <set>
 #include <sstream>
-#include <string>
 #include <vector>
 
 namespace argon
 {
 
-class Option
+class Option : public Argument
 {
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
@@ -44,7 +45,7 @@ protected:
     }
 
 public:
-    auto Format() const -> std::string
+    virtual auto Format() const -> std::string
     {
         std::stringstream flags;
         std::string delim = "";
@@ -57,7 +58,7 @@ public:
 
         std::stringstream out;
         out << std::setfill(' ');
-        out << "\n  " << std::left << std::setw(16) << flags.str() << m_description;
+        out << "\n  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
         return out.str();
     }
 
@@ -102,10 +103,12 @@ public:
 
     virtual void Find(std::vector<std::string>& args) const
     {
-        for (auto it = args.begin(); it + 1 < args.end(); ++it)
+        for (auto it = args.begin(); it < args.end(); ++it)
             for (const auto& flag : Flags())
                 if (flag == *it)
                 {
+                    if (it + 1 == args.end())
+                        throw std::runtime_error("Found option \"" + flag + "\" but no value was provided");
                     m_callback(*(it + 1));
                     args.erase(it, it + 2);
                     return;
