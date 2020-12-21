@@ -67,8 +67,12 @@ void Parser::Parse()
         option->Find(m_args);
 
     if (m_positions.size() > m_args.size())
-        throw std::runtime_error("Expected " + std::to_string(m_positions.size()) + " positional arguments. Received " +
-                                 std::to_string(m_args.size()) + ".");
+    {
+        std::stringstream what;
+        what << "Expect " << m_positions.size() << " positional arguments. Received " << m_args.size();
+        what << MakeArgumentList();
+        throw std::runtime_error(what.str());
+    }
 }
 
 auto Parser::Args() const -> std::vector<std::string> { return m_args; }
