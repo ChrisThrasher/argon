@@ -24,6 +24,7 @@ public:
     void AddOption(const std::string&, const std::string&, const std::function<void()>&);
     void AddOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
     void AddPosition(const std::string&, const std::string&);
+    auto GetPosition(const size_t) -> std::string;
     void Parse();
     auto Args() const -> std::vector<std::string>;
 };
@@ -57,6 +58,8 @@ void Parser::AddPosition(const std::string& name, const std::string& description
 {
     m_positions.push_back(argon::Position(name, description));
 }
+
+auto Parser::GetPosition(const size_t index) -> std::string { return Args().at(index); }
 
 void Parser::Parse()
 {

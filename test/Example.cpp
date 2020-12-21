@@ -20,5 +20,5 @@ int main(int argc, char* argv[])
     parser.AddPosition("filename", "Input file");
     parser.Parse();
 
-    const auto filename = parser.Args().at(0);
+    const auto filename = parser.GetPosition(0);
 }
