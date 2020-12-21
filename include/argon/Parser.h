@@ -23,7 +23,7 @@ public:
     void AddOption(const std::string&, const std::string&, const std::string&);
     void AddOption(const std::string&, const std::string&, const std::function<void()>&);
     void AddOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
-    void Add(const std::string&, const std::string&);
+    void AddPosition(const std::string&, const std::string&);
     void Parse();
     auto Args() const -> std::vector<std::string>;
 };
@@ -53,7 +53,7 @@ void Parser::AddOption(const std::string& flags,
     m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
 }
 
-void Parser::Add(const std::string& name, const std::string& description)
+void Parser::AddPosition(const std::string& name, const std::string& description)
 {
     m_positions.push_back(argon::Position(name, description));
 }

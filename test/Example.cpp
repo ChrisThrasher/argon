@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     parser.AddOption("c,count", "Number of instances", argon::Get(count));
     parser.AddOption("speed", "Initial speed", argon::Get(speed));
     parser.AddOption("o,output", "Output filename", argon::Get(output));
-    parser.Add("filename", "Input file");
+    parser.AddPosition("filename", "Input file");
     parser.Parse();
 
     const auto filename = parser.Args().at(0);
