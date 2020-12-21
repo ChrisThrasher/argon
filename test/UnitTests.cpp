@@ -73,6 +73,30 @@ TEST(AddOption, Get)
     EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.Args());
 }
 
+TEST(AddPosition, Checkout)
+{
+    constexpr int argc = 2;
+    constexpr const char* argv[argc] = {"example", "config.txt"};
+
+    argon::Parser parser(argc, argv);
+    parser.AddPosition("config_file", "Configuration file");
+    parser.Parse();
+
+    EXPECT_EQ("config.txt", parser.GetPosition(0));
+    EXPECT_THROW(parser.GetPosition(1), std::out_of_range);
+}
+
+TEST(AddPosition, MissingPosition)
+{
+    constexpr int argc = 1;
+    constexpr const char* argv[argc] = {"example"};
+
+    argon::Parser parser(argc, argv);
+    parser.AddPosition("config_file", "Configuration file");
+
+    EXPECT_THROW(parser.Parse(), std::runtime_error);
+}
+
 TEST(Args, NoArguments)
 {
     constexpr int argc = 1;
