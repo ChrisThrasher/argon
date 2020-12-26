@@ -37,14 +37,14 @@ TEST(AddOption, FindOption)
     constexpr int argc = 4;
     constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d", "--verbose"};
 
-    bool debug = false;
-    bool verbose = false;
-    bool not_found = false;
+    bool debug;
+    bool verbose;
+    bool not_found;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("d", "Debug output", argon::Find(debug));
-    parser.AddOption("verbose,V", "Verbose output", argon::Find(verbose));
-    parser.AddOption("not_found", "Flag not found", argon::Find(not_found));
+    parser.AddOption("d", "Debug output", debug);
+    parser.AddOption("verbose,V", "Verbose output", verbose);
+    parser.AddOption("not_found", "Flag not found", not_found);
     parser.Parse();
 
     EXPECT_TRUE(debug);
@@ -62,9 +62,9 @@ TEST(AddOption, Get)
     auto speed = 0.0;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("f", "Filename", argon::Get(filename));
-    parser.AddOption("count,c", "Count", argon::Get(count));
-    parser.AddOption("speed", "Speed", argon::Get(speed));
+    parser.AddOption("f", "Filename", filename);
+    parser.AddOption("count,c", "Count", count);
+    parser.AddOption("speed", "Speed", speed);
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);

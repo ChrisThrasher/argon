@@ -20,9 +20,13 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void AddOption(const std::string&, const std::string&, const std::string&);
     void AddOption(const std::string&, const std::string&, const std::function<void()>&);
-    void AddOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
+    void AddOption(const std::string&, const std::string&, const std::string&);
+    void AddOption(const std::string&, const std::string&, bool&);
+
+    template <typename T>
+    void AddOption(const std::string& flags, const std::string& description, T& t);
+
     void AddPosition(const std::string&, const std::string&);
     auto GetPosition(const size_t) -> std::string;
     void Parse();
@@ -34,6 +38,11 @@ Parser::Parser(const int argc, const char* const argv[])
 {
 }
 
+void Parser::AddOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+{
+    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
+}
+
 void Parser::AddOption(const std::string& flags, const std::string& description, const std::string& usage)
 {
     AddOption(flags, description, [usage, this]() {
@@ -42,16 +51,17 @@ void Parser::AddOption(const std::string& flags, const std::string& description,
     });
 }
 
-void Parser::AddOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+void Parser::AddOption(const std::string& flags, const std::string& description, bool& found)
 {
-    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
+    found = false;
+    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [&found]() { found = true; }));
 }
 
-void Parser::AddOption(const std::string& flags,
-                       const std::string& description,
-                       const std::function<void(std::string)>& callback)
+template <typename T>
+void Parser::AddOption(const std::string& flags, const std::string& description, T& value)
 {
-    m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
+    m_options.push_back(std::make_shared<argon::ValueOption>(
+        flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
 }
 
 void Parser::AddPosition(const std::string& name, const std::string& description)
