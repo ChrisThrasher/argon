@@ -1,6 +1,5 @@
 #pragma once
 
-#include <argon/Callbacks.h>
 #include <argon/Option.h>
 #include <argon/Position.h>
 
@@ -8,6 +7,12 @@
 
 namespace argon
 {
+
+enum class PrintUsage
+{
+    NO = 0,
+    YES
+};
 
 class Parser
 {
@@ -20,8 +25,7 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void AddOption(const std::string&, const std::string&, const std::function<void()>&);
-    void AddOption(const std::string&, const std::string&, const std::string&);
+    void AddOption(const std::string&, const std::string&, const std::string&, const PrintUsage&);
     void AddOption(const std::string&, const std::string&, bool&);
 
     template <typename T>
@@ -38,17 +42,26 @@ Parser::Parser(const int argc, const char* const argv[])
 {
 }
 
-void Parser::AddOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
+void Parser::AddOption(const std::string& flags,
+                       const std::string& description,
+                       const std::string& output,
+                       const PrintUsage& action)
 {
-    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
-}
-
-void Parser::AddOption(const std::string& flags, const std::string& description, const std::string& usage)
-{
-    AddOption(flags, description, [usage, this]() {
-        std::cerr << usage << this->MakeArgumentList();
-        std::exit(0);
-    });
+    switch (action)
+    {
+    case PrintUsage::YES:
+        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
+            std::cerr << output << this->MakeArgumentList();
+            std::exit(0);
+        }));
+        break;
+    case PrintUsage::NO:
+        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output]() {
+            std::cerr << output << '\n';
+            std::exit(0);
+        }));
+        break;
+    }
 }
 
 void Parser::AddOption(const std::string& flags, const std::string& description, bool& found)
