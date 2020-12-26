@@ -8,7 +8,7 @@ TEST(AddOption, Usage)
     constexpr const char* argv[argc] = {"example", "-h"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", "my help text", argon::PrintUsage::YES);
+    parser.AddOption("h,help", "Show this help text", "my help text", argon::USAGE);
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
@@ -18,7 +18,7 @@ TEST(AddOption, PrintAlias)
     constexpr const char* argv[argc] = {"example", "-v"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("v", "Print program version", "v0.0.0", argon::PrintUsage::NO);
+    parser.AddOption("v", "Print program version", "v0.0.0", argon::PRINT);
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
@@ -28,7 +28,7 @@ TEST(AddOption, PrintFlag)
     constexpr const char* argv[argc] = {"example", "--version"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("version", "Print program version", "v0.0.0", argon::PrintUsage::NO);
+    parser.AddOption("version", "Print program version", "v0.0.0", argon::PRINT);
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 

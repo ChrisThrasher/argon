@@ -12,8 +12,8 @@ try
     std::string output = "";
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", help, argon::PrintUsage::YES);
-    parser.AddOption("version", "Print program version", "v0.0.0", argon::PrintUsage::NO);
+    parser.AddOption("h,help", "Show this help text", help, argon::USAGE);
+    parser.AddOption("version", "Print program version", "v0.0.0", argon::PRINT);
     parser.AddOption("d,debug", "Debug output", debug);
     parser.AddOption("c,count", "Number of instances", count);
     parser.AddOption("speed", "Initial speed", speed);

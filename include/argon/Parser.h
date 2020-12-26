@@ -8,10 +8,10 @@
 namespace argon
 {
 
-enum class PrintUsage
+enum Action
 {
-    NO = 0,
-    YES
+    PRINT = 0,
+    USAGE
 };
 
 class Parser
@@ -25,7 +25,7 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void AddOption(const std::string&, const std::string&, const std::string&, const PrintUsage&);
+    void AddOption(const std::string&, const std::string&, const std::string&, const Action&);
     void AddOption(const std::string&, const std::string&, bool&);
 
     template <typename T>
@@ -45,17 +45,17 @@ Parser::Parser(const int argc, const char* const argv[])
 void Parser::AddOption(const std::string& flags,
                        const std::string& description,
                        const std::string& output,
-                       const PrintUsage& action)
+                       const Action& action)
 {
     switch (action)
     {
-    case PrintUsage::YES:
+    case USAGE:
         m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
             std::cerr << output << this->MakeArgumentList();
             std::exit(0);
         }));
         break;
-    case PrintUsage::NO:
+    case PRINT:
         m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output]() {
             std::cerr << output << '\n';
             std::exit(0);
