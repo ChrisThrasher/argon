@@ -25,7 +25,7 @@ class Parser
 
 public:
     Parser(const int, const char* const[]);
-    void AddOption(const std::string&, const std::string&, const std::string&, const Action&);
+    void AddOption(const std::string&, const std::string&, const Action&, const std::string&);
     void AddOption(bool&, const std::string&, const std::string&);
 
     template <typename T>
@@ -44,8 +44,8 @@ Parser::Parser(const int argc, const char* const argv[])
 
 void Parser::AddOption(const std::string& flags,
                        const std::string& description,
-                       const std::string& output,
-                       const Action& action)
+                       const Action& action,
+                       const std::string& output)
 {
     switch (action)
     {
