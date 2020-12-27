@@ -2,27 +2,17 @@
 
 #include <gtest/gtest.h>
 
-TEST(AddOption, Usage)
+TEST(AddOption, UsageAction)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"example", "-h"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::USAGE, "my help text");
+    parser.AddOption("h", "Show this help text", argon::USAGE, "my help text");
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
 }
 
-TEST(AddOption, PrintAlias)
-{
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = {"example", "-v"};
-
-    argon::Parser parser(argc, argv);
-    parser.AddOption("v", "Print program version", argon::PRINT, "v0.0.0");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
-}
-
-TEST(AddOption, PrintFlag)
+TEST(AddOption, PrintAction)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"example", "--version"};
@@ -32,41 +22,30 @@ TEST(AddOption, PrintFlag)
     EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
-TEST(AddOption, FindOption)
+TEST(AddOption, Get)
 {
-    constexpr int argc = 4;
-    constexpr const char* argv[argc] = {"example", "--unmatched-flag", "-d", "--verbose"};
+    constexpr int argc = 12;
+    constexpr const char* argv[argc] = {"example", "-d", "--verbose", "-f", "/dev/ttyUSB0", "--unmatched-flag", "-c", "100", "--temp", "98.6", "--speed", "133.7"};
 
     bool debug;
     bool verbose;
     bool not_found;
+    std::string filename;
+    int count = 0;
+    double speed = 0.0;
 
     argon::Parser parser(argc, argv);
     parser.AddOption(debug, "d", "Debug output");
     parser.AddOption(verbose, "verbose,V", "Verbose output");
     parser.AddOption(not_found, "not_found", "Flag not found");
-    parser.Parse();
-
-    EXPECT_TRUE(debug);
-    EXPECT_TRUE(verbose);
-    EXPECT_FALSE(not_found);
-}
-
-TEST(AddOption, Get)
-{
-    constexpr int argc = 10;
-    constexpr const char* argv[argc] = {"example", "-f", "/dev/ttyUSB0", "--unmatched-flag", "-c", "100", "--temp", "98.6", "--speed", "133.7"};
-
-    std::string filename;
-    auto count = 0;
-    auto speed = 0.0;
-
-    argon::Parser parser(argc, argv);
     parser.AddOption(filename, "f", "Filename");
     parser.AddOption(count, "count,c", "Count");
     parser.AddOption(speed, "speed", "Speed");
     parser.Parse();
 
+    EXPECT_TRUE(debug);
+    EXPECT_TRUE(verbose);
+    EXPECT_FALSE(not_found);
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
     EXPECT_EQ(133.7, speed);
