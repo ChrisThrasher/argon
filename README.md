@@ -37,7 +37,7 @@ catch (const std::exception& ex)
 }
 ```
 
-Create an instance of `argon::Parser`. Use `AddOption` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The last is a callback. `argon::Usage` is used for help text. It prints a list of all options after the provided usage information. `argon::Print` is helper function providing a callback that prints the provided string before exiting the program. `argon::Find` will set a boolean value `true` if that flag is found. `argon::Get` will retrieve either a string, integer, float, or double provided immediately after this flag is found.
+Create an instance of `argon::Parser`. Use `AddOption` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The 3rd argument is either a string constant which gets printed to the console or its a mutable references that gets modified according to what the parser detects. If a string constant is a provided, a fourth argument is an enum  where `argon::USAGE` indicates that a usage text is printed after the provided string whereas `argon::PRINT` simply prints the provided string. 
 
 Here's what the formatted usage information looks like:
 
