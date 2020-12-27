@@ -13,10 +13,10 @@ constexpr auto help = R"(Usage
 int main(int argc, char* argv[])
 try
 {
-    bool debug = false;
+    bool debug;
     int count = 0;
     double speed = 0.0;
-    std::string output = "";
+    std::string output;
 
     argon::Parser parser(argc, argv);
     parser.AddOption("h,help", "Show this help text", help, argon::USAGE);
