@@ -19,8 +19,8 @@ try
     std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", help, argon::USAGE);
-    parser.AddOption("version", "Print program version", "v0.0.0", argon::PRINT);
+    parser.AddOption("h,help", "Show this help text", argon::USAGE, help);
+    parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
     parser.AddOption(debug, "d,debug", "Debug output");
     parser.AddOption(count, "c,count", "Number of instances");
     parser.AddOption(speed, "speed", "Initial speed");
@@ -44,14 +44,16 @@ Here's what the formatted usage information looks like:
 ```
 $ example --help
 Usage
-  example [options]
+  example <filename> [options]
+
+Positions
+  filename                Input file
 
 Options
-  -h, --help      Show this help text
-  --version       Print program version
-  -d, --debug     Debug output
-  -v, --verbose   Verbose output
-  -c, --count     Number of instances
-  --speed         Initial speed
-  -i, --input     Input filename
+  -h, --help              Show this help text
+  --version               Print program version
+  -d, --debug             Debug output
+  -c, --count <value>     Number of instances
+  --speed <value>         Initial speed
+  -o, --output <value>    Output filename
 ```
