@@ -31,15 +31,15 @@ target_link_libraries(example PRIVATE argon)
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
     ".*Positions
-  filename        Input file
+  filename                Input file
 
 Options
-  -h, --help      Show this help text
-  --version       Print program version
-  -d, --debug     Debug output
-  -c, --count     Number of instances
-  --speed         Initial speed
-  -o, --output    Output filename")
+  -h, --help              Show this help text
+  --version               Print program version
+  -d, --debug             Debug output
+  -c, --count <value>     Number of instances
+  --speed <value>         Initial speed
+  -o, --output <value>    Output filename")
 
 add_test(NAME flag--version COMMAND example --version)
 set_property(TEST flag--version PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
