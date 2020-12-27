@@ -14,10 +14,10 @@ try
     argon::Parser parser(argc, argv);
     parser.AddOption("h,help", "Show this help text", help, argon::USAGE);
     parser.AddOption("version", "Print program version", "v0.0.0", argon::PRINT);
-    parser.AddOption("d,debug", "Debug output", debug);
-    parser.AddOption("c,count", "Number of instances", count);
-    parser.AddOption("speed", "Initial speed", speed);
-    parser.AddOption("o,output", "Output filename", output);
+    parser.AddOption(debug, "d,debug", "Debug output");
+    parser.AddOption(count, "c,count", "Number of instances");
+    parser.AddOption(speed, "speed", "Initial speed");
+    parser.AddOption(output, "o,output", "Output filename");
     parser.AddPosition("filename", "Input file");
     parser.Parse();
 

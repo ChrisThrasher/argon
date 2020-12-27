@@ -42,9 +42,9 @@ TEST(AddOption, FindOption)
     bool not_found;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("d", "Debug output", debug);
-    parser.AddOption("verbose,V", "Verbose output", verbose);
-    parser.AddOption("not_found", "Flag not found", not_found);
+    parser.AddOption(debug, "d", "Debug output");
+    parser.AddOption(verbose, "verbose,V", "Verbose output");
+    parser.AddOption(not_found, "not_found", "Flag not found");
     parser.Parse();
 
     EXPECT_TRUE(debug);
@@ -62,9 +62,9 @@ TEST(AddOption, Get)
     auto speed = 0.0;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("f", "Filename", filename);
-    parser.AddOption("count,c", "Count", count);
-    parser.AddOption("speed", "Speed", speed);
+    parser.AddOption(filename, "f", "Filename");
+    parser.AddOption(count, "count,c", "Count");
+    parser.AddOption(speed, "speed", "Speed");
     parser.Parse();
 
     EXPECT_EQ("/dev/ttyUSB0", filename);

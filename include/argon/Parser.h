@@ -26,10 +26,10 @@ class Parser
 public:
     Parser(const int, const char* const[]);
     void AddOption(const std::string&, const std::string&, const std::string&, const Action&);
-    void AddOption(const std::string&, const std::string&, bool&);
+    void AddOption(bool&, const std::string&, const std::string&);
 
     template <typename T>
-    void AddOption(const std::string& flags, const std::string& description, T& t);
+    void AddOption(T&, const std::string&, const std::string&);
 
     void AddPosition(const std::string&, const std::string&);
     auto GetPosition(const size_t) -> std::string;
@@ -64,14 +64,14 @@ void Parser::AddOption(const std::string& flags,
     }
 }
 
-void Parser::AddOption(const std::string& flags, const std::string& description, bool& found)
+void Parser::AddOption(bool& found, const std::string& flags, const std::string& description)
 {
     found = false;
     m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [&found]() { found = true; }));
 }
 
 template <typename T>
-void Parser::AddOption(const std::string& flags, const std::string& description, T& value)
+void Parser::AddOption(T& value, const std::string& flags, const std::string& description)
 {
     m_options.push_back(std::make_shared<argon::ValueOption>(
         flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
