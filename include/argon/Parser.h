@@ -54,13 +54,13 @@ void Parser::AddOption(const std::string& flags,
             std::cerr << output << this->MakeArgumentList();
             std::exit(0);
         }));
-        break;
+        return;
     case PRINT:
         m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output]() {
             std::cerr << output << '\n';
             std::exit(0);
         }));
-        break;
+        return;
     }
 }
 
