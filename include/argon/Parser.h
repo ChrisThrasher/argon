@@ -16,7 +16,7 @@ enum Action
 
 class Parser
 {
-    auto MakeArgumentList() const -> std::string;
+    auto MakeUsage(const std::string&) const -> std::string;
 
     const std::string m_program_name;
 
@@ -53,7 +53,7 @@ void Parser::AddOption(const std::string& flags,
     {
     case USAGE:
         m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
-            std::cerr << output << this->MakeArgumentList();
+            std::cerr << this->MakeUsage(output);
             std::exit(0);
         }));
         return;
@@ -95,30 +95,40 @@ void Parser::Parse()
     {
         std::stringstream what;
         what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size();
-        what << MakeArgumentList();
+        what << "\n\n" << MakeUsage("");
         throw std::runtime_error(what.str());
     }
 }
 
 auto Parser::Args() const -> std::vector<std::string> { return m_args; }
 
-auto Parser::MakeArgumentList() const -> std::string
+auto Parser::MakeUsage(const std::string& help) const -> std::string
 {
-    std::stringstream arg_list;
+    std::stringstream usage;
+
+    usage << "Usage\n  " << m_program_name;
+    for (const auto& position : m_positions)
+    {
+        usage << " <" << position.Name() << '>';
+    }
+    usage << " [options]";
+
+    if (not help.empty())
+        usage << "\n\n" << help;
 
     if (not m_positions.empty())
     {
-        arg_list << "\n\nPositions";
+        usage << "\n\nPositions";
         for (const auto& position : m_positions)
-            arg_list << position.Format();
+            usage << position.Format();
     }
 
-    arg_list << "\n\nOptions";
+    usage << "\n\nOptions";
     for (const auto& option : m_options)
-        arg_list << option->Format();
-    arg_list << '\n';
+        usage << option->Format();
+    usage << '\n';
 
-    return arg_list.str();
+    return usage.str();
 }
 
 } // namespace argon

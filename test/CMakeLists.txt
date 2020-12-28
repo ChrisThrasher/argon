@@ -30,7 +30,12 @@ target_link_libraries(example PRIVATE argon)
 
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
-    ".*Positions
+    "Usage
+  example <filename> \\[options\\]
+
+Argon CLI parser example program
+
+Positions
   filename                Input file
 
 Options

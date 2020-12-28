@@ -7,9 +7,6 @@ Argon is a command line argument parser which supports optional and positional a
 ```cpp
 #include <argon/Parser.h>
 
-constexpr auto help = R"(Usage
-  example <filename> [options])";
-
 int main(int argc, char* argv[])
 try
 {
@@ -19,7 +16,7 @@ try
     std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::USAGE, help);
+    parser.AddOption("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
     parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
     parser.AddOption(debug, "d,debug", "Debug output");
     parser.AddOption(count, "c,count", "Number of instances");
@@ -45,6 +42,8 @@ Here's what the formatted usage information looks like:
 $ example --help
 Usage
   example <filename> [options]
+
+Argon CLI parser example program
 
 Positions
   filename                Input file

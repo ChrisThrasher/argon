@@ -1,8 +1,5 @@
 #include <argon/Parser.h>
 
-constexpr auto help = R"(Usage
-  example <filename> [options])";
-
 int main(int argc, char* argv[])
 try
 {
@@ -12,7 +9,7 @@ try
     std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::USAGE, help);
+    parser.AddOption("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
     parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
     parser.AddOption(debug, "d,debug", "Debug output");
     parser.AddOption(count, "c,count", "Number of instances");
