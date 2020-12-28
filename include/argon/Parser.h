@@ -18,8 +18,9 @@ class Parser
 {
     auto MakeArgumentList() const -> std::string;
 
-    std::vector<std::string> m_args{};
+    const std::string m_program_name;
 
+    std::vector<std::string> m_args{};
     std::vector<std::shared_ptr<argon::Option>> m_options{};
     std::vector<argon::Position> m_positions{};
 
@@ -38,7 +39,8 @@ public:
 };
 
 Parser::Parser(const int argc, const char* const argv[])
-    : m_args(std::vector<std::string>(argv + 1, argv + argc))
+    : m_program_name(std::string(argv[0]).substr(std::string(argv[0]).find_last_of('/') + 1))
+    , m_args(std::vector<std::string>(argv + 1, argv + argc))
 {
 }
 
