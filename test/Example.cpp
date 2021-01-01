@@ -1,23 +1,20 @@
 #include <argon/Parser.h>
 
-constexpr auto help = R"(Usage
-  example <filename> [options])";
-
 int main(int argc, char* argv[])
 try
 {
-    bool debug = false;
+    bool debug;
     int count = 0;
     double speed = 0.0;
-    std::string output = "";
+    std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::Usage(help));
-    parser.AddOption("version", "Print program version", argon::Print("v0.0.0"));
-    parser.AddOption("d,debug", "Debug output", argon::Find(debug));
-    parser.AddOption("c,count", "Number of instances", argon::Get(count));
-    parser.AddOption("speed", "Initial speed", argon::Get(speed));
-    parser.AddOption("o,output", "Output filename", argon::Get(output));
+    parser.AddOption("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
+    parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
+    parser.AddOption(debug, "d,debug", "Debug output");
+    parser.AddOption(count, "c,count", "Number of instances");
+    parser.AddOption(speed, "speed", "Initial speed");
+    parser.AddOption(output, "o,output", "Output filename");
     parser.AddPosition("filename", "Input file");
     parser.Parse();
 

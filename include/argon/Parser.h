@@ -1,6 +1,5 @@
 #pragma once
 
-#include <argon/Callbacks.h>
 #include <argon/Option.h>
 #include <argon/Position.h>
 
@@ -9,20 +8,30 @@
 namespace argon
 {
 
+enum Action
+{
+    PRINT = 0,
+    USAGE
+};
+
 class Parser
 {
-    auto MakeArgumentList() const -> std::string;
+    auto MakeUsage(const std::string&) const -> std::string;
+
+    const std::string m_program_name;
 
     std::vector<std::string> m_args{};
-
     std::vector<std::shared_ptr<argon::Option>> m_options{};
     std::vector<argon::Position> m_positions{};
 
 public:
     Parser(const int, const char* const[]);
-    void AddOption(const std::string&, const std::string&, const std::string&);
-    void AddOption(const std::string&, const std::string&, const std::function<void()>&);
-    void AddOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
+    void AddOption(const std::string&, const std::string&, const Action&, const std::string&);
+    void AddOption(bool&, const std::string&, const std::string&);
+
+    template <typename T>
+    void AddOption(T&, const std::string&, const std::string&);
+
     void AddPosition(const std::string&, const std::string&);
     auto GetPosition(const size_t) -> std::string;
     void Parse();
@@ -30,28 +39,44 @@ public:
 };
 
 Parser::Parser(const int argc, const char* const argv[])
-    : m_args(std::vector<std::string>(argv + 1, argv + argc))
+    : m_program_name(std::string(argv[0]).substr(std::string(argv[0]).find_last_of('/') + 1))
+    , m_args(std::vector<std::string>(argv + 1, argv + argc))
 {
-}
-
-void Parser::AddOption(const std::string& flags, const std::string& description, const std::string& usage)
-{
-    AddOption(flags, description, [usage, this]() {
-        std::cerr << usage << this->MakeArgumentList();
-        std::exit(0);
-    });
-}
-
-void Parser::AddOption(const std::string& flags, const std::string& description, const std::function<void()>& callback)
-{
-    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, callback));
 }
 
 void Parser::AddOption(const std::string& flags,
                        const std::string& description,
-                       const std::function<void(std::string)>& callback)
+                       const Action& action,
+                       const std::string& output)
 {
-    m_options.push_back(std::make_shared<argon::ValueOption>(flags, description, callback));
+    switch (action)
+    {
+    case USAGE:
+        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
+            std::cerr << this->MakeUsage(output);
+            std::exit(0);
+        }));
+        return;
+    case PRINT:
+        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output]() {
+            std::cerr << output << '\n';
+            std::exit(0);
+        }));
+        return;
+    }
+}
+
+void Parser::AddOption(bool& found, const std::string& flags, const std::string& description)
+{
+    found = false;
+    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [&found]() { found = true; }));
+}
+
+template <typename T>
+void Parser::AddOption(T& value, const std::string& flags, const std::string& description)
+{
+    m_options.push_back(std::make_shared<argon::ValueOption>(
+        flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
 }
 
 void Parser::AddPosition(const std::string& name, const std::string& description)
@@ -70,30 +95,40 @@ void Parser::Parse()
     {
         std::stringstream what;
         what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size();
-        what << MakeArgumentList();
+        what << "\n\n" << MakeUsage("");
         throw std::runtime_error(what.str());
     }
 }
 
 auto Parser::Args() const -> std::vector<std::string> { return m_args; }
 
-auto Parser::MakeArgumentList() const -> std::string
+auto Parser::MakeUsage(const std::string& help) const -> std::string
 {
-    std::stringstream arg_list;
+    std::stringstream usage;
+
+    usage << "Usage\n  " << m_program_name;
+    for (const auto& position : m_positions)
+    {
+        usage << " <" << position.Name() << '>';
+    }
+    usage << " [options]";
+
+    if (not help.empty())
+        usage << "\n\n" << help.substr(help.find_first_not_of('\n'), help.size());
 
     if (not m_positions.empty())
     {
-        arg_list << "\n\nPositions";
+        usage << "\n\nPositions";
         for (const auto& position : m_positions)
-            arg_list << position.Format();
+            usage << position.Format();
     }
 
-    arg_list << "\n\nOptions";
+    usage << "\n\nOptions";
     for (const auto& option : m_options)
-        arg_list << option->Format();
-    arg_list << '\n';
+        usage << option->Format();
+    usage << '\n';
 
-    return arg_list.str();
+    return usage.str();
 }
 
 } // namespace argon

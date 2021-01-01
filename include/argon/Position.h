@@ -27,6 +27,8 @@ public:
         out << "\n  " << std::left << std::setw(m_format_width) << m_name << m_description;
         return out.str();
     }
+
+    auto Name() const -> std::string { return m_name; }
 };
 
 } // namespace argon

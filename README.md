@@ -7,24 +7,21 @@ Argon is a command line argument parser which supports optional and positional a
 ```cpp
 #include <argon/Parser.h>
 
-constexpr auto help = R"(Usage
-  example <filename> [options])";
-
 int main(int argc, char* argv[])
 try
 {
-    bool debug = false;
+    bool debug;
     int count = 0;
     double speed = 0.0;
-    std::string output = "";
+    std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::Usage(help));
-    parser.AddOption("version", "Print program version", argon::Print("v0.0.0"));
-    parser.AddOption("d,debug", "Debug output", argon::Find(debug));
-    parser.AddOption("c,count", "Number of instances", argon::Get(count));
-    parser.AddOption("speed", "Initial speed", argon::Get(speed));
-    parser.AddOption("o,output", "Output filename", argon::Get(output));
+    parser.AddOption("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
+    parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
+    parser.AddOption(debug, "d,debug", "Debug output");
+    parser.AddOption(count, "c,count", "Number of instances");
+    parser.AddOption(speed, "speed", "Initial speed");
+    parser.AddOption(output, "o,output", "Output filename");
     parser.AddPosition("filename", "Input file");
     parser.Parse();
 
@@ -37,21 +34,25 @@ catch (const std::exception& ex)
 }
 ```
 
-Create an instance of `argon::Parser`. Use `AddOption` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The last is a callback. `argon::Usage` is used for help text. It prints a list of all options after the provided usage information. `argon::Print` is helper function providing a callback that prints the provided string before exiting the program. `argon::Find` will set a boolean value `true` if that flag is found. `argon::Get` will retrieve either a string, integer, float, or double provided immediately after this flag is found.
+Create an instance of `argon::Parser`. Use `AddOption` to add as many options as you want. The first argument is a comma-delimited string of flags and aliases. The second is the decription which appears in the help output. The 3rd argument is either a string constant which gets printed to the console or its a mutable references that gets modified according to what the parser detects. If a string constant is a provided, a fourth argument is an enum  where `argon::USAGE` indicates that a usage text is printed after the provided string whereas `argon::PRINT` simply prints the provided string. 
 
 Here's what the formatted usage information looks like:
 
 ```
 $ example --help
 Usage
-  example [options]
+  example <filename> [options]
+
+Argon CLI parser example program
+
+Positions
+  filename                Input file
 
 Options
-  -h, --help      Show this help text
-  --version       Print program version
-  -d, --debug     Debug output
-  -v, --verbose   Verbose output
-  -c, --count     Number of instances
-  --speed         Initial speed
-  -i, --input     Input filename
+  -h, --help              Show this help text
+  --version               Print program version
+  -d, --debug             Debug output
+  -c, --count <value>     Number of instances
+  --speed <value>         Initial speed
+  -o, --output <value>    Output filename
 ```

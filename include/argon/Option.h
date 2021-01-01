@@ -17,6 +17,7 @@ class Option : public Argument
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
     const std::string m_description;
+    const std::string m_name;
 
 protected:
     auto Flags() const -> std::vector<std::string>
@@ -29,8 +30,9 @@ protected:
         return flags;
     }
 
-    Option(const std::string& flags, const std::string& description)
+    Option(const std::string& flags, const std::string& description, const std::string& name = "")
         : m_description(description)
+        , m_name(name)
     {
         std::stringstream ss(flags);
         while (ss.good())
@@ -54,7 +56,7 @@ public:
             flags << delim << flag;
             delim = ", ";
         }
-        flags << ' ';
+        flags << ' ' << m_name;
 
         std::stringstream out;
         out << std::setfill(' ');
@@ -96,7 +98,7 @@ public:
     ValueOption(const std::string& flags,
                 const std::string& description,
                 const std::function<void(std::string)>& callback)
-        : Option(flags, description)
+        : Option(flags, description, "<value> ")
         , m_callback(callback)
     {
     }
