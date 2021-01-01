@@ -114,7 +114,7 @@ auto Parser::MakeUsage(const std::string& help) const -> std::string
     usage << " [options]";
 
     if (not help.empty())
-        usage << "\n\n" << help;
+        usage << "\n\n" << help.substr(help.find_first_not_of('\n'), help.size());
 
     if (not m_positions.empty())
     {
