@@ -1,15 +1,8 @@
 Language: Cpp
-ColumnLimit: 120
-IndentWidth: 4
+BasedOnStyle: WebKit
 
-AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
-BreakBeforeBraces: Allman
-BreakConstructorInitializers: BeforeComma
-MaxEmptyLinesToKeep: 1
-PointerAlignment: Left
-PenaltyReturnTypeOnItsOwnLine: 1000
+ColumnLimit: 120

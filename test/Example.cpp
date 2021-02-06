@@ -1,8 +1,7 @@
 #include <argon/Parser.h>
 
 int main(int argc, char* argv[])
-try
-{
+try {
     bool debug;
     int count = 0;
     double speed = 0.0;
@@ -19,9 +18,7 @@ try
     parser.Parse();
 
     const auto filename = parser.GetPosition(0);
-}
-catch (const std::exception& ex)
-{
+} catch (const std::exception& ex) {
     std::cerr << ex.what() << '\n';
     return -1;
 }

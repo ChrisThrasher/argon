@@ -2,13 +2,11 @@
 
 #include <string>
 
-namespace argon
-{
+namespace argon {
 
-class Argument
-{
+class Argument {
 protected:
-    const int m_format_width{24};
+    const int m_format_width { 24 };
 
 public:
     virtual auto Format() const -> std::string = 0;

@@ -9,11 +9,9 @@
 #include <sstream>
 #include <vector>
 
-namespace argon
-{
+namespace argon {
 
-class Option : public Argument
-{
+class Option : public Argument {
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
     const std::string m_description;
@@ -35,8 +33,7 @@ protected:
         , m_name(name)
     {
         std::stringstream ss(flags);
-        while (ss.good())
-        {
+        while (ss.good()) {
             std::string str;
             std::getline(ss, str, ',');
             if (str.size() == 1)
@@ -51,8 +48,7 @@ public:
     {
         std::stringstream flags;
         std::string delim = "";
-        for (const auto& flag : Flags())
-        {
+        for (const auto& flag : Flags()) {
             flags << delim << flag;
             delim = ", ";
         }
@@ -67,8 +63,7 @@ public:
     virtual void Find(std::vector<std::string>& args) const = 0;
 };
 
-class BasicOption final : public Option
-{
+class BasicOption final : public Option {
     const std::function<void()> m_callback;
 
 public:
@@ -82,16 +77,14 @@ public:
     {
         for (auto it = args.begin(); it < args.end(); ++it)
             for (const auto& flag : Flags())
-                if (flag == *it)
-                {
+                if (flag == *it) {
                     args.erase(it);
                     return m_callback();
                 }
     }
 };
 
-class ValueOption final : public Option
-{
+class ValueOption final : public Option {
     const std::function<void(std::string)> m_callback;
 
 public:
@@ -107,8 +100,7 @@ public:
     {
         for (auto it = args.begin(); it < args.end(); ++it)
             for (const auto& flag : Flags())
-                if (flag == *it)
-                {
+                if (flag == *it) {
                     if (it + 1 == args.end())
                         throw std::runtime_error("Found option \"" + flag + "\" but no value was provided");
                     m_callback(*(it + 1));

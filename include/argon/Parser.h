@@ -5,24 +5,18 @@
 
 #include <memory>
 
-namespace argon
-{
+namespace argon {
 
-enum Action
-{
-    PRINT = 0,
-    USAGE
-};
+enum Action { PRINT = 0, USAGE };
 
-class Parser
-{
+class Parser {
     auto MakeUsage(const std::string&) const -> std::string;
 
     const std::string m_program_name;
 
-    std::vector<std::string> m_args{};
-    std::vector<std::shared_ptr<argon::Option>> m_options{};
-    std::vector<argon::Position> m_positions{};
+    std::vector<std::string> m_args {};
+    std::vector<std::shared_ptr<argon::Option>> m_options {};
+    std::vector<argon::Position> m_positions {};
 
 public:
     Parser(const int, const char* const[]);
@@ -49,8 +43,7 @@ void Parser::AddOption(const std::string& flags,
                        const Action& action,
                        const std::string& output)
 {
-    switch (action)
-    {
+    switch (action) {
     case USAGE:
         m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
             std::cerr << this->MakeUsage(output);
@@ -91,8 +84,7 @@ void Parser::Parse()
     for (const auto& option : m_options)
         option->Find(m_args);
 
-    if (m_positions.size() > m_args.size())
-    {
+    if (m_positions.size() > m_args.size()) {
         std::stringstream what;
         what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size();
         what << "\n\n" << MakeUsage("");
@@ -107,8 +99,7 @@ auto Parser::MakeUsage(const std::string& help) const -> std::string
     std::stringstream usage;
 
     usage << "Usage\n  " << m_program_name;
-    for (const auto& position : m_positions)
-    {
+    for (const auto& position : m_positions) {
         usage << " <" << position.Name() << '>';
     }
     usage << " [options]";
@@ -116,8 +107,7 @@ auto Parser::MakeUsage(const std::string& help) const -> std::string
     if (not help.empty())
         usage << "\n\n" << help.substr(help.find_first_not_of('\n'), help.size());
 
-    if (not m_positions.empty())
-    {
+    if (not m_positions.empty()) {
         usage << "\n\nPositions";
         for (const auto& position : m_positions)
             usage << position.Format();

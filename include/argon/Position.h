@@ -5,11 +5,9 @@
 #include <iomanip>
 #include <sstream>
 
-namespace argon
-{
+namespace argon {
 
-class Position final : public Argument
-{
+class Position final : public Argument {
     std::string m_name;
     std::string m_description;
 
