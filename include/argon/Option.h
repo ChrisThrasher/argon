@@ -44,7 +44,7 @@ protected:
     }
 
 public:
-    virtual auto Format() const -> std::string
+    auto Format() const -> std::string
     {
         std::stringstream flags;
         std::string delim = "";
