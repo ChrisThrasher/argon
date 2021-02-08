@@ -12,16 +12,7 @@ add_subdirectory(${gtest_SOURCE_DIR} ${gtest_BINARY_DIR} EXCLUDE_FROM_ALL)
 
 add_executable(unit_tests UnitTests.cpp)
 target_link_libraries(unit_tests PRIVATE argon gtest)
-target_compile_options(unit_tests PRIVATE
-    -Werror
-    -Wall
-    -Wextra
-    -Wpedantic
-    -Wshadow
-    -Wconversion
-    -Wsign-conversion
-    -Wold-style-cast
-)
+target_compile_options(unit_tests PRIVATE -Werror -Wall -Wextra)
 add_test(NAME unit_tests COMMAND unit_tests)
 
 add_executable(example Example.cpp)

@@ -11,6 +11,7 @@ add_library(argon
     src/Parser.cpp
     src/Position.cpp)
 target_include_directories(argon PUBLIC include)
+target_compile_options(argon PRIVATE -Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     enable_testing()
