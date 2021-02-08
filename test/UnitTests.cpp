@@ -96,9 +96,3 @@ TEST(Args, MultipleArgument)
     constexpr const char* argv[argc] = {"my_program_name", "some_input", "abc", "123"};
     EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), argon::Parser(argc, argv).Args());
 }
-
-int main(int argc, char* argv[])
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
