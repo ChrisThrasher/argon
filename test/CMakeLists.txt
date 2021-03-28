@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 include(FetchContent)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(
     gtest
