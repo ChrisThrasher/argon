@@ -16,11 +16,11 @@ class Option : public Argument {
 
 protected:
     Option(const std::string&, const std::string&, const std::string& = "");
-    auto Flags() const -> std::vector<std::string>;
+    auto flags() const -> std::vector<std::string>;
 
 public:
-    auto Format() const -> std::string;
-    virtual void Find(std::vector<std::string>&) const = 0;
+    auto format() const -> std::string;
+    virtual void find(std::vector<std::string>&) const = 0;
 };
 
 class BasicOption final : public Option {
@@ -28,7 +28,7 @@ class BasicOption final : public Option {
 
 public:
     BasicOption(const std::string&, const std::string&, const std::function<void()>&);
-    virtual void Find(std::vector<std::string>&) const;
+    virtual void find(std::vector<std::string>&) const;
 };
 
 class ValueOption final : public Option {
@@ -36,7 +36,7 @@ class ValueOption final : public Option {
 
 public:
     ValueOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
-    virtual void Find(std::vector<std::string>&) const;
+    virtual void find(std::vector<std::string>&) const;
 };
 
 } // namespace argon

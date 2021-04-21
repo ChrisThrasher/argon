@@ -11,8 +11,8 @@ class Position final : public Argument {
 public:
     Position(const std::string&, const std::string&);
 
-    virtual auto Format() const -> std::string;
-    auto Name() const -> std::string { return m_name; }
+    virtual auto format() const -> std::string;
+    auto name() const -> std::string { return m_name; }
 };
 
 } // namespace argon

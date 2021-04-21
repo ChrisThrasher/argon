@@ -21,7 +21,7 @@ Option::Option(const std::string& flags, const std::string& description, const s
     }
 }
 
-auto Option::Flags() const -> std::vector<std::string>
+auto Option::flags() const -> std::vector<std::string>
 {
     std::vector<std::string> flags;
     for (const auto& alias : m_aliases)
@@ -31,11 +31,11 @@ auto Option::Flags() const -> std::vector<std::string>
     return flags;
 }
 
-auto Option::Format() const -> std::string
+auto Option::format() const -> std::string
 {
     std::stringstream flags;
     std::string delim = "";
-    for (const auto& flag : Flags()) {
+    for (const auto& flag : this->flags()) {
         flags << delim << flag;
         delim = ", ";
     }
@@ -55,10 +55,10 @@ BasicOption::BasicOption(const std::string& flags,
 {
 }
 
-void BasicOption::Find(std::vector<std::string>& args) const
+void BasicOption::find(std::vector<std::string>& args) const
 {
     for (auto it = args.begin(); it < args.end(); ++it) {
-        for (const auto& flag : Flags()) {
+        for (const auto& flag : flags()) {
             if (flag == *it) {
                 args.erase(it);
                 return m_callback();
@@ -75,10 +75,10 @@ ValueOption::ValueOption(const std::string& flags,
 {
 }
 
-void ValueOption::Find(std::vector<std::string>& args) const
+void ValueOption::find(std::vector<std::string>& args) const
 {
     for (auto it = args.begin(); it < args.end(); ++it) {
-        for (const auto& flag : Flags()) {
+        for (const auto& flag : flags()) {
             if (flag == *it) {
                 if (it + 1 == args.end())
                     throw std::runtime_error("Found option \"" + flag + "\" but no value was provided");

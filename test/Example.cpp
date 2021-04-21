@@ -10,16 +10,16 @@ try {
     std::string output;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
-    parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
-    parser.AddOption(debug, "d,debug", "Debug output");
-    parser.AddOption(count, "c,count", "Number of instances");
-    parser.AddOption(speed, "speed", "Initial speed");
-    parser.AddOption(output, "o,output", "Output filename");
-    parser.AddPosition("filename", "Input file");
-    parser.Parse();
+    parser.add_option("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
+    parser.add_option("version", "Print program version", argon::PRINT, "v0.0.0");
+    parser.add_option(debug, "d,debug", "Debug output");
+    parser.add_option(count, "c,count", "Number of instances");
+    parser.add_option(speed, "speed", "Initial speed");
+    parser.add_option(output, "o,output", "Output filename");
+    parser.add_position("filename", "Input file");
+    parser.parse();
 
-    const auto filename = parser.GetPosition(0);
+    const auto filename = parser.get_position(0);
 } catch (const std::exception& ex) {
     std::cerr << ex.what() << '\n';
     return -1;

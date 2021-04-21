@@ -8,8 +8,8 @@ TEST(AddOption, UsageAction)
     constexpr const char* argv[argc] = {"example", "-h"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("h", "Show this help text", argon::USAGE, "my help text");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "my help text");
+    parser.add_option("h", "Show this help text", argon::USAGE, "my help text");
+    EXPECT_EXIT(parser.parse(), testing::ExitedWithCode(0), "my help text");
 }
 
 TEST(AddOption, PrintAction)
@@ -18,8 +18,8 @@ TEST(AddOption, PrintAction)
     constexpr const char* argv[argc] = {"example", "--version"};
 
     argon::Parser parser(argc, argv);
-    parser.AddOption("version", "Print program version", argon::PRINT, "v0.0.0");
-    EXPECT_EXIT(parser.Parse(), testing::ExitedWithCode(0), "v0.0.0");
+    parser.add_option("version", "Print program version", argon::PRINT, "v0.0.0");
+    EXPECT_EXIT(parser.parse(), testing::ExitedWithCode(0), "v0.0.0");
 }
 
 TEST(AddOption, Get)
@@ -35,13 +35,13 @@ TEST(AddOption, Get)
     double speed = 0.0;
 
     argon::Parser parser(argc, argv);
-    parser.AddOption(debug, "d", "Debug output");
-    parser.AddOption(verbose, "verbose,V", "Verbose output");
-    parser.AddOption(not_found, "not_found", "Flag not found");
-    parser.AddOption(filename, "f", "Filename");
-    parser.AddOption(count, "count,c", "Count");
-    parser.AddOption(speed, "speed", "Speed");
-    parser.Parse();
+    parser.add_option(debug, "d", "Debug output");
+    parser.add_option(verbose, "verbose,V", "Verbose output");
+    parser.add_option(not_found, "not_found", "Flag not found");
+    parser.add_option(filename, "f", "Filename");
+    parser.add_option(count, "count,c", "Count");
+    parser.add_option(speed, "speed", "Speed");
+    parser.parse();
 
     EXPECT_TRUE(debug);
     EXPECT_TRUE(verbose);
@@ -49,7 +49,7 @@ TEST(AddOption, Get)
     EXPECT_EQ("/dev/ttyUSB0", filename);
     EXPECT_EQ(100, count);
     EXPECT_EQ(133.7, speed);
-    EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.Args());
+    EXPECT_EQ(std::vector<std::string>({"--unmatched-flag", "--temp", "98.6"}), parser.args());
 }
 
 TEST(AddPosition, Checkout)
@@ -58,11 +58,11 @@ TEST(AddPosition, Checkout)
     constexpr const char* argv[argc] = {"example", "config.txt"};
 
     argon::Parser parser(argc, argv);
-    parser.AddPosition("config_file", "Configuration file");
-    parser.Parse();
+    parser.add_position("config_file", "Configuration file");
+    parser.parse();
 
-    EXPECT_EQ("config.txt", parser.GetPosition(0));
-    EXPECT_THROW(parser.GetPosition(1), std::out_of_range);
+    EXPECT_EQ("config.txt", parser.get_position(0));
+    EXPECT_THROW(parser.get_position(1), std::out_of_range);
 }
 
 TEST(AddPosition, MissingPosition)
@@ -71,28 +71,28 @@ TEST(AddPosition, MissingPosition)
     constexpr const char* argv[argc] = {"example"};
 
     argon::Parser parser(argc, argv);
-    parser.AddPosition("config_file", "Configuration file");
+    parser.add_position("config_file", "Configuration file");
 
-    EXPECT_THROW(parser.Parse(), std::runtime_error);
+    EXPECT_THROW(parser.parse(), std::runtime_error);
 }
 
 TEST(Args, NoArguments)
 {
     constexpr int argc = 1;
     constexpr const char* argv[argc] = {"my_program_name"};
-    EXPECT_EQ(std::vector<std::string>({}), argon::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({}), argon::Parser(argc, argv).args());
 }
 
 TEST(Args, OneArgument)
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = {"my_program_name", "some_input"};
-    EXPECT_EQ(std::vector<std::string>({"some_input"}), argon::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({"some_input"}), argon::Parser(argc, argv).args());
 }
 
 TEST(Args, MultipleArgument)
 {
     constexpr int argc = 4;
     constexpr const char* argv[argc] = {"my_program_name", "some_input", "abc", "123"};
-    EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), argon::Parser(argc, argv).Args());
+    EXPECT_EQ(std::vector<std::string>({"some_input", "abc", "123"}), argon::Parser(argc, argv).args());
 }

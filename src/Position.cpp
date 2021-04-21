@@ -11,7 +11,7 @@ Position::Position(const std::string& name, const std::string& description)
 {
 }
 
-auto Position::Format() const -> std::string
+auto Position::format() const -> std::string
 {
     std::stringstream out;
     out << std::setfill(' ');

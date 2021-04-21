@@ -9,7 +9,7 @@ protected:
     const int m_format_width { 24 };
 
 public:
-    virtual auto Format() const -> std::string = 0;
+    virtual auto format() const -> std::string = 0;
 };
 
 } // namespace argon
