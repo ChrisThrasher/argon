@@ -20,5 +20,6 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         COMMAND clang-tidy -p build/compile_commands.json `git ls-files src/*.cpp test/Example.cpp`
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     enable_testing()
+    add_subdirectory(examples)
     add_subdirectory(test)
 endif()

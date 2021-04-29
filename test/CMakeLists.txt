@@ -12,8 +12,6 @@ add_executable(unit_tests UnitTests.cpp)
 target_link_libraries(unit_tests PRIVATE argon gtest_main)
 add_test(NAME unit_tests COMMAND unit_tests)
 
-add_executable(example Example.cpp)
-target_link_libraries(example PRIVATE argon)
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
     "Usage
