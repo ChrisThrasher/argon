@@ -3,16 +3,13 @@ cmake_minimum_required(VERSION 3.14)
 include(FetchContent)
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-FetchContent_Declare(
-    gtest
+FetchContent_Declare(gtest
     GIT_REPOSITORY "https://github.com/google/googletest.git"
-    GIT_TAG master
-)
+    GIT_TAG master)
 FetchContent_MakeAvailable(gtest)
 
 add_executable(unit_tests UnitTests.cpp)
 target_link_libraries(unit_tests PRIVATE argon gtest_main)
-target_compile_options(unit_tests PRIVATE -Werror -Wall -Wextra)
 add_test(NAME unit_tests COMMAND unit_tests)
 
 add_executable(example Example.cpp)
