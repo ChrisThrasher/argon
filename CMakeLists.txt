@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.15)
 project(argon CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,7 +16,7 @@ if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     return()
 endif()
 
-enable_testing()
+include(CTest)
 add_subdirectory(examples)
 add_subdirectory(test)
 
