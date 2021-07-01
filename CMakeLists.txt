@@ -18,7 +18,7 @@ endif()
 
 include(CTest)
 add_subdirectory(examples)
-add_subdirectory(test)
+add_subdirectory(tests)
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files src/*.cpp include/argon/*.h test/Example.cpp`
