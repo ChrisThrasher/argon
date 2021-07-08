@@ -69,10 +69,10 @@ auto Parser::make_usage(const std::string& help) const -> std::string
     }
     usage << " [options]";
 
-    if (not help.empty())
+    if (!help.empty())
         usage << "\n\n" << help.substr(help.find_first_not_of('\n'), help.size());
 
-    if (not m_positions.empty()) {
+    if (!m_positions.empty()) {
         usage << "\n\nPositions";
         for (const auto& position : m_positions)
             usage << position.format();
