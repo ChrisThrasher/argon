@@ -26,5 +26,5 @@ add_custom_target(format
     COMMAND clang-format -i `git ls-files src/*.cpp include/argon/*.h test/Example.cpp`
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 add_custom_target(tidy
-    COMMAND clang-tidy -p build/compile_commands.json `git ls-files src/*.cpp test/Example.cpp`
+    COMMAND clang-tidy -p ${CMAKE_BINARY_DIR} `git ls-files src/*.cpp test/Example.cpp`
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
