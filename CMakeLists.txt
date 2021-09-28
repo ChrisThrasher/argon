@@ -44,7 +44,7 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/argon-config-version.cmake"
         DESTINATION share/cmake/argon
         COMPONENT argon_cmake)
 
-if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     return()
 endif()
 
