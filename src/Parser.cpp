@@ -17,13 +17,13 @@ void Parser::add_option(const std::string& flags,
 {
     switch (action) {
     case USAGE:
-        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output, this]() {
+        m_options.push_back(std::make_shared<BasicOption>(flags, description, [output, this]() {
             std::cerr << make_usage(output);
             std::exit(0);
         }));
         return;
     case PRINT:
-        m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [output]() {
+        m_options.push_back(std::make_shared<BasicOption>(flags, description, [output]() {
             std::cerr << output << '\n';
             std::exit(0);
         }));
@@ -34,12 +34,12 @@ void Parser::add_option(const std::string& flags,
 void Parser::add_option(bool& found, const std::string& flags, const std::string& description)
 {
     found = false;
-    m_options.push_back(std::make_shared<argon::BasicOption>(flags, description, [&found]() { found = true; }));
+    m_options.push_back(std::make_shared<BasicOption>(flags, description, [&found]() { found = true; }));
 }
 
 void Parser::add_position(const std::string& name, const std::string& description)
 {
-    m_positions.push_back(argon::Position(name, description));
+    m_positions.push_back(Position(name, description));
 }
 
 auto Parser::get_position(const size_t index) -> std::string { return args().at(index); }
