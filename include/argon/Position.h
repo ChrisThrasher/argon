@@ -11,7 +11,7 @@ class Position final : public Argument {
 public:
     Position(const std::string&, const std::string&);
 
-    virtual auto format() const -> std::string;
+    auto format() const -> std::string override;
     auto name() const -> std::string { return m_name; }
 };
 

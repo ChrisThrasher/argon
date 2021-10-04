@@ -19,7 +19,7 @@ protected:
     auto flags() const -> std::vector<std::string>;
 
 public:
-    auto format() const -> std::string;
+    auto format() const -> std::string override;
     virtual void find(std::vector<std::string>&) const = 0;
 };
 
@@ -28,7 +28,7 @@ class BasicOption final : public Option {
 
 public:
     BasicOption(const std::string&, const std::string&, const std::function<void()>&);
-    virtual void find(std::vector<std::string>&) const;
+    void find(std::vector<std::string>&) const override;
 };
 
 class ValueOption final : public Option {
@@ -36,7 +36,7 @@ class ValueOption final : public Option {
 
 public:
     ValueOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
-    virtual void find(std::vector<std::string>&) const;
+    void find(std::vector<std::string>&) const override;
 };
 
 }
