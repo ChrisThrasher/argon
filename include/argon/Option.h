@@ -13,28 +13,30 @@ class Option : public Argument {
     std::set<char> m_aliases;
 
 protected:
-    Option(const std::string&, const std::string&, const std::string& = "");
+    Option(const std::string& flags, const std::string& description, const std::string& name = "");
     auto flags() const -> std::vector<std::string>;
 
 public:
     auto format() const -> std::string override;
-    virtual void find(std::vector<std::string>&) const = 0;
+    virtual void find(std::vector<std::string>& args) const = 0;
 };
 
 class BasicOption final : public Option {
     const std::function<void()> m_callback;
 
 public:
-    BasicOption(const std::string&, const std::string&, const std::function<void()>&);
-    void find(std::vector<std::string>&) const override;
+    BasicOption(const std::string& flags, const std::string& description, const std::function<void()>& callback);
+    void find(std::vector<std::string>& args) const override;
 };
 
 class ValueOption final : public Option {
     const std::function<void(std::string)> m_callback;
 
 public:
-    ValueOption(const std::string&, const std::string&, const std::function<void(std::string)>&);
-    void find(std::vector<std::string>&) const override;
+    ValueOption(const std::string& flags,
+                const std::string& description,
+                const std::function<void(std::string)>& callback);
+    void find(std::vector<std::string>& args) const override;
 };
 
 }
