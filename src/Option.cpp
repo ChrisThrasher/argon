@@ -7,8 +7,7 @@
 namespace argon {
 
 Option::Option(const std::string& flags, const std::string& description, const std::string& name)
-    : m_description(description)
-    , m_name(name)
+    : Argument(name, description)
 {
     std::stringstream ss(flags);
     while (ss.good()) {

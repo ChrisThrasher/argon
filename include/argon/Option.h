@@ -11,8 +11,6 @@ namespace argon {
 class Option : public Argument {
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
-    const std::string m_description;
-    const std::string m_name;
 
 protected:
     Option(const std::string&, const std::string&, const std::string& = "");

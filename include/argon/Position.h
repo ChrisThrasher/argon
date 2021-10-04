@@ -5,11 +5,8 @@
 namespace argon {
 
 class Position final : public Argument {
-    std::string m_name;
-    std::string m_description;
-
 public:
-    Position(const std::string&, const std::string&);
+    Position(const std::string& name, const std::string& description);
 
     auto format() const -> std::string override;
     auto name() const -> std::string { return m_name; }
