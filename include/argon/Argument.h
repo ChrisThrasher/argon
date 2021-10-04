@@ -6,7 +6,7 @@ namespace argon {
 
 class Argument {
 protected:
-    const int m_format_width { 24 };
+    static constexpr int m_format_width { 24 };
 
 public:
     virtual auto format() const -> std::string = 0;
