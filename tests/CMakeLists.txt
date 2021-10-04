@@ -3,16 +3,14 @@ if(NOT BUILD_TESTING)
 endif()
 
 include(FetchContent)
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
-set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-FetchContent_Declare(gtest
-    GIT_REPOSITORY "https://github.com/google/googletest.git"
-    GIT_TAG release-1.11.0)
-FetchContent_MakeAvailable(gtest)
+FetchContent_Declare(Catch2
+    GIT_REPOSITORY "https://github.com/catchorg/Catch2.git"
+    GIT_TAG v2.13.7)
+FetchContent_MakeAvailable(Catch2)
 
-add_executable(unit_tests UnitTests.cpp)
-target_link_libraries(unit_tests PRIVATE argon::argon GTest::gtest_main)
-add_test(NAME unit_tests COMMAND unit_tests)
+add_executable(test-argon UnitTests.cpp)
+target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
+add_test(NAME test-argon COMMAND test-argon)
 
 add_test(NAME flag--help COMMAND example --help)
 set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
