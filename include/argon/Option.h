@@ -39,4 +39,4 @@ public:
     virtual void find(std::vector<std::string>&) const;
 };
 
-} // namespace argon
+}

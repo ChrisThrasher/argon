@@ -15,4 +15,4 @@ public:
     auto name() const -> std::string { return m_name; }
 };
 
-} // namespace argon
+}

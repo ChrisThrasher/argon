@@ -12,4 +12,4 @@ public:
     virtual auto format() const -> std::string = 0;
 };
 
-} // namespace argon
+}
