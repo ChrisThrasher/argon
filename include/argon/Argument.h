@@ -13,6 +13,7 @@ protected:
 
 public:
     Argument(const std::string& name, const std::string& description);
+    virtual ~Argument() = default;
     virtual auto format() const -> std::string = 0;
 };
 

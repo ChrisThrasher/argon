@@ -16,7 +16,7 @@ class Parser {
     const std::string m_program_name;
 
     std::vector<std::string> m_args {};
-    std::vector<std::shared_ptr<Option>> m_options {};
+    std::vector<std::unique_ptr<Option>> m_options {};
     std::vector<Position> m_positions {};
 
 public:
@@ -39,7 +39,7 @@ public:
 template <typename T>
 void Parser::add_option(T& value, const std::string& flags, const std::string& description)
 {
-    m_options.push_back(std::make_shared<ValueOption>(
+    m_options.push_back(std::make_unique<ValueOption>(
         flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
 }
 

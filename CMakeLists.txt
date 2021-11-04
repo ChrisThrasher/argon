@@ -16,7 +16,7 @@ add_library(argon
     src/Position.cpp)
 add_library(argon::argon ALIAS argon)
 target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_compile_features(argon PUBLIC cxx_std_11)
+target_compile_features(argon PUBLIC cxx_std_14)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
