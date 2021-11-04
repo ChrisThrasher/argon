@@ -39,7 +39,7 @@ void Parser::add_option(bool& found, const std::string& flags, const std::string
 
 void Parser::add_position(const std::string& name, const std::string& description)
 {
-    m_positions.push_back(Position(name, description));
+    m_positions.emplace_back(name, description);
 }
 
 auto Parser::get_position(const size_t index) -> std::string { return args().at(index); }
