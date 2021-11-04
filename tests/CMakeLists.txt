@@ -12,8 +12,8 @@ add_executable(test-argon UnitTests.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
 add_test(NAME test-argon COMMAND test-argon)
 
-add_test(NAME flag--help COMMAND example --help)
-set_property(TEST flag--help PROPERTY PASS_REGULAR_EXPRESSION
+add_test(NAME test-help-flag COMMAND example --help)
+set_property(TEST test-help-flag PROPERTY PASS_REGULAR_EXPRESSION
     "Usage
   example <filename> \\[options\\]
 
@@ -30,5 +30,5 @@ Options
   --speed <value>         Initial speed
   -o, --output <value>    Output filename")
 
-add_test(NAME flag--version COMMAND example --version)
-set_property(TEST flag--version PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
+add_test(NAME test-version-flag COMMAND example --version)
+set_property(TEST test-version-flag PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
