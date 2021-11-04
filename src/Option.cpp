@@ -6,8 +6,8 @@
 
 namespace argon {
 
-Option::Option(const std::string& flags, const std::string& description, const std::string& name)
-    : Argument(name, description)
+Option::Option(const std::string& flags, const std::string& description)
+    : Argument(description)
 {
     std::stringstream ss(flags);
     while (ss.good()) {
@@ -38,11 +38,10 @@ auto Option::format() const -> std::string
         flags << delim << flag;
         delim = ", ";
     }
-    flags << ' ' << m_name;
 
     std::stringstream out;
-    out << std::setfill(' ');
-    out << "\n  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
+    out << std::setfill(' ') << '\n';
+    out << "  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
     return out.str();
 }
 
@@ -69,9 +68,25 @@ void BasicOption::find(std::vector<std::string>& args) const
 ValueOption::ValueOption(const std::string& flags,
                          const std::string& description,
                          const std::function<void(std::string)>& callback)
-    : Option(flags, description, "<value> ")
+    : Option(flags, description)
     , m_callback(callback)
 {
+}
+
+auto ValueOption::format() const -> std::string
+{
+    std::stringstream flags;
+    std::string delim = "";
+    for (const auto& flag : this->flags()) {
+        flags << delim << flag;
+        delim = ", ";
+    }
+    flags << " <value>";
+
+    std::stringstream out;
+    out << std::setfill(' ') << '\n';
+    out << "  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
+    return out.str();
 }
 
 void ValueOption::find(std::vector<std::string>& args) const

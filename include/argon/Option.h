@@ -13,7 +13,7 @@ class Option : public Argument {
     std::set<char> m_aliases;
 
 protected:
-    Option(const std::string& flags, const std::string& description, const std::string& name = "");
+    Option(const std::string& flags, const std::string& description);
     auto flags() const -> std::vector<std::string>;
 
 public:
@@ -36,6 +36,7 @@ public:
     ValueOption(const std::string& flags,
                 const std::string& description,
                 const std::function<void(std::string)>& callback);
+    auto format() const -> std::string override;
     void find(std::vector<std::string>& args) const override;
 };
 

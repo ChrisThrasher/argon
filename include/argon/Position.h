@@ -5,6 +5,8 @@
 namespace argon {
 
 class Position final : public Argument {
+    std::string m_name;
+
 public:
     Position(const std::string& name, const std::string& description);
 

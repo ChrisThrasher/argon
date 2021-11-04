@@ -6,7 +6,8 @@
 namespace argon {
 
 Position::Position(const std::string& name, const std::string& description)
-    : Argument(name, description)
+    : Argument(description)
+    , m_name(name)
 {
 }
 
