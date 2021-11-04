@@ -1,4 +1,4 @@
-#include <argon/Argument.h>
+#include <argon/argument.h>
 
 namespace argon {
 constexpr int Argument::m_format_width;

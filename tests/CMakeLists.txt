@@ -8,7 +8,7 @@ FetchContent_Declare(Catch2
     GIT_TAG v2.13.7)
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(test-argon UnitTests.cpp)
+add_executable(test-argon unit_tests.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
 add_test(NAME test-argon COMMAND test-argon)
 

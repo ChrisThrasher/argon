@@ -1,4 +1,4 @@
-#include <argon/Option.h>
+#include <argon/option.h>
 
 #include <iomanip>
 #include <iostream>

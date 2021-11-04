@@ -1,6 +1,6 @@
 #pragma once
 
-#include <argon/Argument.h>
+#include <argon/argument.h>
 
 namespace argon {
 

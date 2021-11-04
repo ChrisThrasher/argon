@@ -1,7 +1,7 @@
 #pragma once
 
-#include <argon/Option.h>
-#include <argon/Position.h>
+#include <argon/option.h>
+#include <argon/position.h>
 
 #include <memory>
 #include <sstream>

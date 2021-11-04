@@ -9,11 +9,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
-add_library(argon
-    src/Argument.cpp
-    src/Option.cpp
-    src/Parser.cpp
-    src/Position.cpp)
+add_library(argon src/argument.cpp src/option.cpp src/parser.cpp src/position.cpp)
 add_library(argon::argon ALIAS argon)
 target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_compile_features(argon PUBLIC cxx_std_14)
