@@ -6,6 +6,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    add_compile_options("$<$<CONFIG:DEBUG>:-fsanitize=address,undefined>")
+    add_link_options("$<$<CONFIG:DEBUG>:-fsanitize=address,undefined>")
 endif()
 
 add_library(argon src/argument.cpp src/option.cpp src/parser.cpp src/position.cpp)
