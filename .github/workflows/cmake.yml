@@ -14,12 +14,10 @@ jobs:
     - name: Build
       shell: bash
       run: |
-        mkdir build
-        cd build
-        cmake ..
-        make
+        cmake -B build
+        cmake --build build
 
     - name: Test
       working-directory: build
       shell: bash
-      run: make test
+      run: ctest --output-on-failure
