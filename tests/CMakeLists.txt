@@ -15,7 +15,7 @@ add_test(NAME test-argon COMMAND test-argon)
 add_test(NAME test-help-flag COMMAND example --help)
 set_property(TEST test-help-flag PROPERTY PASS_REGULAR_EXPRESSION
     "Usage
-  example <filename> \\[options\\]
+  example.* <filename> \\[options\\]
 
 Argon CLI parser example program
 
