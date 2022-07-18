@@ -1,4 +1,4 @@
-if(NOT BUILD_TESTING OR (WIN32 AND BUILD_SHARED_LIBS))
+if(NOT BUILD_TESTING)
     return()
 endif()
 
