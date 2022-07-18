@@ -4,7 +4,7 @@ endif()
 
 include(FetchContent)
 FetchContent_Declare(Catch2
-    GIT_REPOSITORY "https://github.com/catchorg/Catch2.git"
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
     GIT_TAG v2.13.7)
 FetchContent_MakeAvailable(Catch2)
 
@@ -31,4 +31,4 @@ Options
   -o, --output <value>    Output filename")
 
 add_test(NAME test-version-flag COMMAND example --version)
-set_property(TEST test-version-flag PROPERTY PASS_REGULAR_EXPRESSION "v0.0.0")
+set_property(TEST test-version-flag PROPERTY PASS_REGULAR_EXPRESSION v0.0.0)
