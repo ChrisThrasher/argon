@@ -5,12 +5,14 @@ endif()
 include(FetchContent)
 FetchContent_Declare(Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v2.13.7)
+    GIT_TAG v2.13.9)
 FetchContent_MakeAvailable(Catch2)
+list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/contrib/")
+include(Catch)
 
 add_executable(test-argon unit_tests.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
-add_test(NAME test-argon COMMAND test-argon)
+catch_discover_tests(test-argon)
 
 add_test(NAME test-help-flag COMMAND example --help)
 set_property(TEST test-help-flag PROPERTY PASS_REGULAR_EXPRESSION
