@@ -6,7 +6,7 @@ namespace argon {
 
 Parser::Parser(const int argc, const char* const argv[])
     : m_program_name(std::string(argv[0]).substr(std::string(argv[0]).find_last_of('/') + 1))
-    , m_args(std::vector<std::string>(argv + 1, argv + argc))
+    , m_args(argv + 1, argv + argc)
 {
 }
 

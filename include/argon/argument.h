@@ -6,7 +6,7 @@ namespace argon {
 
 class Argument {
 protected:
-    static constexpr int m_format_width { 24 };
+    static inline constexpr int m_format_width { 24 };
 
     std::string m_description;
 
