@@ -9,7 +9,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_link_options($<$<CONFIG:DEBUG>:-fsanitize=address,undefined>)
 endif()
 
-add_library(argon src/argument.cpp src/option.cpp src/parser.cpp src/position.cpp)
+add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
 add_library(argon::argon ALIAS argon)
 target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_compile_features(argon PUBLIC cxx_std_17)
@@ -53,7 +53,7 @@ add_subdirectory(examples)
 add_subdirectory(tests)
 
 add_custom_target(format
-    COMMAND clang-format -i `git ls-files *.cpp *.h`
+    COMMAND clang-format -i `git ls-files *.hpp *.cpp`
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 add_custom_target(tidy
     COMMAND clang-tidy -p ${CMAKE_BINARY_DIR} `git ls-files *.cpp`

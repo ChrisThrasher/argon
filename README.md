@@ -5,7 +5,7 @@ Argon is a command line argument parser which supports optional and positional a
 # Usage
 
 ```cpp
-#include <argon/Parser.h>
+#include <argon/Parser.hpp>
 
 #include <iostream>
 
@@ -31,7 +31,6 @@ try {
     std::cerr << ex.what() << '\n';
     return -1;
 }
-
 ```
 
 Create an instance of `argon::Parser`. Use `add_option` to add as many options as you want.

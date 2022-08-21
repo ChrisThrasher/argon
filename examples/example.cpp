@@ -1,4 +1,4 @@
-#include <argon/parser.h>
+#include <argon/Parser.hpp>
 
 #include <iostream>
 

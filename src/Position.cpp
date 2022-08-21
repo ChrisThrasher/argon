@@ -1,4 +1,4 @@
-#include <argon/position.h>
+#include <argon/Position.hpp>
 
 #include <iomanip>
 #include <sstream>

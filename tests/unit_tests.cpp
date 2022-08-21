@@ -1,4 +1,4 @@
-#include <argon/parser.h>
+#include <argon/Parser.hpp>
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
