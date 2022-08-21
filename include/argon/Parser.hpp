@@ -15,9 +15,9 @@ class Parser {
 
     const std::string m_program_name;
 
-    std::vector<std::string> m_args {};
-    std::vector<std::unique_ptr<Option>> m_options {};
-    std::vector<Position> m_positions {};
+    std::vector<std::string> m_args;
+    std::vector<std::unique_ptr<Option>> m_options;
+    std::vector<Position> m_positions;
 
 public:
     Parser(const int argc, const char* const argv[]);
