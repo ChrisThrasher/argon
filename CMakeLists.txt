@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(argon VERSION 0.8.0 LANGUAGES CXX)
+project(argon VERSION 0.9.0 LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
