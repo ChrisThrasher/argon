@@ -32,6 +32,22 @@ jobs:
     - name: Install
       run: cmake --install build --config Release
 
+  format:
+    name: clang-format
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure
+      run: cmake -B build
+
+    - name: Format
+      run: |
+        cmake --build build --target format
+        git diff --exit-code
+
   analyze:
     name: clang-tidy
     runs-on: ubuntu-latest
