@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(argon VERSION 0.9.0 LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Runtime output directory")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
@@ -11,15 +12,24 @@ elseif(MSVC)
     add_compile_options(/WX /W4 /permissive- /wd4251)
 endif()
 
+include(GenerateExportHeader)
+
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
 add_library(argon::argon ALIAS argon)
-target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+target_include_directories(argon PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>)
 target_compile_features(argon PUBLIC cxx_std_17)
+set_target_properties(argon PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
+generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
+if(NOT BUILD_SHARED_LIBS)
+    target_compile_definitions(argon PUBLIC ARGON_STATIC_DEFINE)
+endif()
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-install(DIRECTORY include/
+install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         COMPONENT argon_headers)
 install(TARGETS argon

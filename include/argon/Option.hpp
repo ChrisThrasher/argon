@@ -8,7 +8,7 @@
 
 namespace argon {
 
-class Option : public Argument {
+class ARGON_EXPORT Option : public Argument {
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
 
@@ -21,7 +21,7 @@ public:
     virtual void find(std::vector<std::string>& args) const = 0;
 };
 
-class BasicOption final : public Option {
+class ARGON_EXPORT BasicOption final : public Option {
     std::function<void()> m_callback;
 
 public:
@@ -29,7 +29,7 @@ public:
     void find(std::vector<std::string>& args) const override;
 };
 
-class ValueOption final : public Option {
+class ARGON_EXPORT ValueOption final : public Option {
     std::function<void(std::string)> m_callback;
 
 public:

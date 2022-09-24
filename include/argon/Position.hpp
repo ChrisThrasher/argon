@@ -4,7 +4,7 @@
 
 namespace argon {
 
-class Position final : public Argument {
+class ARGON_EXPORT Position final : public Argument {
     std::string m_name;
 
 public:

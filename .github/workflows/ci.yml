@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }}
+    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
@@ -15,13 +15,16 @@ jobs:
         - { name: Linux GCC,   os: ubuntu-latest }
         - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
         - { name: macOS,       os: macos-latest  }
+        config:
+        - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
+        - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Configure
-      run: cmake -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}}
+      run: cmake -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
 
     - name: Build
       run: cmake --build build --config Release --target install
