@@ -6,7 +6,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 find_package(Catch2 3.1.0 REQUIRED)
 
-add_executable(test-argon unit_tests.cpp)
+add_executable(test-argon Parser.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2WithMain)
 catch_discover_tests(test-argon)
 
