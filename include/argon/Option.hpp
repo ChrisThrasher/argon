@@ -14,10 +14,10 @@ class Option : public Argument {
 
 protected:
     Option(const std::string& flags, const std::string& description);
-    auto flags() const -> std::vector<std::string>;
+    [[nodiscard]] auto flags() const -> std::vector<std::string>;
 
 public:
-    auto format() const -> std::string override;
+    [[nodiscard]] auto format() const -> std::string override;
     virtual void find(std::vector<std::string>& args) const = 0;
 };
 
@@ -25,7 +25,7 @@ class BasicOption final : public Option {
     const std::function<void()> m_callback;
 
 public:
-    BasicOption(const std::string& flags, const std::string& description, const std::function<void()>& callback);
+    BasicOption(const std::string& flags, const std::string& description, std::function<void()> callback);
     void find(std::vector<std::string>& args) const override;
 };
 
@@ -33,10 +33,8 @@ class ValueOption final : public Option {
     const std::function<void(std::string)> m_callback;
 
 public:
-    ValueOption(const std::string& flags,
-                const std::string& description,
-                const std::function<void(std::string)>& callback);
-    auto format() const -> std::string override;
+    ValueOption(const std::string& flags, const std::string& description, std::function<void(std::string)> callback);
+    [[nodiscard]] auto format() const -> std::string override;
     void find(std::vector<std::string>& args) const override;
 };
 

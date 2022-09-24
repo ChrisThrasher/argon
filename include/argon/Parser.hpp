@@ -11,7 +11,7 @@ namespace argon {
 enum Action { PRINT = 0, USAGE };
 
 class Parser {
-    auto make_usage(const std::string& help) const -> std::string;
+    [[nodiscard]] auto make_usage(const std::string& help) const -> std::string;
 
     const std::string m_program_name;
 
@@ -20,7 +20,7 @@ class Parser {
     std::vector<Position> m_positions;
 
 public:
-    Parser(const int argc, const char* const argv[]);
+    Parser(int argc, const char* const argv[]);
     void add_option(const std::string& flags,
                     const std::string& description,
                     const Action& action,
@@ -31,9 +31,9 @@ public:
     void add_option(T& value, const std::string& flags, const std::string& description);
 
     void add_position(const std::string& name, const std::string& description);
-    auto get_position(const size_t index) -> std::string;
+    [[nodiscard]] auto get_position(size_t index) const -> std::string;
     void parse();
-    auto args() const -> std::vector<std::string>;
+    [[nodiscard]] auto args() const -> std::vector<std::string>;
 };
 
 template <typename T>

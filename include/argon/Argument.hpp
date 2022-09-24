@@ -11,9 +11,9 @@ protected:
     std::string m_description;
 
 public:
-    Argument(const std::string& description);
+    Argument(std::string description);
     virtual ~Argument() = default;
-    virtual auto format() const -> std::string = 0;
+    [[nodiscard]] virtual auto format() const -> std::string = 0;
 };
 
 }

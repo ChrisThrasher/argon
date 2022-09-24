@@ -1,9 +1,10 @@
 #include <argon/Argument.hpp>
+#include <utility>
 
 namespace argon {
 
-Argument::Argument(const std::string& description)
-    : m_description(description)
+Argument::Argument(std::string description)
+    : m_description(std::move(description))
 {
 }
 }

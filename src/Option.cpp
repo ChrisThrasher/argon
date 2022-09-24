@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <utility>
 
 namespace argon {
 
@@ -23,6 +24,7 @@ Option::Option(const std::string& flags, const std::string& description)
 auto Option::flags() const -> std::vector<std::string>
 {
     std::vector<std::string> flags;
+    flags.reserve(m_aliases.size() + m_flags.size());
     for (const auto& alias : m_aliases)
         flags.push_back(std::string("-") + alias);
     for (const auto& flag : m_flags)
@@ -33,7 +35,7 @@ auto Option::flags() const -> std::vector<std::string>
 auto Option::format() const -> std::string
 {
     std::stringstream flags;
-    std::string delim = "";
+    std::string delim;
     for (const auto& flag : this->flags()) {
         flags << delim << flag;
         delim = ", ";
@@ -45,11 +47,9 @@ auto Option::format() const -> std::string
     return out.str();
 }
 
-BasicOption::BasicOption(const std::string& flags,
-                         const std::string& description,
-                         const std::function<void()>& callback)
+BasicOption::BasicOption(const std::string& flags, const std::string& description, std::function<void()> callback)
     : Option(flags, description)
-    , m_callback(callback)
+    , m_callback(std::move(callback))
 {
 }
 
@@ -67,16 +67,16 @@ void BasicOption::find(std::vector<std::string>& args) const
 
 ValueOption::ValueOption(const std::string& flags,
                          const std::string& description,
-                         const std::function<void(std::string)>& callback)
+                         std::function<void(std::string)> callback)
     : Option(flags, description)
-    , m_callback(callback)
+    , m_callback(std::move(callback))
 {
 }
 
 auto ValueOption::format() const -> std::string
 {
     std::stringstream flags;
-    std::string delim = "";
+    std::string delim;
     for (const auto& flag : this->flags()) {
         flags << delim << flag;
         delim = ", ";

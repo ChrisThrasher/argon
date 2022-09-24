@@ -8,10 +8,10 @@ class Position final : public Argument {
     std::string m_name;
 
 public:
-    Position(const std::string& name, const std::string& description);
+    Position(std::string name, const std::string& description);
 
-    auto format() const -> std::string override;
-    auto name() const -> std::string { return m_name; }
+    [[nodiscard]] auto format() const -> std::string override;
+    [[nodiscard]] auto name() const -> std::string { return m_name; }
 };
 
 }

@@ -2,12 +2,13 @@
 
 #include <iomanip>
 #include <sstream>
+#include <utility>
 
 namespace argon {
 
-Position::Position(const std::string& name, const std::string& description)
+Position::Position(std::string name, const std::string& description)
     : Argument(description)
-    , m_name(name)
+    , m_name(std::move(name))
 {
 }
 
