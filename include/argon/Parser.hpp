@@ -16,7 +16,7 @@ class Parser {
     std::string m_program_name;
 
     std::vector<std::string> m_args;
-    std::vector<std::unique_ptr<Option>> m_options;
+    std::vector<std::shared_ptr<Option>> m_options;
     std::vector<Position> m_positions;
 
 public:
