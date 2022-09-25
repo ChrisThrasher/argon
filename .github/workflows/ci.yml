@@ -32,16 +32,25 @@ jobs:
     - name: Test
       run: ctest --test-dir build --build-config Release --output-on-failure
 
+    - uses: actions/upload-artifact@v3
+      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Static'
+      with:
+        name: binary_dir
+        path: build
+
   format:
     name: clang-format
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Configure
-      run: cmake -B build
+    - uses: actions/download-artifact@v3
+      with:
+        name: binary_dir
+        path: build
 
     - name: Format
       run: |
@@ -50,14 +59,17 @@ jobs:
 
   analyze:
     name: clang-tidy
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Configure
-      run: cmake -B build
+    - uses: actions/download-artifact@v3
+      with:
+        name: binary_dir
+        path: build
 
     - name: Analyze
       run: cmake --build build --target tidy
