@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(argon-example)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    find_package(argon REQUIRED)
+    find_package(argon 0.9.1 EXACT REQUIRED)
 endif()
 
 add_executable(example Example.cpp)
