@@ -29,8 +29,13 @@ jobs:
     - name: Build
       run: cmake --build build --config Release --target install
 
-    - name: Test
+    - name: Run Tests
       run: ctest --test-dir build --build-config Release --output-on-failure
+
+    - name: Run Installation Test
+      run: |
+        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
+        cmake --build examples/build --config Release
 
     - uses: actions/upload-artifact@v3
       if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Static'
