@@ -31,8 +31,9 @@ public:
     void add_option(T& value, const std::string& flags, const std::string& description);
 
     void add_position(const std::string& name, const std::string& description);
-    [[nodiscard]] auto get_position(size_t index) const -> std::string;
     void parse();
+
+    [[nodiscard]] auto get_position(size_t index) const -> std::string;
     [[nodiscard]] auto args() const -> std::vector<std::string>;
 };
 
