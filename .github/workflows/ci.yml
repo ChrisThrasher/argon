@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
+    name: ${{ matrix.platform.name }} ${{ matrix.type.name }} ${{ matrix.config.name }}
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
@@ -15,30 +15,33 @@ jobs:
         - { name: Linux GCC,   os: ubuntu-latest }
         - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
         - { name: macOS,       os: macos-latest  }
-        config:
+        type:
         - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
         - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
+        config:
+        - { name: Debug }
+        - { name: Release }
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Configure
-      run: cmake -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
+      run: cmake -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
 
     - name: Build
-      run: cmake --build build --config Release --target install
+      run: cmake --build build --config ${{matrix.config.name}} --target install
 
     - name: Run Tests
-      run: ctest --test-dir build --build-config Release --output-on-failure
+      run: ctest --test-dir build --build-config ${{matrix.config.name}} --output-on-failure
 
     - name: Run Installation Test
       run: |
-        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
-        cmake --build examples/build --config Release
+        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
+        cmake --build examples/build --config ${{matrix.config.name}}
 
     - uses: actions/upload-artifact@v3
-      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Static'
+      if: matrix.platform.name == 'Linux GCC' && matrix.type.name == 'Static'
       with:
         name: binary_dir
         path: build

@@ -6,8 +6,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Runtime
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
-    add_compile_options($<$<CONFIG:DEBUG>:-fsanitize=address,undefined>)
-    add_link_options($<$<CONFIG:DEBUG>:-fsanitize=address,undefined>)
 elseif(MSVC)
     add_compile_options(/WX /W4 /permissive- /wd4251)
 endif()
