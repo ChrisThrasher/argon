@@ -17,13 +17,13 @@ void Parser::add_option(const std::string& flags,
 {
     switch (action) {
     case USAGE:
-        m_options.push_back(std::make_unique<BasicOption>(flags, description, [output, this]() {
+        m_options.emplace_back(std::make_unique<BasicOption>(flags, description, [output, this]() {
             std::cerr << make_usage(output);
             std::exit(0);
         }));
         return;
     case PRINT:
-        m_options.push_back(std::make_unique<BasicOption>(flags, description, [output]() {
+        m_options.emplace_back(std::make_unique<BasicOption>(flags, description, [output]() {
             std::cerr << output << '\n';
             std::exit(0);
         }));
@@ -34,7 +34,7 @@ void Parser::add_option(const std::string& flags,
 void Parser::add_option(bool& found, const std::string& flags, const std::string& description)
 {
     found = false;
-    m_options.push_back(std::make_unique<BasicOption>(flags, description, [&found]() { found = true; }));
+    m_options.emplace_back(std::make_unique<BasicOption>(flags, description, [&found]() { found = true; }));
 }
 
 void Parser::add_position(const std::string& name, const std::string& description)

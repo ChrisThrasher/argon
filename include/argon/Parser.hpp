@@ -39,7 +39,7 @@ public:
 template <typename T>
 void Parser::add_option(T& value, const std::string& flags, const std::string& description)
 {
-    m_options.push_back(std::make_unique<ValueOption>(
+    m_options.emplace_back(std::make_unique<ValueOption>(
         flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
 }
 

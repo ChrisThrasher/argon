@@ -26,9 +26,9 @@ auto Option::flags() const -> std::vector<std::string>
     std::vector<std::string> flags;
     flags.reserve(m_aliases.size() + m_flags.size());
     for (const auto& alias : m_aliases)
-        flags.push_back(std::string("-") + alias);
+        flags.emplace_back(std::string("-") + alias);
     for (const auto& flag : m_flags)
-        flags.push_back("--" + flag);
+        flags.emplace_back("--" + flag);
     return flags;
 }
 
