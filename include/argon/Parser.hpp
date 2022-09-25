@@ -13,7 +13,7 @@ enum Action { PRINT = 0, USAGE };
 class Parser {
     [[nodiscard]] auto make_usage(const std::string& help) const -> std::string;
 
-    const std::string m_program_name;
+    std::string m_program_name;
 
     std::vector<std::string> m_args;
     std::vector<std::unique_ptr<Option>> m_options;

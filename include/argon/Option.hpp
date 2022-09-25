@@ -22,7 +22,7 @@ public:
 };
 
 class BasicOption final : public Option {
-    const std::function<void()> m_callback;
+    std::function<void()> m_callback;
 
 public:
     BasicOption(const std::string& flags, const std::string& description, std::function<void()> callback);
@@ -30,7 +30,7 @@ public:
 };
 
 class ValueOption final : public Option {
-    const std::function<void(std::string)> m_callback;
+    std::function<void(std::string)> m_callback;
 
 public:
     ValueOption(const std::string& flags, const std::string& description, std::function<void(std::string)> callback);
