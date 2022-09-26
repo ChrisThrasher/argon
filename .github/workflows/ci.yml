@@ -41,7 +41,7 @@ jobs:
         cmake --build examples/build --config ${{matrix.config.name}}
 
     - uses: actions/upload-artifact@v3
-      if: matrix.platform.name == 'Linux GCC' && matrix.type.name == 'Static'
+      if: matrix.platform.name == 'Linux GCC' && matrix.type.name == 'Static' && matrix.config.name == 'Debug'
       with:
         name: binary_dir
         path: build
