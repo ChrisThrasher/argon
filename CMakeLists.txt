@@ -59,6 +59,7 @@ if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 include(CTest)
+add_subdirectory(docs)
 add_subdirectory(examples)
 add_subdirectory(tests)
 

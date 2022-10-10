@@ -8,8 +8,17 @@
 
 namespace argon {
 
-enum Action { PRINT, USAGE };
+/// \file
 
+/// \brief Special tags for options
+///
+enum Action {
+    PRINT, ///< Print message to console then exit
+    USAGE ///< Print usage text
+};
+
+/// \brief Argument parser
+///
 class ARGON_EXPORT Parser {
     [[nodiscard]] auto make_usage(const std::string& help) const -> std::string;
 

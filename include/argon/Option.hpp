@@ -8,6 +8,10 @@
 
 namespace argon {
 
+/// \file
+
+/// \brief Base type of all optional arguments
+///
 class ARGON_EXPORT Option : public Argument {
     std::set<std::string> m_flags;
     std::set<char> m_aliases;
@@ -21,6 +25,8 @@ public:
     virtual void find(std::vector<std::string>& args) const = 0;
 };
 
+/// \brief Optional argument with a simple binary state
+///
 class ARGON_EXPORT BasicOption final : public Option {
     std::function<void()> m_callback;
 
@@ -29,6 +35,8 @@ public:
     void find(std::vector<std::string>& args) const override;
 };
 
+/// \brief Optional argument with an arbitrary value
+///
 class ARGON_EXPORT ValueOption final : public Option {
     std::function<void(std::string)> m_callback;
 

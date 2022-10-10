@@ -4,6 +4,10 @@
 
 namespace argon {
 
+/// \file
+
+/// \brief Positional argument
+///
 class ARGON_EXPORT Position final : public Argument {
     std::string m_name;
 
