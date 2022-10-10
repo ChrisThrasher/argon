@@ -8,7 +8,7 @@
 
 namespace argon {
 
-enum Action { PRINT = 0, USAGE };
+enum Action { PRINT, USAGE };
 
 class ARGON_EXPORT Parser {
     [[nodiscard]] auto make_usage(const std::string& help) const -> std::string;
