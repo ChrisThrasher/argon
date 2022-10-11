@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Install Doxygen
-      run: sudo apt install doxygen
+      run: sudo apt install doxygen graphviz
 
     - name: Checkout
       uses: actions/checkout@v3
