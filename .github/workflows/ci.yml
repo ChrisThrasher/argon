@@ -2,6 +2,11 @@ name: CI
 
 on: [push]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     name: ${{matrix.platform.name}} ${{matrix.type.name}} ${{matrix.config.name}}
@@ -81,3 +86,35 @@ jobs:
 
     - name: Analyze
       run: cmake --build build --target tidy
+
+  docs:
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Doxygen
+      run: sudo apt install doxygen
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure
+      run: cmake -B build
+
+    - name: Build Doxygen Site
+      run: cmake --build build --target docs
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+
+    - name: Upload Artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: build/docs/html
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
