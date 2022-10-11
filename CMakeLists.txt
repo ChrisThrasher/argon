@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(argon VERSION 0.9.1 LANGUAGES CXX)
+project(argon VERSION 0.9.1 LANGUAGES CXX DESCRIPTION "Command line argument parser")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
