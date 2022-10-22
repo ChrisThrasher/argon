@@ -2,6 +2,25 @@
 ///
 /// Welcome to the Argon documentation!
 ///
+/// \section installation Building and Installing
+///
+/// These two CMake commands will compile and install Argon.
+///
+/// ```
+/// cmake -B build -DCMAKE_BUILD_TYPE=Release
+/// cmake --build build --config Release --target install
+/// ```
+///
+/// \section find_package Depending on Argon
+///
+/// Argon provides a convenient CMake config module for finding and depending on it.
+///
+/// ```
+/// find_package(argon REQUIRED)
+/// ...
+/// target_link_libraries(app PRIVATE argon::argon)
+/// ```
+///
 /// \section getting_started Getting Started
 /// Here's a short example to help you see how Argon can be used.
 ///
@@ -30,7 +49,7 @@
 ///     const auto filename = parser.get_position(0);
 /// } catch (const std::exception& ex) {
 ///     std::cerr << ex.what() << '\n';
-///    return -1;
+///     return -1;
 /// }
 /// ```
 ///
