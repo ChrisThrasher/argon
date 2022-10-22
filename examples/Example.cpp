@@ -12,10 +12,10 @@ try {
     argon::Parser parser(argc, argv);
     parser.add_option("h,help", "Show this help text", argon::USAGE, "Argon CLI parser example program");
     parser.add_option("version", "Print program version", argon::PRINT, "v0.0.0");
-    parser.add_option(debug, "d,debug", "Debug output");
-    parser.add_option(count, "c,count", "Number of instances");
-    parser.add_option(speed, "speed", "Initial speed");
-    parser.add_option(output, "o,output", "Output filename");
+    parser.add_option("d,debug", "Debug output", debug);
+    parser.add_option("c,count", "Number of instances", count);
+    parser.add_option("speed", "Initial speed", speed);
+    parser.add_option("o,output", "Output filename", output);
     parser.add_position("filename", "Input file");
     parser.parse();
 

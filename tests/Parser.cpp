@@ -36,12 +36,12 @@ TEST_CASE("Add option")
     double speed = 0.0;
 
     argon::Parser parser(argc, argv);
-    parser.add_option(debug, "d", "Debug output");
-    parser.add_option(verbose, "verbose,V", "Verbose output");
-    parser.add_option(not_found, "not_found", "Flag not found");
-    parser.add_option(filename, "f", "Filename");
-    parser.add_option(count, "count,c", "Count");
-    parser.add_option(speed, "speed", "Speed");
+    parser.add_option("d", "Debug output", debug);
+    parser.add_option("verbose,V", "Verbose output", verbose);
+    parser.add_option("not_found", "Flag not found", not_found);
+    parser.add_option("f", "Filename", filename);
+    parser.add_option("count,c", "Count", count);
+    parser.add_option("speed", "Speed", speed);
     parser.parse();
 
     CHECK(debug);

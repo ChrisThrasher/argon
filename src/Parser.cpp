@@ -31,7 +31,7 @@ void Parser::add_option(const std::string& flags,
     }
 }
 
-void Parser::add_option(bool& found, const std::string& flags, const std::string& description)
+void Parser::add_option(const std::string& flags, const std::string& description, bool& found)
 {
     found = false;
     m_options.emplace_back(std::make_unique<BasicOption>(flags, description, [&found]() { found = true; }));

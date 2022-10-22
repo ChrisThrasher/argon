@@ -34,10 +34,10 @@ public:
                     const std::string& description,
                     const Action& action,
                     const std::string& output);
-    void add_option(bool& found, const std::string& flags, const std::string& description);
+    void add_option(const std::string& flags, const std::string& description, bool& found);
 
     template <typename T>
-    void add_option(T& value, const std::string& flags, const std::string& description);
+    void add_option(const std::string& flags, const std::string& description, T& value);
 
     void add_position(const std::string& name, const std::string& description);
     void parse();
@@ -47,7 +47,7 @@ public:
 };
 
 template <typename T>
-void Parser::add_option(T& value, const std::string& flags, const std::string& description)
+void Parser::add_option(const std::string& flags, const std::string& description, T& value)
 {
     m_options.emplace_back(std::make_unique<ValueOption>(
         flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
