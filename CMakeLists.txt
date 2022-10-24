@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.22)
 project(argon VERSION 0.9.1 LANGUAGES CXX DESCRIPTION "Command line argument parser")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -51,7 +51,7 @@ install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
         DESTINATION share/cmake/argon
         COMPONENT argon_cmake)
 
-if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if(NOT PROJECT_IS_TOP_LEVEL)
     return()
 endif()
 
