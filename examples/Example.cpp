@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 try {
-    bool debug;
+    bool debug = false;
     int count = 0;
     double speed = 0.0;
     std::string output;

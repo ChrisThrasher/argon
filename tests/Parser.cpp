@@ -28,9 +28,9 @@ TEST_CASE("Add option")
     constexpr const char* argv[argc] = { "example", "-d",  "--verbose", "-f",   "/dev/ttyUSB0", "--unmatched-flag",
                                          "-c",      "100", "--temp",    "98.6", "--speed",      "133.7" };
 
-    bool debug;
-    bool verbose;
-    bool not_found;
+    bool debug = false;
+    bool verbose = false;
+    bool not_found = false;
     std::string filename;
     int count = 0;
     double speed = 0.0;
