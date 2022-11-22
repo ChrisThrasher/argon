@@ -20,9 +20,9 @@ public:
     Argument(std::string description);
     virtual ~Argument() = default;
     Argument(const Argument&) = default;
-    Argument(Argument&&) = default;
+    Argument(Argument&&) noexcept = default;
     Argument& operator=(const Argument&) = default;
-    Argument& operator=(Argument&&) = default;
+    Argument& operator=(Argument&&) noexcept = default;
 
     [[nodiscard]] virtual auto format() const -> std::string = 0;
 };
