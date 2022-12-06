@@ -25,30 +25,30 @@ if(NOT BUILD_SHARED_LIBS)
 endif()
 
 install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_headers)
 install(TARGETS argon
         EXPORT argon-targets
         COMPONENT argon_cmake
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_runtime
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_runtime
         NAMELINK_COMPONENT argon_development
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_development
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(EXPORT argon-targets
         FILE argon-targets.cmake
         NAMESPACE argon::
-        DESTINATION share/cmake/argon
+        DESTINATION share/cmake/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
 write_basic_package_version_file(argon-config-version.cmake
                                  VERSION ${PROJECT_VERSION}
                                  COMPATIBILITY SameMajorVersion)
 install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
-        DESTINATION share/cmake/argon
+        DESTINATION share/cmake/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
 
 if(NOT PROJECT_IS_TOP_LEVEL)
