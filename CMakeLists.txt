@@ -42,14 +42,14 @@ install(TARGETS argon
 install(EXPORT argon-targets
         FILE argon-targets.cmake
         NAMESPACE argon::
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/argon-${PROJECT_VERSION}
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
 write_basic_package_version_file(argon-config-version.cmake
                                  VERSION ${PROJECT_VERSION}
                                  COMPATIBILITY SameMajorVersion)
 install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/argon-${PROJECT_VERSION}
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
 
 if(NOT PROJECT_IS_TOP_LEVEL)
