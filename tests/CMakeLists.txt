@@ -4,7 +4,7 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-find_package(Catch2 3.2.0 REQUIRED)
+find_package(Catch2 3.2.1 REQUIRED)
 
 add_executable(test-argon Parser.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2WithMain)
