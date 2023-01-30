@@ -52,6 +52,8 @@ install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
 
+include(CPack)
+
 if(NOT PROJECT_IS_TOP_LEVEL)
     return()
 endif()
