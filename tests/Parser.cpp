@@ -50,7 +50,7 @@ TEST_CASE("Add option")
     CHECK("/dev/ttyUSB0" == filename);
     CHECK(100 == count);
     CHECK(133.7 == speed);
-    CHECK(std::vector<std::string>({ "--unmatched-flag", "--temp", "98.6" }) == parser.args());
+    CHECK(std::vector<std::string_view>({ "--unmatched-flag", "--temp", "98.6" }) == parser.args());
 }
 
 TEST_CASE("Add position")
@@ -81,19 +81,19 @@ TEST_CASE("Parse zero arguments")
 {
     constexpr int argc = 1;
     constexpr const char* argv[argc] = { "my_program_name" };
-    CHECK(std::vector<std::string>({}) == argon::Parser(argc, argv).args());
+    CHECK(std::vector<std::string_view>({}) == argon::Parser(argc, argv).args());
 }
 
 TEST_CASE("Parse one argument")
 {
     constexpr int argc = 2;
     constexpr const char* argv[argc] = { "my_program_name", "some_input" };
-    CHECK(std::vector<std::string>({ "some_input" }) == argon::Parser(argc, argv).args());
+    CHECK(std::vector<std::string_view>({ "some_input" }) == argon::Parser(argc, argv).args());
 }
 
 TEST_CASE("Parse multiple arguments")
 {
     constexpr int argc = 4;
     constexpr const char* argv[argc] = { "my_program_name", "some_input", "abc", "123" };
-    CHECK(std::vector<std::string>({ "some_input", "abc", "123" }) == argon::Parser(argc, argv).args());
+    CHECK(std::vector<std::string_view>({ "some_input", "abc", "123" }) == argon::Parser(argc, argv).args());
 }

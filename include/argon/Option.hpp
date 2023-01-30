@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <set>
+#include <string_view>
 #include <vector>
 
 namespace argon {
@@ -22,7 +23,7 @@ protected:
 
 public:
     [[nodiscard]] auto format() const -> std::string override;
-    virtual void find(std::vector<std::string>& args) const = 0;
+    virtual void find(std::vector<std::string_view>& args) const = 0;
 };
 
 /// \brief Optional argument with a simple binary state
@@ -32,18 +33,20 @@ class ARGON_EXPORT BasicOption final : public Option {
 
 public:
     BasicOption(const std::string& flags, const std::string& description, std::function<void()> callback);
-    void find(std::vector<std::string>& args) const override;
+    void find(std::vector<std::string_view>& args) const override;
 };
 
 /// \brief Optional argument with an arbitrary value
 ///
 class ARGON_EXPORT ValueOption final : public Option {
-    std::function<void(std::string)> m_callback;
+    std::function<void(std::string_view)> m_callback;
 
 public:
-    ValueOption(const std::string& flags, const std::string& description, std::function<void(std::string)> callback);
+    ValueOption(const std::string& flags,
+                const std::string& description,
+                std::function<void(std::string_view)> callback);
     [[nodiscard]] auto format() const -> std::string override;
-    void find(std::vector<std::string>& args) const override;
+    void find(std::vector<std::string_view>& args) const override;
 };
 
 }

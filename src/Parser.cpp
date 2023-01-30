@@ -42,7 +42,7 @@ void Parser::add_position(const std::string& name, const std::string& descriptio
     m_positions.emplace_back(name, description);
 }
 
-auto Parser::get_position(const size_t index) const -> std::string { return args().at(index); }
+auto Parser::get_position(const size_t index) const -> std::string_view { return args().at(index); }
 
 void Parser::parse()
 {
@@ -57,7 +57,7 @@ void Parser::parse()
     }
 }
 
-auto Parser::args() const -> std::vector<std::string> { return m_args; }
+auto Parser::args() const -> std::vector<std::string_view> { return m_args; }
 
 auto Parser::make_usage(const std::string& help) const -> std::string
 {

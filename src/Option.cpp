@@ -53,7 +53,7 @@ BasicOption::BasicOption(const std::string& flags, const std::string& descriptio
 {
 }
 
-void BasicOption::find(std::vector<std::string>& args) const
+void BasicOption::find(std::vector<std::string_view>& args) const
 {
     for (auto it = args.begin(); it < args.end(); ++it) {
         for (const auto& flag : flags()) {
@@ -67,7 +67,7 @@ void BasicOption::find(std::vector<std::string>& args) const
 
 ValueOption::ValueOption(const std::string& flags,
                          const std::string& description,
-                         std::function<void(std::string)> callback)
+                         std::function<void(std::string_view)> callback)
     : Option(flags, description)
     , m_callback(std::move(callback))
 {
@@ -89,7 +89,7 @@ auto ValueOption::format() const -> std::string
     return out.str();
 }
 
-void ValueOption::find(std::vector<std::string>& args) const
+void ValueOption::find(std::vector<std::string_view>& args) const
 {
     for (auto it = args.begin(); it < args.end(); ++it) {
         for (const auto& flag : flags()) {

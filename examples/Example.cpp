@@ -20,6 +20,7 @@ try {
     parser.parse();
 
     const auto filename = parser.get_position(0);
+    std::cout << "Filename: " << filename << '\n';
 } catch (const std::exception& ex) {
     std::cerr << ex.what() << '\n';
     return -1;

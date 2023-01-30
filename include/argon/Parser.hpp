@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <sstream>
+#include <string_view>
 
 namespace argon {
 
@@ -24,7 +25,7 @@ class ARGON_EXPORT Parser {
 
     std::string m_program_name;
 
-    std::vector<std::string> m_args;
+    std::vector<std::string_view> m_args;
     std::vector<std::shared_ptr<Option>> m_options;
     std::vector<Position> m_positions;
 
@@ -42,15 +43,15 @@ public:
     void add_position(const std::string& name, const std::string& description);
     void parse();
 
-    [[nodiscard]] auto get_position(size_t index) const -> std::string;
-    [[nodiscard]] auto args() const -> std::vector<std::string>;
+    [[nodiscard]] auto get_position(size_t index) const -> std::string_view;
+    [[nodiscard]] auto args() const -> std::vector<std::string_view>;
 };
 
 template <typename T>
 void Parser::add_option(const std::string& flags, const std::string& description, T& value)
 {
     m_options.push_back(std::make_unique<ValueOption>(
-        flags, description, [&value](const std::string& s) { std::istringstream(s) >> value; }));
+        flags, description, [&value](std::string_view s) { std::istringstream(std::string(s)) >> value; }));
 }
 
 }
