@@ -18,8 +18,8 @@ if (WIN32 AND BUILD_SHARED_LIBS)
 endif()
 catch_discover_tests(test-argon)
 
-add_test(NAME test-help-flag COMMAND test-argon --help)
-set_property(TEST test-help-flag PROPERTY PASS_REGULAR_EXPRESSION
+add_test(NAME --help COMMAND test-argon --help)
+set_property(TEST --help PROPERTY PASS_REGULAR_EXPRESSION
     "Usage
   test-argon.* <filename> \\[options\\]
 
@@ -36,5 +36,5 @@ Options
   --speed <value>         Initial speed
   -o, --output <value>    Output filename")
 
-add_test(NAME test-version-flag COMMAND test-argon --version)
-set_property(TEST test-version-flag PROPERTY PASS_REGULAR_EXPRESSION v0.0.0)
+add_test(NAME --version COMMAND test-argon --version)
+set_property(TEST --version PROPERTY PASS_REGULAR_EXPRESSION v0.0.0)
