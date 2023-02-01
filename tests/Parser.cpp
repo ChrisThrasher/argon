@@ -2,26 +2,6 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-TEST_CASE("Usage action")
-{
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = { "example", "-h" };
-
-    argon::Parser parser(argc, argv);
-    parser.add_option("h", "Show this help text", argon::USAGE, "my help text");
-    // CHECK_EXIT(parser.parse(), testing::ExitedWithCode(0), "my help text");
-}
-
-TEST_CASE("Print action")
-{
-    constexpr int argc = 2;
-    constexpr const char* argv[argc] = { "example", "--version" };
-
-    argon::Parser parser(argc, argv);
-    parser.add_option("version", "Print program version", argon::PRINT, "v0.0.0");
-    // CHECK_EXIT(parser.parse(), testing::ExitedWithCode(0), "v0.0.0");
-}
-
 TEST_CASE("Add option")
 {
     constexpr int argc = 12;
