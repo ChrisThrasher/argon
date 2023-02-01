@@ -38,8 +38,8 @@ jobs:
 
     - name: Run Installation Test
       run: |
-        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
-        cmake --build examples/build --config ${{matrix.config.name}}
+        cmake -S tests -B tests/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
+        cmake --build tests/build --config ${{matrix.config.name}}
 
     - uses: actions/upload-artifact@v3
       if: matrix.platform.name == 'Linux Clang' && matrix.type.name == 'Static' && matrix.config.name == 'Debug'

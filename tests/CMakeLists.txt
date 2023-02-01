@@ -1,5 +1,9 @@
-if(NOT BUILD_TESTING)
-    return()
+cmake_minimum_required(VERSION 3.22)
+project(argon-tests CXX)
+
+if(PROJECT_IS_TOP_LEVEL)
+    find_package(argon 0.10.0 EXACT REQUIRED)
+    include(CTest)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
@@ -9,7 +13,13 @@ target_compile_features(Catch2 PRIVATE cxx_std_17)
 
 add_executable(test-argon Parser.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2WithMain)
+if (WIN32 AND BUILD_SHARED_LIBS)
+    add_custom_command(TARGET test-argon PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:test-argon> $<TARGET_FILE_DIR:test-argon> COMMAND_EXPAND_LISTS)
+endif()
 catch_discover_tests(test-argon)
+
+add_executable(example Example.cpp)
+target_link_libraries(example PRIVATE argon::argon)
 
 add_test(NAME test-help-flag COMMAND example --help)
 set_property(TEST test-help-flag PROPERTY PASS_REGULAR_EXPRESSION

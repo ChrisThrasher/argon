@@ -58,10 +58,12 @@ if(NOT PROJECT_IS_TOP_LEVEL)
     return()
 endif()
 
-include(CTest)
 add_subdirectory(docs)
-add_subdirectory(examples)
-add_subdirectory(tests)
+
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.hpp *.cpp`
