@@ -28,16 +28,19 @@ endif()
 install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_headers)
-install(TARGETS argon
-        EXPORT argon-targets
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
-        COMPONENT argon_runtime
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
-        COMPONENT argon_runtime
-        NAMELINK_COMPONENT argon_development
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
-        COMPONENT argon_development
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
+install(TARGETS argon EXPORT argon-targets
+        RUNTIME
+            DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
+            COMPONENT argon_runtime
+        LIBRARY
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
+            COMPONENT argon_runtime
+            NAMELINK_COMPONENT argon_development
+        ARCHIVE
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
+            COMPONENT argon_development
+        INCLUDES
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(EXPORT argon-targets
         FILE argon-targets.cmake
         NAMESPACE argon::
