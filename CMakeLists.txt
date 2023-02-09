@@ -30,7 +30,6 @@ install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
         COMPONENT argon_headers)
 install(TARGETS argon
         EXPORT argon-targets
-        COMPONENT argon_cmake
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_runtime
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
