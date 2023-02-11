@@ -12,7 +12,7 @@ find_package(Catch2 3.3.1 REQUIRED)
 target_compile_features(Catch2 PRIVATE cxx_std_17)
 
 add_executable(test-argon Main.cpp Parser.cpp)
-target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2WithMain)
+target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET test-argon PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:test-argon> $<TARGET_FILE_DIR:test-argon> COMMAND_EXPAND_LISTS)
 endif()
