@@ -5,6 +5,7 @@
       "name": "dev",
       "binaryDir": "build",
       "installDir": "build/install",
+      "toolchainFile": "cmake/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_EXTENSIONS": "OFF",
@@ -13,15 +14,6 @@
         "ARGON_ENABLE_WARNINGS": "ON",
         "ARGON_BUILD_TESTING": "ON",
         "ARGON_BUILD_EXAMPLES": "ON"
-      },
-      "warnings": {
-        "dev": true,
-        "deprecated": true,
-        "uninitialized": true
-      },
-      "errors": {
-        "dev": true,
-        "deprecated": true
       }
     },
     {

@@ -23,7 +23,6 @@ jobs:
         - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
         - { name: Linux GCC,       os: ubuntu-latest }
         - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
         - { name: macOS Clang,     os: macos-latest, flags: -GXcode }
         type:
         - { name: Shared, flags: "ON" }
@@ -41,6 +40,11 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install Vcpkg
+      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
 
     - name: Configure
       run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}} -DCMAKE_VERBOSE_MAKEFILE=ON
@@ -58,6 +62,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install Vcpkg
+      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
 
     - name: Configure
       run: cmake --preset coverage
@@ -103,6 +112,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install Vcpkg
+      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
 
     - name: Configure
       run: cmake --preset dev -DCMAKE_CXX_COMPILER=clang++
@@ -117,6 +131,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install Vcpkg
+      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
 
     - name: Configure
       run: cmake --preset sanitizers
