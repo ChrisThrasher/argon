@@ -5,6 +5,7 @@
       "name": "dev",
       "binaryDir": "build",
       "installDir": "build/install",
+      "toolchainFile": "cmake/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_EXTENSIONS": "OFF",

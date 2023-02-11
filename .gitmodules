@@ -1,0 +1,3 @@
+[submodule "vcpkg"]
+	path = cmake/vcpkg
+	url = git@github.com:Microsoft/vcpkg.git

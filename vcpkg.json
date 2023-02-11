@@ -1,0 +1,7 @@
+{
+  "name": "argon",
+  "version-string": "0.12.0",
+  "dependencies": [
+    "catch2"
+  ]
+}
