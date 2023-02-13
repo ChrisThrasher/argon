@@ -41,25 +41,17 @@ jobs:
         cmake -S tests -B tests/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
         cmake --build tests/build --config ${{matrix.config.name}}
 
-    - uses: actions/upload-artifact@v3
-      if: matrix.platform.name == 'Linux Clang' && matrix.type.name == 'Static' && matrix.config.name == 'Debug'
-      with:
-        name: binary_dir
-        path: build
-
   format:
     name: clang-format
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@v3
-      with:
-        name: binary_dir
-        path: build
+    - name: Configure
+      shell: bash
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
 
     - name: Format
       run: |
@@ -68,17 +60,15 @@ jobs:
 
   analyze:
     name: clang-tidy
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@v3
-      with:
-        name: binary_dir
-        path: build
+    - name: Configure
+      shell: bash
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
 
     - name: Analyze
       run: cmake --build build --target tidy
