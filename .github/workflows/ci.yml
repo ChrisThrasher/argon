@@ -27,7 +27,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure
-      shell: bash
       run: cmake -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
 
     - name: Build
@@ -50,7 +49,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure
-      shell: bash
       run: cmake -B build -DCMAKE_CXX_COMPILER=clang++
 
     - name: Format
@@ -67,7 +65,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure
-      shell: bash
       run: cmake -B build -DCMAKE_CXX_COMPILER=clang++
 
     - name: Analyze
