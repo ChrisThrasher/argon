@@ -37,8 +37,8 @@ jobs:
 
     - name: Run Installation Test
       run: |
-        cmake -S tests -B tests/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
-        cmake --build tests/build --config ${{matrix.config.name}}
+        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
+        cmake --build examples/build --config ${{matrix.config.name}}
 
   format:
     name: clang-format

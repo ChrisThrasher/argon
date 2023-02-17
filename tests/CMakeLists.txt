@@ -1,11 +1,3 @@
-cmake_minimum_required(VERSION 3.22)
-project(argon-tests CXX)
-
-if(PROJECT_IS_TOP_LEVEL)
-    find_package(argon 0.10.0 EXACT REQUIRED)
-    include(CTest)
-endif()
-
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(Catch2 3.3.1 REQUIRED)

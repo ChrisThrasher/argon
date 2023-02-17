@@ -61,6 +61,7 @@ if(NOT PROJECT_IS_TOP_LEVEL)
 endif()
 
 add_subdirectory(docs)
+add_subdirectory(examples)
 
 include(CTest)
 if(BUILD_TESTING)
