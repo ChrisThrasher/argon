@@ -56,7 +56,7 @@ jobs:
         cmake --build build --target format
         git diff --exit-code
 
-  analyze:
+  tidy:
     name: clang-tidy
     runs-on: ubuntu-latest
 
@@ -67,7 +67,7 @@ jobs:
     - name: Configure
       run: cmake -B build -DCMAKE_CXX_COMPILER=clang++
 
-    - name: Analyze
+    - name: Tidy
       run: cmake --build build --target tidy
 
   docs:
