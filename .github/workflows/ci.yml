@@ -40,7 +40,9 @@ jobs:
         submodules: true
 
     - name: Install Vcpkg
-      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        path: cmake/vcpkg
 
     - name: Configure
       run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}} -DCMAKE_VERBOSE_MAKEFILE=ON
@@ -62,7 +64,9 @@ jobs:
         submodules: true
 
     - name: Install Vcpkg
-      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        path: cmake/vcpkg
 
     - name: Configure
       run: cmake --preset coverage
@@ -96,7 +100,9 @@ jobs:
         submodules: true
 
     - name: Install Vcpkg
-      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        path: cmake/vcpkg
 
     - name: Configure
       run: cmake --preset clang-tools
@@ -117,7 +123,9 @@ jobs:
         submodules: true
 
     - name: Install Vcpkg
-      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        path: cmake/vcpkg
 
     - name: Configure
       run: cmake --preset clang-tools
@@ -143,7 +151,9 @@ jobs:
         submodules: true
 
     - name: Install Vcpkg
-      run: ./cmake/vcpkg/bootstrap-vcpkg.sh
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        path: cmake/vcpkg
 
     - name: Configure
       run: cmake --preset ${{matrix.sanitizer.preset}}
