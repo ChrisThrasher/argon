@@ -71,6 +71,30 @@ jobs:
     - name: Tidy
       run: cmake --build build --target tidy
 
+  sanitize:
+    name: ${{matrix.sanitizer.name}}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer:
+        - { name: ASan,  preset: asan }
+        - { name: UBSan, preset: ubsan }
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure
+      run: cmake --preset ${{matrix.sanitizer.preset}}
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+
   docs:
     name: Docs
     runs-on: ubuntu-latest
