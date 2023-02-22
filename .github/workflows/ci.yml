@@ -37,6 +37,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install Conan
+      run: |
+        pip3 install conan
+        conan profile detect
+
+    - name: Install Conan Dependencies
+      run: conan install . -of build/conan -b missing -s compiler.cppstd=17 -s build_type=${{matrix.config.name}}
+
     - name: Configure
       run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}} -DCMAKE_VERBOSE_MAKEFILE=ON
 
@@ -53,6 +61,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Install Conan
+      run: |
+        pip3 install conan
+        conan profile detect
+
+    - name: Install Conan Dependencies
+      run: conan install . -of build/conan -b missing -s build_type=Debug
 
     - name: Configure
       run: cmake --preset coverage
@@ -83,6 +99,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install Conan
+      run: |
+        pip3 install conan
+        conan profile detect
+
+    - name: Install Conan Dependencies
+      run: conan install . -of build/conan -b missing -s build_type=Debug
+
     - name: Configure
       run: cmake --preset clang-tools
 
@@ -98,6 +122,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Install Conan
+      run: |
+        pip3 install conan
+        conan profile detect
+
+    - name: Install Conan Dependencies
+      run: conan install . -of build/conan -b missing -s build_type=Debug
 
     - name: Configure
       run: cmake --preset clang-tools
@@ -119,6 +151,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Install Conan
+      run: |
+        pip3 install conan
+        conan profile detect
+
+    - name: Install Conan Dependencies
+      run: conan install . -of build/conan -b missing -s build_type=Debug
 
     - name: Configure
       run: cmake --preset ${{matrix.sanitizer.preset}}
