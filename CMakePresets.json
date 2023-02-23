@@ -12,6 +12,13 @@
       }
     },
     {
+      "name": "coverage",
+      "inherits": "dev",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "--coverage"
+      }
+    },
+    {
       "name": "clang-tools",
       "inherits": "dev",
       "cacheVariables": {

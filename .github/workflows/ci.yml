@@ -41,6 +41,35 @@ jobs:
     - name: Build Installation Test
       run: cmake --build examples/build --config ${{matrix.config.name}}
 
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure
+      run: cmake --preset coverage
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+
+    - name: Install Dependencies
+      run: sudo apt install gcovr
+
+    - name: Generate Coverage Report
+      run: gcovr -x build/coverage.out -s -f 'src/.*' -f 'include/argon/.*' .
+
+    - name: Upload Coverage Report
+      uses: codecov/codecov-action@v3
+      with:
+        directory: build
+        files: build/coverage.out
+
   format:
     name: clang-format
     runs-on: ubuntu-latest
