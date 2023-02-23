@@ -32,13 +32,14 @@ jobs:
     - name: Build
       run: cmake --build build --config ${{matrix.config.name}} --target install
 
-    - name: Run Tests
+    - name: Test
       run: ctest --test-dir build --build-config ${{matrix.config.name}} --output-on-failure
 
-    - name: Run Installation Test
-      run: |
-        cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
-        cmake --build examples/build --config ${{matrix.config.name}}
+    - name: Configure Installation Test
+      run: cmake -S examples -B examples/build -Dargon_ROOT=install ${{matrix.platform.flags}} ${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
+
+    - name: Build Installation Test
+      run: cmake --build examples/build --config ${{matrix.config.name}}
 
   format:
     name: clang-format
