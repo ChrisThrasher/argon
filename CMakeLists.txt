@@ -41,7 +41,6 @@ install(TARGETS argon EXPORT argon-targets
         INCLUDES
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(EXPORT argon-targets
-        FILE argon-targets.cmake
         NAMESPACE argon::
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION}
         COMPONENT argon_cmake)
