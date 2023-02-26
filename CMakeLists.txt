@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.24)
 project(argon VERSION 0.12.0 LANGUAGES CXX DESCRIPTION "Command line argument parser" HOMEPAGE_URL https://github.com/ChrisThrasher/argon)
 
 # Add warnings
@@ -15,8 +15,14 @@ endif()
 include(GenerateExportHeader)
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
 add_library(argon::argon ALIAS argon)
-target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
-target_include_directories(argon SYSTEM PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>)
+target_sources(argon PUBLIC
+    FILE_SET HEADERS
+    BASE_DIRS include ${PROJECT_BINARY_DIR}/include
+    FILES include/argon/Argument.hpp
+          include/argon/Option.hpp
+          include/argon/Parser.hpp
+          include/argon/Position.hpp
+          ${PROJECT_BINARY_DIR}/include/argon/Export.hpp)
 target_compile_features(argon PUBLIC cxx_std_17)
 set_target_properties(argon PROPERTIES VERSION ${PROJECT_VERSION} CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
@@ -24,13 +30,11 @@ generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
 # Install library
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
-install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(TARGETS argon EXPORT argon-targets
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
+        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(EXPORT argon-targets
         NAMESPACE argon::
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})

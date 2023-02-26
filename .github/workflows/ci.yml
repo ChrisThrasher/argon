@@ -35,7 +35,7 @@ jobs:
     - name: Get CMake and Ninja
       uses: lukka/get-cmake@latest
       with:
-        cmakeVersion: 3.22
+        cmakeVersion: 3.24
         ninjaVersion: latest
 
     - name: Checkout

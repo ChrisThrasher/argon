@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "configurePresets":[
     {
       "name": "dev",
@@ -11,6 +11,7 @@
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
+        "CMAKE_VERIFY_INTERFACE_HEADER_SETS": "ON",
         "ARGON_ENABLE_WARNINGS": "ON",
         "ARGON_BUILD_TESTING": "ON",
         "ARGON_BUILD_EXAMPLES": "ON"
@@ -36,7 +37,7 @@
       "name": "dev",
       "configurePreset": "dev",
       "jobs": 4,
-      "targets": ["install"]
+      "targets": ["install", "all_verify_interface_header_sets"]
     }
   ],
   "testPresets":[
