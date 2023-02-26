@@ -30,7 +30,7 @@ jobs:
       run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
 
     - name: Build
-      run: cmake --build build --target install --config ${{matrix.config.name}}
+      run: cmake --build build --target install --parallel 4 --config ${{matrix.config.name}}
 
     - name: Test
       run: ctest --test-dir build --output-on-failure --build-config ${{matrix.config.name}}
