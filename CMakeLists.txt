@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(argon VERSION 0.11.0 LANGUAGES CXX DESCRIPTION "Command line argument parser" HOMEPAGE_URL https://github.com/ChrisThrasher/argon)
 
 include(CMakePackageConfigHelpers)
+include(CPack)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
@@ -36,8 +37,6 @@ write_basic_package_version_file(argon-config-version.cmake COMPATIBILITY SameMa
 install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
-
-include(CPack)
 
 if(NOT PROJECT_IS_TOP_LEVEL)
     return()
