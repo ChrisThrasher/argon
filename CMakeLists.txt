@@ -32,9 +32,7 @@ install(TARGETS argon EXPORT argon-targets
 install(EXPORT argon-targets
         NAMESPACE argon::
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
-write_basic_package_version_file(argon-config-version.cmake
-                                 VERSION ${PROJECT_VERSION}
-                                 COMPATIBILITY SameMajorVersion)
+write_basic_package_version_file(argon-config-version.cmake COMPATIBILITY SameMajorVersion)
 install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
