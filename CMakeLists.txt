@@ -43,7 +43,11 @@ if(NOT PROJECT_IS_TOP_LEVEL)
 endif()
 
 add_subdirectory(docs)
-add_subdirectory(examples)
+
+option(BUILD_EXAMPLES "Build examples" ON)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 include(CTest)
 if(BUILD_TESTING)
