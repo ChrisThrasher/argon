@@ -15,7 +15,8 @@ jobs:
         - { name: Windows Clang, os: windows-latest, flags: -DCMAKE_CXX_COMPILER=clang++ -GNinja }
         - { name: Linux GCC,     os: ubuntu-latest }
         - { name: Linux Clang,   os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS,         os: macos-latest }
+        - { name: macOS GCC,     os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
+        - { name: macOS Clang,   os: macos-latest }
         type:
         - { name: Shared, flags: "ON" }
         - { name: Static, flags: "OFF" }
