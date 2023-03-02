@@ -6,10 +6,10 @@ include(CPack)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
-elseif(MSVC)
+if(MSVC)
     add_compile_options(/WX /W4 /permissive- /wd4251)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)

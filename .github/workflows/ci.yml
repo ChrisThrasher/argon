@@ -11,12 +11,13 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - { name: Windows MSVC,  os: windows-latest }
-        - { name: Windows Clang, os: windows-latest, flags: -DCMAKE_CXX_COMPILER=clang++ -GNinja }
-        - { name: Linux GCC,     os: ubuntu-latest }
-        - { name: Linux Clang,   os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS GCC,     os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
-        - { name: macOS Clang,   os: macos-latest }
+        - { name: Windows MSVC,    os: windows-latest }
+        - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
+        - { name: Windows Clang,   os: windows-latest, flags: -DCMAKE_CXX_COMPILER=clang++ -GNinja }
+        - { name: Linux GCC,       os: ubuntu-latest }
+        - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
+        - { name: macOS Clang,     os: macos-latest }
         type:
         - { name: Shared, flags: "ON" }
         - { name: Static, flags: "OFF" }
