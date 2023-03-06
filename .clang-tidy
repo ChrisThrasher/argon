@@ -34,3 +34,4 @@ CheckOptions:
   - { key: readability-identifier-naming.PrivateMemberPrefix, value: m_ }
 HeaderFilterRegex: '.*'
 WarningsAsErrors: '*'
+UseColor: true
