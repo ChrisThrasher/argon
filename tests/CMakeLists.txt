@@ -5,9 +5,7 @@ include(Catch)
 
 add_executable(test-argon Main.cpp Argument.cpp Option.cpp Parser.cpp Position.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
-if (WIN32 AND BUILD_SHARED_LIBS)
-    add_custom_command(TARGET test-argon PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:test-argon> $<TARGET_FILE_DIR:test-argon> COMMAND_EXPAND_LISTS)
-endif()
+add_custom_command(TARGET test-argon PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:test-argon> $<TARGET_RUNTIME_DLLS:test-argon> COMMAND_EXPAND_LISTS)
 catch_discover_tests(test-argon)
 
 add_test(NAME "Install argon" COMMAND
