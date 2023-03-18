@@ -3,8 +3,8 @@
   "configurePresets":[
     {
       "name": "dev",
-      "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/build/install",
+      "binaryDir": "build",
+      "installDir": "build/install",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_EXTENSIONS": "OFF",
@@ -41,4 +41,3 @@
     }
   ]
 }
-  
