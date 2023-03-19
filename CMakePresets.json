@@ -39,5 +39,23 @@
         "CMAKE_CXX_FLAGS": "-fno-omit-frame-pointer -fno-sanitize-recover=all -fsanitize=undefined"
       }
     }
+  ],
+  "buildPresets":[
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "jobs": 4,
+      "targets": ["install"]
+    }
+  ],
+  "testPresets":[
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "output": {
+        "shortProgress": true,
+        "outputOnFailure": true
+      }
+    }
   ]
 }

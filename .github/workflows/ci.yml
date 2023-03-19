@@ -33,10 +33,10 @@ jobs:
       run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
 
     - name: Build
-      run: cmake --build build --target install --parallel 4 --config ${{matrix.config.name}}
+      run: cmake --build --preset dev --config ${{matrix.config.name}}
 
     - name: Test
-      run: ctest --test-dir build --output-on-failure --build-config ${{matrix.config.name}}
+      run: ctest --preset dev --build-config ${{matrix.config.name}}
 
     - name: Configure Installation Test
       run: cmake -S examples -B examples/build -Dargon_ROOT=build/install ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
