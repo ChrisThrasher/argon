@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(argon VERSION 0.11.0 LANGUAGES CXX DESCRIPTION "Command line argument parser" HOMEPAGE_URL https://github.com/ChrisThrasher/argon)
+project(argon VERSION 0.12.0 LANGUAGES CXX DESCRIPTION "Command line argument parser" HOMEPAGE_URL https://github.com/ChrisThrasher/argon)
 
 include(CMakePackageConfigHelpers)
 include(CPack)
