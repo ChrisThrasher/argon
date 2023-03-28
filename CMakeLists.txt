@@ -12,10 +12,15 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
+if(NOT PROJECT_IS_TOP_LEVEL)
+    set(WARNING_GUARD SYSTEM)
+endif()
+
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
 add_library(argon::argon ALIAS argon)
-target_include_directories(argon PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                                        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>)
+target_include_directories(argon ${WARNING_GUARD} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>)
 target_compile_features(argon PUBLIC cxx_std_17)
 set_target_properties(argon PROPERTIES VERSION ${PROJECT_VERSION} CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
