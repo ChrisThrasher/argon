@@ -6,14 +6,12 @@ include(CPack)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
-if(MSVC)
+if(NOT PROJECT_IS_TOP_LEVEL)
+    set(WARNING_GUARD SYSTEM)
+elseif(MSVC)
     add_compile_options(/WX /W4 /permissive- /wd4251)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
-endif()
-
-if(NOT PROJECT_IS_TOP_LEVEL)
-    set(WARNING_GUARD SYSTEM)
 endif()
 
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
