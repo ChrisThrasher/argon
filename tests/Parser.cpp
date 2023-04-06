@@ -4,6 +4,14 @@
 
 TEST_CASE("argon::Parser")
 {
+    SECTION("Type traits")
+    {
+        STATIC_CHECK(std::is_copy_constructible_v<argon::Parser>);
+        STATIC_CHECK(std::is_copy_assignable_v<argon::Parser>);
+        STATIC_CHECK(std::is_nothrow_move_constructible_v<argon::Parser>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<argon::Parser>);
+    }
+
     SECTION("Add option")
     {
         constexpr int argc = 12;
