@@ -10,6 +10,22 @@ if (WIN32 AND BUILD_SHARED_LIBS)
 endif()
 catch_discover_tests(test-argon)
 
+add_test(NAME "Install argon" COMMAND
+    ${CMAKE_COMMAND}
+    --install ${PROJECT_BINARY_DIR}
+    --prefix ${CMAKE_CURRENT_BINARY_DIR}/install/argon
+    --config $<CONFIG>)
+add_test(NAME "Configure test project" COMMAND
+    ${CMAKE_COMMAND}
+    -S ${PROJECT_SOURCE_DIR}/examples
+    -B ${CMAKE_CURRENT_BINARY_DIR}/install/build
+    -DCMAKE_BUILD_TYPE=$<CONFIG>
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -Dargon_ROOT=${CMAKE_CURRENT_BINARY_DIR}/install/argon)
+add_test(NAME "Build test project" COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_BINARY_DIR}/install/build --config $<CONFIG>)
+add_test(NAME "Delete install" COMMAND ${CMAKE_COMMAND} -E rm -r ${CMAKE_CURRENT_BINARY_DIR}/install/argon ${CMAKE_CURRENT_BINARY_DIR}/install/build)
+
 add_test(NAME --help COMMAND test-argon --help)
 set_property(TEST --help PROPERTY PASS_REGULAR_EXPRESSION
     "Usage

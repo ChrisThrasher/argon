@@ -38,12 +38,6 @@ jobs:
     - name: Test
       run: ctest --preset dev --build-config ${{matrix.config.name}}
 
-    - name: Configure Installation Test
-      run: cmake -S examples -B examples/build -Dargon_ROOT=build/install ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
-
-    - name: Build Installation Test
-      run: cmake --build examples/build --config ${{matrix.config.name}}
-
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
