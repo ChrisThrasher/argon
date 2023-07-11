@@ -10,6 +10,9 @@ jobs:
   build:
     name: ${{matrix.platform.name}} ${{matrix.type.name}} ${{matrix.config.name}}
     runs-on: ${{matrix.platform.os}}
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
@@ -17,7 +20,8 @@ jobs:
         platform:
         - { name: Windows MSVC,    os: windows-latest }
         - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
-        - { name: Windows Clang,   os: windows-latest, flags: -DCMAKE_CXX_COMPILER=clang++ -GNinja }
+        - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: Windows MinGW,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=g++ }
         - { name: Linux GCC,       os: ubuntu-latest }
         - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
         - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
