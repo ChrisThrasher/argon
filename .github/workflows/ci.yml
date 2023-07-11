@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure
-      run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}}
+      run: cmake --preset dev ${{matrix.platform.flags}} -DBUILD_SHARED_LIBS=${{matrix.type.flags}} -DCMAKE_BUILD_TYPE=${{matrix.config.name}} -DCMAKE_VERBOSE_MAKEFILE=ON
 
     - name: Build
       run: cmake --build --preset dev --config ${{matrix.config.name}}
