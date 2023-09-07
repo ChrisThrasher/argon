@@ -1,22 +1,21 @@
 cmake_minimum_required(VERSION 3.22)
 project(argon VERSION 0.12.0 LANGUAGES CXX DESCRIPTION "Command line argument parser" HOMEPAGE_URL https://github.com/ChrisThrasher/argon)
 
-include(CMakePackageConfigHelpers)
-include(CPack)
-include(GenerateExportHeader)
-include(GNUInstallDirs)
-
-if(NOT PROJECT_IS_TOP_LEVEL)
-    set(WARNING_GUARD SYSTEM)
-elseif(MSVC)
-    add_compile_options(/WX /W4 /permissive- /wd4251)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+# Add warnings
+option(ARGON_ENABLE_WARNINGS "Enable compiler warnings" OFF)
+if(ARGON_ENABLE_WARNINGS)
+    if(MSVC)
+        add_compile_options(/WX /W4 /permissive- /wd4251)
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+        add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    endif()
 endif()
 
+# Build library
+include(GenerateExportHeader)
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
 add_library(argon::argon ALIAS argon)
-target_include_directories(argon ${WARNING_GUARD} PUBLIC
+target_include_directories(argon PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>)
 target_compile_features(argon PUBLIC cxx_std_17)
@@ -26,6 +25,9 @@ if(NOT BUILD_SHARED_LIBS)
     target_compile_definitions(argon PUBLIC ARGON_STATIC_DEFINE)
 endif()
 
+# Install library
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
 install(DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(TARGETS argon EXPORT argon-targets
@@ -41,19 +43,20 @@ install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
         DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
 
+# Stop configuration when consuming from a higher level project
 if(NOT PROJECT_IS_TOP_LEVEL)
     return()
 endif()
 
 add_subdirectory(docs)
 
-option(BUILD_EXAMPLES "Build examples" ON)
-if(BUILD_EXAMPLES)
+option(ARGON_BUILD_EXAMPLES "Build examples" OFF)
+if(ARGON_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
-include(CTest)
-if(BUILD_TESTING)
+option(ARGON_BUILD_TESTING "Build tests" OFF)
+if(ARGON_BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 

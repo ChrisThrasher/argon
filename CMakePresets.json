@@ -9,7 +9,10 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin"
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
+        "ARGON_ENABLE_WARNINGS": "ON",
+        "ARGON_BUILD_TESTING": "ON",
+        "ARGON_BUILD_EXAMPLES": "ON"
       }
     },
     {
