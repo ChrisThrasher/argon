@@ -34,6 +34,12 @@ jobs:
         - { name: Release }
 
     steps:
+    - name: Get CMake and Ninja
+      uses: lukka/get-cmake@latest
+      with:
+        cmakeVersion: 3.22
+        ninjaVersion: latest
+
     - name: Checkout
       uses: actions/checkout@v3
 
