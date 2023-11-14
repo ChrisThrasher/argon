@@ -13,6 +13,15 @@
         "ARGON_ENABLE_WARNINGS": "ON",
         "ARGON_BUILD_TESTING": "ON",
         "ARGON_BUILD_EXAMPLES": "ON"
+      },
+      "warnings": {
+        "dev": true,
+        "deprecated": true,
+        "uninitialized": true
+      },
+      "errors": {
+        "dev": true,
+        "deprecated": true
       }
     },
     {
