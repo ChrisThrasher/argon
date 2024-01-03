@@ -57,6 +57,7 @@ endif()
 
 option(ARGON_BUILD_TESTING "Build tests" OFF)
 if(ARGON_BUILD_TESTING)
+    enable_testing()
     add_subdirectory(tests)
 endif()
 
