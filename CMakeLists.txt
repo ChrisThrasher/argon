@@ -21,9 +21,6 @@ target_include_directories(argon PUBLIC
 target_compile_features(argon PUBLIC cxx_std_17)
 set_target_properties(argon PROPERTIES VERSION ${PROJECT_VERSION} CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
-if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(argon PUBLIC ARGON_STATIC_DEFINE)
-endif()
 
 # Install library
 include(CMakePackageConfigHelpers)
