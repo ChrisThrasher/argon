@@ -1,6 +1,6 @@
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(Catch2 3.5.1 REQUIRED)
+find_package(Catch2 3.5.3 REQUIRED)
 include(Catch)
 
 add_executable(test-argon Main.cpp Argument.cpp Option.cpp Parser.cpp Position.cpp)
