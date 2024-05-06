@@ -51,7 +51,7 @@ void Parser::parse()
 
     if (m_positions.size() > m_args.size()) {
         std::stringstream what;
-        what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size();
+        what << "Expected " << m_positions.size() << " positional arguments. Received " << m_args.size() << '.';
         what << "\n\n" << make_usage("");
         throw std::runtime_error(what.str());
     }
