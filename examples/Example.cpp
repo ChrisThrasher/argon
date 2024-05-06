@@ -1,6 +1,6 @@
-#include <argon/Parser.hpp>
-
 #include <iostream>
+
+import argon;
 
 int main(int argc, char* argv[])
 try {

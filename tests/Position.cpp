@@ -1,6 +1,6 @@
-#include <argon/Position.hpp>
-
 #include <catch2/catch_test_macros.hpp>
+
+import argon;
 
 TEST_CASE("argon::Position")
 {

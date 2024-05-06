@@ -19,12 +19,12 @@ jobs:
       matrix:
         platform:
         - { name: Windows MSVC,    os: windows-latest }
-        - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
-        - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: Linux GCC,       os: ubuntu-latest }
-        - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
-        - { name: macOS Clang,     os: macos-latest, flags: -GXcode }
+        # - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
+        # - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
+        # - { name: Linux GCC,       os: ubuntu-latest }
+        # - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
+        # - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
+        - { name: macOS Clang,     os: macos-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
         type:
         - { name: Shared, flags: "ON" }
         - { name: Static, flags: "OFF" }
@@ -36,8 +36,15 @@ jobs:
     - name: Get CMake and Ninja
       uses: lukka/get-cmake@latest
       with:
-        cmakeVersion: 3.22
+        cmakeVersion: 3.28
         ninjaVersion: latest
+  
+    - name: Install macOS Dependencies
+      if: runner.os == 'macOS'
+      run: |
+        brew update
+        brew install llvm ninja
+        echo /opt/homebrew/opt/llvm/bin >> $GITHUB_PATH
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -82,14 +89,20 @@ jobs:
 
   format:
     name: clang-format
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install llvm ninja
+        echo /opt/homebrew/opt/llvm/bin >> $GITHUB_PATH
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset clang-tools
+      run: cmake --preset clang-tools -GNinja
 
     - name: Format
       run: |
@@ -98,14 +111,20 @@ jobs:
 
   tidy:
     name: clang-tidy
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install llvm ninja
+        echo /opt/homebrew/opt/llvm/bin >> $GITHUB_PATH
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset clang-tools
+      run: cmake --preset clang-tools -GNinja
 
     - name: Tidy
       run: cmake --build build --target tidy

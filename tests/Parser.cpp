@@ -1,6 +1,6 @@
-#include <argon/Parser.hpp>
-
 #include <catch2/catch_test_macros.hpp>
+
+import argon;
 
 TEST_CASE("argon::Parser")
 {

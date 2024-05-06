@@ -1,6 +1,6 @@
-#include <argon/Parser.hpp>
-
 #include <catch2/catch_session.hpp>
+
+import argon;
 
 int main(int argc, char* argv[])
 {
