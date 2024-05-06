@@ -3,6 +3,7 @@
 #include <argon/Option.hpp>
 #include <argon/Position.hpp>
 
+#include <cstdint>
 #include <memory>
 #include <sstream>
 #include <string_view>
@@ -13,7 +14,7 @@ namespace argon {
 
 /// \brief Special tags for options
 ///
-enum Action {
+enum Action : std::uint8_t {
     PRINT, ///< Print message to console then exit
     USAGE ///< Print usage text
 };

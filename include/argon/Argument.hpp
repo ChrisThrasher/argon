@@ -12,7 +12,7 @@ namespace argon {
 ///
 class ARGON_EXPORT Argument {
 protected:
-    static inline constexpr int m_format_width { 24 };
+    static constexpr int m_format_width { 24 };
 
     std::string m_description; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 

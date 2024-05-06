@@ -59,7 +59,8 @@ void BasicOption::find(std::vector<std::string_view>& args) const
         for (const auto& flag : flags()) {
             if (flag == *it) {
                 args.erase(it);
-                return m_callback();
+                m_callback();
+                return;
             }
         }
     }
