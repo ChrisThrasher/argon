@@ -21,9 +21,9 @@ jobs:
         - { name: Windows MSVC,    os: windows-latest }
         # - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
         # - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
-        # - { name: Linux GCC,       os: ubuntu-latest }
-        # - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        # - { name: macOS GCC,       os: macos-latest, flags: -DCMAKE_CXX_COMPILER=g++-12 }
+        # - { name: Linux GCC,       os: ubuntu-24.04, flags: -GNinja -DCMAKE_CXX_COMPILER=g++-14 }
+        - { name: Linux Clang,     os: ubuntu-24.04, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: macOS GCC,       os: macos-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=g++-14 }
         - { name: macOS Clang,     os: macos-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
         type:
         - { name: Shared, flags: "ON" }
@@ -38,12 +38,16 @@ jobs:
       with:
         cmakeVersion: 3.28
         ninjaVersion: latest
+
+    - name: Install Linux Dependencies
+      if: runner.os == 'Linux'
+      run: sudo apt install g++-14 ninja-build
   
     - name: Install macOS Dependencies
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install llvm ninja
+        brew install gcc llvm ninja
         echo /opt/homebrew/opt/llvm/bin >> $GITHUB_PATH
 
     - name: Checkout
@@ -60,23 +64,23 @@ jobs:
 
   coverage:
     name: Coverage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
+    - name: Install Dependencies
+      run: sudo apt install gcovr ninja-build
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset coverage
+      run: cmake --preset coverage -GNinja -DCMAKE_CXX_COMPILER=clang++
 
     - name: Build
       run: cmake --build build
 
     - name: Test
       run: ctest --test-dir build --output-on-failure
-
-    - name: Install Dependencies
-      run: sudo apt install gcovr
 
     - name: Generate Coverage Report
       run: gcovr -x build/coverage.out -s -f 'src/.*' -f 'include/argon/.*' .
@@ -131,7 +135,7 @@ jobs:
 
   sanitize:
     name: ${{matrix.sanitizer.name}}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -141,11 +145,14 @@ jobs:
         - { name: UBSan, preset: ubsan }
 
     steps:
+    - name: Install Dependencies
+      run: sudo apt install ninja-build
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset ${{matrix.sanitizer.preset}}
+      run: cmake --preset ${{matrix.sanitizer.preset}} -GNinja
 
     - name: Build
       run: cmake --build build
@@ -155,17 +162,17 @@ jobs:
 
   docs:
     name: Docs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Install Doxygen
-      run: sudo apt install doxygen graphviz
+      run: sudo apt install doxygen graphviz ninja-build
 
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake -B build
+      run: cmake -B build -GNinja -DCMAKE_CXX_COMPILER=clang++
 
     - name: Build Doxygen Site
       run: cmake --build build --target docs
