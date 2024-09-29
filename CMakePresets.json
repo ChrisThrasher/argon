@@ -32,24 +32,10 @@
       }
     },
     {
-      "name": "clang-tools",
+      "name": "sanitizers",
       "inherits": "dev",
       "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "clang++"
-      }
-    },
-    {
-      "name": "asan",
-      "inherits": "clang-tools",
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-fno-omit-frame-pointer -fsanitize=address"
-      }
-    },
-    {
-      "name": "ubsan",
-      "inherits": "clang-tools",
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-fno-omit-frame-pointer -fno-sanitize-recover=all -fsanitize=undefined"
+        "CMAKE_CXX_FLAGS": "-fno-omit-frame-pointer -fno-sanitize-recover=all -fsanitize=address,undefined"
       }
     }
   ],

@@ -105,28 +105,21 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset clang-tools
+      run: cmake --preset dev -DCMAKE_CXX_COMPILER=clang++
 
     - name: Tidy
       run: cmake --build build --target tidy
 
   sanitize:
-    name: ${{matrix.sanitizer.name}}
+    name: Sanitize
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        sanitizer:
-        - { name: ASan,  preset: asan }
-        - { name: UBSan, preset: ubsan }
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Configure
-      run: cmake --preset ${{matrix.sanitizer.preset}}
+      run: cmake --preset sanitizers
 
     - name: Build
       run: cmake --build build
