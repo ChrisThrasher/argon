@@ -1,7 +1,6 @@
 #include <argon/Option.hpp>
 
 #include <iomanip>
-#include <iostream>
 #include <sstream>
 #include <utility>
 
