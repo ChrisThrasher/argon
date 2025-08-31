@@ -32,10 +32,7 @@ class ARGON_EXPORT Parser {
 
 public:
     Parser(int argc, const char* const argv[]);
-    void add_option(const std::string& flags,
-                    const std::string& description,
-                    const Action& action,
-                    const std::string& output);
+    void add_option(const std::string& flags, const std::string& description, Action action, const std::string& output);
     void add_option(const std::string& flags, const std::string& description, bool& found);
 
     template <typename T>

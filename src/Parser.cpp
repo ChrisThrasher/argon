@@ -12,7 +12,7 @@ Parser::Parser(const int argc, const char* const argv[])
 
 void Parser::add_option(const std::string& flags,
                         const std::string& description,
-                        const Action& action,
+                        const Action action,
                         const std::string& output)
 {
     switch (action) {
