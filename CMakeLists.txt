@@ -31,16 +31,16 @@ generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 install(TARGETS argon EXPORT argon-targets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
-        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT argon-targets
         NAMESPACE argon::
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon)
 write_basic_package_version_file(argon-config-version.cmake COMPATIBILITY SameMajorVersion)
 install(FILES ${PROJECT_SOURCE_DIR}/cmake/argon-config.cmake
               ${PROJECT_BINARY_DIR}/argon-config-version.cmake
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon-${PROJECT_VERSION})
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/argon)
 
 # Stop configuration when consuming from a higher level project
 if(NOT PROJECT_IS_TOP_LEVEL)
