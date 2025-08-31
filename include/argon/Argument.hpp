@@ -3,6 +3,7 @@
 #include <argon/Export.hpp>
 
 #include <string>
+#include <string_view>
 
 namespace argon {
 
@@ -12,7 +13,7 @@ namespace argon {
 ///
 class ARGON_EXPORT Argument {
 protected:
-    static constexpr int m_format_width { 24 };
+    [[nodiscard]] auto format(std::string_view string) const -> std::string;
 
     std::string m_description; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 

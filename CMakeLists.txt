@@ -29,7 +29,7 @@ target_sources(argon PUBLIC
           include/argon/Parser.hpp
           include/argon/Position.hpp
           ${PROJECT_BINARY_DIR}/include/argon/Export.hpp)
-target_compile_features(argon PUBLIC cxx_std_17)
+target_compile_features(argon PUBLIC cxx_std_20)
 set_target_properties(argon PROPERTIES VERSION ${PROJECT_VERSION} CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
 

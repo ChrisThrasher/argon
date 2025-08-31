@@ -1,6 +1,5 @@
 #include <argon/Option.hpp>
 
-#include <iomanip>
 #include <sstream>
 #include <utility>
 
@@ -40,10 +39,7 @@ auto Option::format() const -> std::string
         delim = ", ";
     }
 
-    std::stringstream out;
-    out << std::setfill(' ') << '\n';
-    out << "  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
-    return out.str();
+    return Argument::format(flags.str());
 }
 
 BasicOption::BasicOption(const std::string& flags, const std::string& description, std::function<void()> callback)
@@ -83,10 +79,7 @@ auto ValueOption::format() const -> std::string
     }
     flags << " <value>";
 
-    std::stringstream out;
-    out << std::setfill(' ') << '\n';
-    out << "  " << std::left << std::setw(m_format_width) << flags.str() << m_description;
-    return out.str();
+    return Argument::format(flags.str());
 }
 
 void ValueOption::find(std::vector<std::string_view>& args) const
