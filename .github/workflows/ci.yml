@@ -20,9 +20,9 @@ jobs:
         platform:
         - { name: Windows MSVC,    os: windows-latest }
         - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: Linux GCC,       os: ubuntu-latest }
-        - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS Clang,     os: macos-latest, flags: -GXcode }
+        - { name: Linux GCC,       os: ubuntu-latest, flags: -GNinja }
+        - { name: Linux Clang,     os: ubuntu-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: macOS Clang,     os: macos-latest, flags: -GNinja }
         type:
         - { name: Shared, flags: "ON" }
         - { name: Static, flags: "OFF" }
