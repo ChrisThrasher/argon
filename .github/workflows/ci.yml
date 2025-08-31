@@ -19,7 +19,6 @@ jobs:
       matrix:
         platform:
         - { name: Windows MSVC,    os: windows-latest }
-        - { name: Windows ClangCL, os: windows-latest, flags: -T ClangCL }
         - { name: Windows Clang,   os: windows-latest, flags: -GNinja -DCMAKE_CXX_COMPILER=clang++ }
         - { name: Linux GCC,       os: ubuntu-latest }
         - { name: Linux Clang,     os: ubuntu-latest, flags: -DCMAKE_CXX_COMPILER=clang++ }
