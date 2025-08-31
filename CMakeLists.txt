@@ -5,9 +5,9 @@ project(argon VERSION 0.12.0 LANGUAGES CXX DESCRIPTION "Command line argument pa
 option(ARGON_ENABLE_WARNINGS "Enable compiler warnings" OFF)
 if(ARGON_ENABLE_WARNINGS)
     if(MSVC)
-        add_compile_options(/WX /W4 /permissive- /wd4251)
+        add_compile_options(/W4 /permissive- /wd4251)
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-        add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+        add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
     endif()
 endif()
 
