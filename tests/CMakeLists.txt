@@ -1,4 +1,4 @@
-find_package(Catch2 3.7.0 REQUIRED)
+find_package(Catch2 3.8.1 REQUIRED)
 include(Catch)
 
 add_executable(test-argon Main.cpp Argument.cpp Option.cpp Parser.cpp Position.cpp)
