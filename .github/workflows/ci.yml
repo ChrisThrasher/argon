@@ -137,7 +137,7 @@ jobs:
       run: ./cmake/vcpkg/bootstrap-vcpkg.sh
 
     - name: Configure
-      run: cmake --preset sanitizers
+      run: cmake --preset dev -DARGON_ENABLE_SANITIZERS=ON
 
     - name: Build
       run: cmake --build build

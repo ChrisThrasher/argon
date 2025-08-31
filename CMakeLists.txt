@@ -11,6 +11,12 @@ if(ARGON_ENABLE_WARNINGS)
     endif()
 endif()
 
+# Enable sanitizers
+option(ARGON_ENABLE_SANITIZERS "Enable sanitizers" OFF)
+if(ARGON_ENABLE_SANITIZERS)
+    string(APPEND CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fno-sanitize-recover=all -fsanitize=address,undefined")
+endif()
+
 # Build library
 include(GenerateExportHeader)
 add_library(argon src/Argument.cpp src/Option.cpp src/Parser.cpp src/Position.cpp)
