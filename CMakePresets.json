@@ -37,7 +37,6 @@
     {
       "name": "dev",
       "configurePreset": "dev",
-      "jobs": 4,
       "targets": ["install", "all_verify_interface_header_sets"]
     }
   ],
