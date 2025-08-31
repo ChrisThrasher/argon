@@ -31,9 +31,8 @@ generate_export_header(argon EXPORT_FILE_NAME include/argon/Export.hpp)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 install(TARGETS argon EXPORT argon-targets
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/argon-${PROJECT_VERSION}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/argon-${PROJECT_VERSION}
         FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/argon-${PROJECT_VERSION})
 install(EXPORT argon-targets
         NAMESPACE argon::
