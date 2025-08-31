@@ -1,10 +1,34 @@
 find_package(Catch2 3.8.1 REQUIRED)
 include(Catch)
 
+# Test API
 add_executable(test-argon Main.cpp Argument.cpp Option.cpp Parser.cpp Position.cpp)
 target_link_libraries(test-argon PRIVATE argon::argon Catch2::Catch2)
 catch_discover_tests(test-argon)
 
+# Test CLI parsing
+add_test(NAME --help COMMAND test-argon --help)
+set_property(TEST --help PROPERTY PASS_REGULAR_EXPRESSION
+    "Usage
+  test-argon.* <filename> \\[options\\]
+
+Argon CLI parser test program
+
+Positions
+  filename                Input file
+
+Options
+  -h, --help              Show this help text
+  --version               Print program version
+  -d, --debug             Debug output
+  -c, --count <value>     Number of instances
+  --speed <value>         Initial speed
+  -o, --output <value>    Output filename")
+
+add_test(NAME --version COMMAND test-argon --version)
+set_property(TEST --version PROPERTY PASS_REGULAR_EXPRESSION v0.0.0)
+
+# Test install
 add_test(NAME "Install argon" COMMAND
     ${CMAKE_COMMAND}
     --install ${PROJECT_BINARY_DIR}
@@ -28,24 +52,3 @@ set_tests_properties("Build test project" PROPERTIES FIXTURES_REQUIRED configure
 
 add_test(NAME "Delete install" COMMAND ${CMAKE_COMMAND} -E rm -r ${CMAKE_CURRENT_BINARY_DIR}/install)
 set_tests_properties("Delete install" PROPERTIES FIXTURES_CLEANUP "install-argon;configure-test-project")
-
-add_test(NAME --help COMMAND test-argon --help)
-set_property(TEST --help PROPERTY PASS_REGULAR_EXPRESSION
-    "Usage
-  test-argon.* <filename> \\[options\\]
-
-Argon CLI parser test program
-
-Positions
-  filename                Input file
-
-Options
-  -h, --help              Show this help text
-  --version               Print program version
-  -d, --debug             Debug output
-  -c, --count <value>     Number of instances
-  --speed <value>         Initial speed
-  -o, --output <value>    Output filename")
-
-add_test(NAME --version COMMAND test-argon --version)
-set_property(TEST --version PROPERTY PASS_REGULAR_EXPRESSION v0.0.0)
